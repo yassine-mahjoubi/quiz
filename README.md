@@ -1,45 +1,69 @@
-# quiz
+# Quiz RGAA 4.2 - Assistant d'Accessibilité
 
-This template should help get you started developing with Vue 3 in Vite.
+Une application web conçue pour être un outil d'apprentissage et de révision sur le **Référentiel Général d'Amélioration de l'Accessibilité (RGAA) version 4.2**.
 
-## Recommended IDE Setup
+Ce projet a un double objectif :
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1.  **Construire un assistant pertinent** pour les développeurs, designers et auditeurs en accessibilité web.
+2.  **Servir de cas pratique** pour l'intégration d'APIs d'Intelligence Artificielle (Gemini) et de techniques de RAG (Retrieval-Augmented Generation) dans une application Vue 3 moderne.
 
-## Type Support for `.vue` Imports in TS
+L'application elle-même se doit d'être un exemple de respect des bonnes pratiques d'accessibilité qu'elle promeut.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## ✨ Fonctionnalités Clés
 
-## Customize configuration
+- **Génération de Quiz sur le RGAA 4.2 :** Des questions précises générées à la volée sur les critères et tests du référentiel.
+- **Retrieval-Augmented Generation (RAG) :** L'API Gemini ne répond qu'en se basant sur le contenu du [référentiel officiel du RGAA](https://www.numerique.gouv.fr/publications/rgaa-accessibilite/), fourni via l'API Jina Reader, garantissant des réponses factuelles et à jour.
+- **Interface Accessible :** Le projet est une démonstration pratique des principes du RGAA, offrant une expérience utilisateur inclusive.
+- **Validation des Réponses :** Retour immédiat pour un apprentissage efficace.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## 🛠️ Stack Technique
 
-## Project Setup
+- **Framework :** [Vue.js 3](https://vuejs.org/) (Composition API)
+- **Langage :** [TypeScript](https://www.typescriptlang.org/)
+- **CSS Framework :** [Pico.css](https://picocss.com/) (pour un style sémantique et léger)
+- **APIs & Services IA :**
+  - [Google Gemini](https://ai.google.dev/) pour la génération de contenu.
+  - [Jina AI Reader](https://jina.ai/reader/) pour l'extraction de contexte (RAG).
+- **Build Tool :** [Vite](https://vitejs.dev/)
+- **Tests :** [Vitest](https://vitest.dev/)
+- **Qualité de code :** [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/)
 
-```sh
-npm install
-```
+## 🎯 Objectifs d'Apprentissage
 
-### Compile and Hot-Reload for Development
+Ce projet est un cas pratique pour maîtriser les concepts suivants :
 
-```sh
-npm run dev
-```
+1.  **Implémenter un pipeline RAG :** Fournir un contexte spécifique (le RGAA) à un grand modèle de langage (Gemini) pour obtenir des réponses précises et fiables.
+2.  **Maîtriser une API d'IA :** Interagir de manière efficace avec l'API Gemini.
+3.  **Accessibilité en Pratique :** Appliquer concrètement les critères du RGAA dans une application web moderne.
+4.  **Développement Vue 3 Robuste :** Mettre en œuvre les principes de refactorisation, le typage fort avec TypeScript et les tests unitaires dans un projet à forte valeur ajoutée.
 
-### Type-Check, Compile and Minify for Production
+## 🚀 Installation et Lancement
 
-```sh
-npm run build
-```
+1.  **Clonez le dépôt :**
+    ```bash
+    git clone <https://github.com/yassine-mahjoubi/quiz.git>
+    ```
+2.  **Accédez au dossier du projet :**
+    ```bash
+    cd quiz
+    ```
+3.  **Installez les dépendances :**
+    ```bash
+    npm install
+    ```
+4.  **Configurez les clés d'API :**
+    Créez un fichier `.env.local` à la racine du projet et ajoutez vos clés :
+    ```
+    VITE_GEMINI_API_KEY=VOTRE_CLE_GEMINI
+    ```
+5.  **Lancez le serveur de développement :**
+    ```bash
+    npm run dev
+    ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## 📜 Scripts Disponibles
 
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- `npm run dev`: Lance le serveur de développement.
+- `npm run build`: Compile l'application pour la production.
+- `npm run test:unit`: Exécute les tests unitaires.
+- `npm run lint`: Analyse le code pour trouver les problèmes de style.
