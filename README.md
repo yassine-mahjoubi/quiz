@@ -12,7 +12,7 @@ L'application elle-même se doit d'être un exemple de respect des bonnes pratiq
 ## ✨ Fonctionnalités Clés
 
 - **Génération de Quiz sur le RGAA 4.2 :** Des questions précises générées à la volée sur les critères et tests du référentiel.
-- **Retrieval-Augmented Generation (RAG) :** L'API Gemini ne répond qu'en se basant sur le contenu du [référentiel officiel du RGAA](https://www.numerique.gouv.fr/publications/rgaa-accessibilite/), fourni via l'API Jina Reader, garantissant des réponses factuelles et à jour.
+- **Retrieval-Augmented Generation (RAG) :** L'API Gemini ne répond qu'en se basant sur le contenu du [référentiel officiel du RGAA](https://accessibilite.numerique.gouv.fr/), fourni via l'API Jina Reader, garantissant des réponses factuelles et à jour.
 - **Interface Accessible :** Le projet est une démonstration pratique des principes du RGAA, offrant une expérience utilisateur inclusive.
 - **Validation des Réponses :** Retour immédiat pour un apprentissage efficace.
 
@@ -28,7 +28,7 @@ L'application elle-même se doit d'être un exemple de respect des bonnes pratiq
 - **Tests :** [Vitest](https://vitest.dev/)
 - **Qualité de code :** [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/)
 
-## 🎯 Objectifs d'Apprentissage
+## 🎯 Objectifs du Projet
 
 Ce projet est un cas pratique pour maîtriser les concepts suivants :
 
