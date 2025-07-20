@@ -52,9 +52,16 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
     npm install
     ```
 4.  **Configurez les clés d'API :**
-    Créez un fichier `.env.local` à la racine du projet et ajoutez vos clés :
+    Commencez par copier le fichier d'exemple pour créer votre propre fichier d'environnement local :
+    ```bash
+    cp .env.example .env.local
     ```
-    VITE_GEMINI_API_KEY=VOTRE_CLE_GEMINI
+    Ensuite, ouvrez le nouveau fichier `.env.local` et remplissez les variables avec vos clés d'API personnelles.
+
+    ```env
+    # .env.local
+    VITE_KEY_GEMINI_API_KEY=VOTRE_CLE_PERSONNELLE_GEMINI
+    VITE_JINA_API_KEY=VOTRE_CLE_PERSONNELLE_JINA
     ```
 5.  **Lancez le serveur de développement :**
     ```bash
