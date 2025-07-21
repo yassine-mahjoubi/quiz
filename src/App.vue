@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
 import slugify from 'slugify'
@@ -20,6 +20,8 @@ const userAnswers = ref<number[]>([])
 const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
 
+provide(yourQuestion, answer)
+
 const handleGenerateQuiz = async () => {
   hasBeenTouched.value = true
   if (isInvalid.value) {
@@ -37,6 +39,7 @@ const handleGenerateQuiz = async () => {
     msg.value = 'Quiz generated successfully sur: ' + yourQuestion.value
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
+    userAnswers.value = answer.value.quiz_questions.map(() => -1)
 
     yourQuestion.value = ''
     hasBeenTouched.value = false
@@ -69,7 +72,7 @@ const validateAnswer = (index: number) => {
 
 <template>
   <main class="container" role="main">
-    <quiz-display />
+    <quiz-display :answer="answer" :userAnswers="userAnswers" />
     <quiz-form />
     <h1>{{ msg }}</h1>
     <p v-if="loading">Loading...</p>
