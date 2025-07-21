@@ -16,17 +16,19 @@ type ApiResponse = {
   candidates?: ApiCandidate[]
 }
 
+interface Question {
+  choices: string[]
+  correct_answer_index: number
+  difficulty: 'Facile' | 'Moyen' | 'Difficile'
+  question_text: string
+  category: string
+}
+
 interface quizResponse {
-  quiz_questions: {
-    choices: string[]
-    correct_answer_index: number
-    difficulty: 'Facile' | 'Moyen' | 'Difficile'
-    question_text: string
-    category: string
-  }[]
+  quiz_questions: Question[]
 }
 
 type invalid = boolean | undefined
 
 // Exporting types for use in other parts of the application
-export type { invalid, quizResponse, ApiText, ApiContent, ApiCandidate, ApiResponse }
+export type { invalid, quizResponse, Question, ApiText, ApiContent, ApiCandidate, ApiResponse }
