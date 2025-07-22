@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import slugify from 'slugify'
 
 import type { Question } from '../type/Type'
@@ -21,7 +20,6 @@ const onSelectChoice = (choiceIdex: number) => {
 </script>
 
 <template>
-  <pre>{{ props.question }}</pre>
   <legend>{{ props.question.question_text }}</legend>
 
   <template v-for="(choice, choiceIdex) in props.question.choices" :key="choice">
@@ -39,5 +37,3 @@ const onSelectChoice = (choiceIdex: number) => {
 
   <p>Correct Answer: {{ question.correct_answer_index }}</p>
 </template>
-
-<style lang="scss" scoped></style>

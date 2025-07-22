@@ -1,20 +1,28 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import Question from './Question.vue'
 import type { quizResponse } from '../type/Type'
+import { ref } from 'vue'
+
 const props = defineProps<{ answer: quizResponse; userAnswers: number[] }>()
 
-console.log('propos from app.vue: ', props.answer)
+const quizWrapper = ref<HTMLDivElement | null>(null)
+const setFocus = () => {
+  quizWrapper.value?.focus()
+}
+
+defineExpose({
+  setFocus,
+})
 </script>
 
 <template>
-  <Question
-    v-for="(singleQuestion, singleIndex) in props.answer.quiz_questions"
-    :key="singleIndex"
-    :question="singleQuestion"
-    :questionIndex="singleIndex"
-    :userChoice="userAnswers[singleIndex]"
-  />
+  <div ref="quizWrapper" tabindex="-1" aria-live="polite">
+    <Question
+      v-for="(singleQuestion, singleIndex) in props.answer.quiz_questions"
+      :key="singleIndex"
+      :question="singleQuestion"
+      :questionIndex="singleIndex"
+      :userChoice="userAnswers[singleIndex]"
+    />
+  </div>
 </template>
-
-<style lang="scss" scoped></style>
