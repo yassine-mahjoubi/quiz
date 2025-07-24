@@ -1,0 +1,42 @@
+{
+  "common": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Valider",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "restart": "Recommencer le Quiz"
+  },
+  "quizForm": {
+    "title": "Générateur de Quiz!",
+    "numQuestionsLabel": "Nombre de questions :",
+    "categoryLabel": "Catégorie :",
+    "difficultyLabel": "Difficulté :",
+    "generateButton": "Générer le Quiz",
+    "difficulty": {
+      "any": "Toutes",
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    }
+  },
+  "quiz": {
+    "questionProgress": "Question {current} sur {total}",
+    "score": "Score : {score}"
+  },
+  "results": {
+    "title": "Résultats",
+    "finalScore": "Votre score final est de {score} sur {total}.",
+    "feedback": {
+      "perfect": "Excellent ! Vous êtes un maître du quiz !",
+      "good": "Très bon score ! Continuez comme ça.",
+      "average": "Pas mal ! Un peu plus de pratique et ce sera parfait.",
+      "bad": "Ne baissez pas les bras, réessayez !"
+    }
+  },
+  "messages": {
+    "fetchError": "Impossible de charger les questions. Veuillez vérifier votre connexion ou réessayer plus tard.",
+    "noAnswer": "Veuillez sélectionner une réponse avant de continuer."
+  }
+}

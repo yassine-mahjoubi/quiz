@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
-
+import SwitchLanguage from './components/SwitchLanguage.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
+const { t } = useI18n()
 const msg = ref<string>('générateur de quiz')
 const answer = ref<quizResponse>({ quiz_questions: [] })
 const loading = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
-const blocAnswer = ref<HTMLDivElement | null>(null)
 const userAnswers = ref<number[]>([])
 const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
@@ -59,13 +60,14 @@ const validateAnswer = (index: number) => {
 
 <template>
   <main class="container" role="main">
+    <Switch-language />
     <h1>{{ msg }}</h1>
+    <p>{{ t('quizForm.title') }}</p>
     <progress-bar v-if="loading" :progress-type="false" />
     <quiz-display :answer="answer" :userAnswers="userAnswers" ref="quizWrapper" />
     <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
     <p v-if="answer">nombre de question {{ totalQuestion }}</p>
-    <!--     <pre class="container"><code>{{ answer }}</code></pre>
- -->
+    <pre class="container"><code>{{ answer }}</code></pre>
   </main>
 </template>
 
