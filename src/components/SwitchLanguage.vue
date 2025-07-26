@@ -1,34 +1,34 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { setI18nLanguage, SUPPORTED_LOCALES } from '@/plugins/i18n'
 
-const { t, locale } = useI18n()
-const isLoading = ref(false)
+const { t, locale, availableLocales } = useI18n()
 
+const persistPreference = (newlocal: string) => {
+  return localStorage.setItem('language-preference', newlocal)
+}
 const changeLanguage = async (newLocale: string) => {
-  if (newLocale === locale.value) return
-
   try {
-    isLoading.value = true
-    await setI18nLanguage(newLocale)
-
-    // AJOUT: Forcer le re-render si nécessaire
     locale.value = newLocale
-
-    // AJOUT: Vérification immédiate
-    console.log('Current messages:', t('quizForm.title'))
+    document.documentElement.lang = locale.value
+    persistPreference(newLocale)
   } catch (error) {
     console.error('Language change failed:', error)
-  } finally {
-    isLoading.value = false
   }
 }
+
+// TODO: Gérer l'événement @language-changed dans le composant parent (App.vue)
+// centraliser le msgreader announcement dans le app.vue
+// pour mettre à jour la région live qui annonce le changement de langue.
+// update changeLangue code
 </script>
 
 <template>
-  <select v-model="locale" @change="changeLanguage(locale)">
-    <option v-for="lang in SUPPORTED_LOCALES" :key="lang" :value="lang">
+  <p aria-live="polite" aria-atomic="true" class="visually-hidden">
+    {{ t('common.language_changed_announcement') }}
+  </p>
+  <label for="locale-switch">{{ t('common.lang') }}</label>
+  <select v-model="locale" @change="changeLanguage(locale)" id="locale-switch">
+    <option v-for="lang in availableLocales" :key="lang" :value="lang">
       {{ lang.toUpperCase() }}
     </option>
   </select>

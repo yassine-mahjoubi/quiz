@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref } from 'vue'
+import { ref, watchEffect, watch } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
 import SwitchLanguage from './components/SwitchLanguage.vue'
@@ -8,7 +8,7 @@ import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const msg = ref<string>('générateur de quiz')
 const answer = ref<quizResponse>({ quiz_questions: [] })
 const loading = ref<boolean>(false)
@@ -56,6 +56,12 @@ const validateAnswer = (index: number) => {
     isInvalidAnswer.value[index] = true
   }
 }
+
+watch(locale, () => {
+  document.title = t('seo.title')
+})
+
+watchEffect(() => {})
 </script>
 
 <template>

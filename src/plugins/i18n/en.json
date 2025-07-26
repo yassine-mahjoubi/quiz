@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "Interactive WCAG/RGAA Quiz with Gemini and Jina",
+    "description": "Test your knowledge of web accessibility guidelines (WCAG/RGAA) with this dynamic quiz. This project uses Vue.js 3, Google's Gemini API for question generation, and Jina Reader for content analysis."
+  },
   "common": {
     "next": "Next",
     "previous": "Previous",
@@ -6,7 +10,9 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "restart": "Restart Quiz"
+    "restart": "Restart Quiz",
+    "lang": "English",
+    "language_changed_announcement": "The page is now in English"
   },
   "quizForm": {
     "title": "Quiz Generator",

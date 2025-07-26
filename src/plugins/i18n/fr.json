@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "Quiz Interactif sur le RGAA avec Gemini et Jina",
+    "description": "Testez vos connaissances sur le Référentiel Général d'Amélioration de l'Accessibilité (RGAA) avec ce quiz dynamique. Le projet utilise  Vue.js 3, l'API Gemini de Google pour générer les questions, et Jina Reader pour l'analyse de contenu."
+  },
   "common": {
     "next": "Suivant",
     "previous": "Précédent",
@@ -6,10 +10,12 @@
     "loading": "Chargement...",
     "error": "Erreur",
     "success": "Succès",
-    "restart": "Recommencer le Quiz"
+    "restart": "Recommencer le Quiz",
+    "lang": "Français",
+    "language_changed_announcement": "The page est désormais en Français"
   },
   "quizForm": {
-    "title": "Générateur de Quiz!",
+    "title": "Générateur de Quiz",
     "numQuestionsLabel": "Nombre de questions :",
     "categoryLabel": "Catégorie :",
     "difficultyLabel": "Difficulté :",
