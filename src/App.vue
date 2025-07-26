@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, watchEffect, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
 import SwitchLanguage from './components/SwitchLanguage.vue'
@@ -18,17 +18,18 @@ const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
 const totalQuestion = ref<number>(0)
 const quizWrapper = ref<InstanceType<typeof QuizDisplay> | null>(null)
+const showReaderScreen = ref<boolean>(false)
 
-const handleGenerateQuiz = async (quizData: {
+const handleGenerateQuiz = async (payload: {
   question: string
   difficulty: 'Facile' | 'Moyen' | 'Difficile'
 }) => {
   loading.value = true
 
   try {
-    const response = await generateQuiz(quizData.question, quizData.difficulty)
+    const response = await generateQuiz(payload.question, payload.difficulty)
     answer.value = <quizResponse>JSON.parse(response)
-    msg.value = 'Quiz generated successfully sur: ' + quizData.question
+    msg.value = 'Quiz generated successfully sur: ' + payload.question
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
     userAnswers.value = answer.value.quiz_questions.map(() => -1)
@@ -61,12 +62,18 @@ watch(locale, () => {
   document.title = t('seo.title')
 })
 
-watchEffect(() => {})
+const handelUpdateScreen = (lang: string): void => {
+  console.log('newLocale parent', lang)
+  showReaderScreen.value = true
+}
 </script>
 
 <template>
   <main class="container" role="main">
-    <Switch-language />
+    <switch-language @language-changed="handelUpdateScreen" />
+    <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
+      {{ t('common.language_changed_announcement') }}
+    </p>
     <h1>{{ msg }}</h1>
     <p>{{ t('quizForm.title') }}</p>
     <progress-bar v-if="loading" :progress-type="false" />

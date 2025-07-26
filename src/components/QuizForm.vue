@@ -19,7 +19,6 @@ const handleTextButton = computed(() => {
 })
 const isInvalid = computed(() => {
   if (!hasBeenTouched.value) return undefined
-  //  if (props.loading) return undefined
   return !yourQuestion.value.trim()
 })
 const handleInput = () => {
@@ -28,7 +27,10 @@ const handleInput = () => {
     yourQuestion_input.value?.focus()
     return
   } else {
-    emit('user-question', { question: yourQuestion.value, difficulty: difficulty.value })
+    emit('user-question', {
+      question: yourQuestion.value,
+      difficulty: difficulty.value,
+    })
   }
   yourQuestion.value = ''
   hasBeenTouched.value = false

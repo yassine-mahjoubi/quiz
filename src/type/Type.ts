@@ -22,6 +22,7 @@ interface Question {
   difficulty: 'Facile' | 'Moyen' | 'Difficile'
   question_text: string
   category: string
+  lang: string
 }
 
 interface quizResponse {
