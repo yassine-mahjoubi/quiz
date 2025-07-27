@@ -12,6 +12,7 @@ const messages = {
   fr: frLocale,
   en: enLocale,
 }
+
 const supportedLocales = Object.keys(messages)
 const getInitialLocale = () => {
   const savedLanguagePreference = localStorage.getItem('language-preference')
@@ -34,5 +35,6 @@ const i18n = createI18n({
   messages: messages,
   globalInjection: true,
 })
+console.log(i18n)
 
 export default i18n

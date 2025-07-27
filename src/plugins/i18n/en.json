@@ -11,7 +11,11 @@
     "error": "Error",
     "success": "Success",
     "restart": "Restart Quiz",
-    "lang": "English",
+    "lang_choice": "select language",
+    "languages": {
+      "fr": "choisir Français",
+      "en": "choose English"
+    },
     "language_changed_announcement": "The page is now in English"
   },
   "quizForm": {

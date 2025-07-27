@@ -62,8 +62,7 @@ watch(locale, () => {
   document.title = t('seo.title')
 })
 
-const handelUpdateScreen = (lang: string): void => {
-  console.log('newLocale parent', lang)
+const handelUpdateScreen = (): void => {
   showReaderScreen.value = true
 }
 </script>
