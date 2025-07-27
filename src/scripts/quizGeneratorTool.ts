@@ -50,8 +50,7 @@ export const quizGeneratorTool = {
   function_declarations: [
     {
       name: 'generateur_de_quiz',
-      description:
-        'Génère une liste de questions de quiz avec des choix multiples et la bonne réponse.',
+      description: 'quiz multilangue',
       parameters: schema,
     },
   ],

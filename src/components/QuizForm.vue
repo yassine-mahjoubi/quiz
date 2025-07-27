@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+
 import { ref, computed } from 'vue'
+const { t } = useI18n()
+
 const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
 const yourQuestion = ref<string>('')
 const yourQuestion_input = ref<HTMLInputElement | null>(null)
@@ -11,11 +15,10 @@ const emit = defineEmits<{
 
 const props = defineProps<{ loading: boolean }>()
 const handleTextButton = computed(() => {
-  return props.loading ? 'génération en cours' : 'génére ton quiz'
+  return props.loading ? t('common.loading') : t('quizForm.generateButton')
 })
 const isInvalid = computed(() => {
   if (!hasBeenTouched.value) return undefined
-  //  if (props.loading) return undefined
   return !yourQuestion.value.trim()
 })
 const handleInput = () => {
@@ -24,7 +27,10 @@ const handleInput = () => {
     yourQuestion_input.value?.focus()
     return
   } else {
-    emit('user-question', { question: yourQuestion.value, difficulty: difficulty.value })
+    emit('user-question', {
+      question: yourQuestion.value,
+      difficulty: difficulty.value,
+    })
   }
   yourQuestion.value = ''
   hasBeenTouched.value = false

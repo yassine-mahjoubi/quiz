@@ -1,0 +1,52 @@
+{
+  "seo": {
+    "title": "Interactive WCAG/RGAA Quiz with Gemini and Jina",
+    "description": "Test your knowledge of web accessibility guidelines (WCAG/RGAA) with this dynamic quiz. This project uses Vue.js 3, Google's Gemini API for question generation, and Jina Reader for content analysis."
+  },
+  "common": {
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "restart": "Restart Quiz",
+    "lang_choice": "select language",
+    "languages": {
+      "fr": "choisir Français",
+      "en": "choose English"
+    },
+    "language_changed_announcement": "The page is now in English"
+  },
+  "quizForm": {
+    "title": "Quiz Generator",
+    "numQuestionsLabel": "Number of questions:",
+    "categoryLabel": "Category:",
+    "difficultyLabel": "Difficulty:",
+    "generateButton": "Generate Quiz",
+    "difficulty": {
+      "any": "Any",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "quiz": {
+    "questionProgress": "Question {current} of {total}",
+    "score": "Score: {score}"
+  },
+  "results": {
+    "title": "Results",
+    "finalScore": "Your final score is {score} out of {total}.",
+    "feedback": {
+      "perfect": "Excellent! You are a quiz master!",
+      "good": "Great score! Keep it up.",
+      "average": "Not bad! A little more practice and it will be perfect.",
+      "bad": "Don't give up, try again!"
+    }
+  },
+  "messages": {
+    "fetchError": "Could not load questions. Please check your connection or try again later.",
+    "noAnswer": "Please select an answer before continuing."
+  }
+}
