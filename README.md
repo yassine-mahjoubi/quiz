@@ -1,5 +1,13 @@
 # Quiz RGAA 4.2 - Assistant d'Accessibilité
 
+![Status](https://img.shields.io/badge/Status-En%20Développement-yellow)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)
+
+**🚧 Projet en cours de développement**
+
+# Quiz RGAA 4.2 - Assistant d'Accessibilité
+
 Une application web conçue pour être un outil d'apprentissage et de révision sur le **Référentiel Général d'Amélioration de l'Accessibilité (RGAA) version 4.2**.
 
 Ce projet a un double objectif :
@@ -15,6 +23,20 @@ L'application elle-même se doit d'être un exemple de respect des bonnes pratiq
 - **Retrieval-Augmented Generation (RAG) :** L'API Gemini ne répond qu'en se basant sur le contenu du [référentiel officiel du RGAA](https://accessibilite.numerique.gouv.fr/), fourni via l'API Jina Reader, garantissant des réponses factuelles et à jour.
 - **Interface Accessible :** Le projet est une démonstration pratique des principes du RGAA, offrant une expérience utilisateur inclusive.
 - **Validation des Réponses :** Retour immédiat pour un apprentissage efficace.
+
+## 🚧 État d'Avancement
+
+⚠️ PROJET EN DÉVELOPPEMENT ACTIF - Certaines fonctionnalités sont encore en implémentation.
+
+### En cours de développement :
+
+- 🔄 Intégration API Gemini
+
+- 🔄 Pipeline RAG avec Jina Reader
+
+- 🔄 Interface de quiz interactive
+
+- 📋 Tests unitaires complets
 
 ## 🛠️ Stack Technique
 
@@ -53,9 +75,11 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
     ```
 4.  **Configurez les clés d'API :**
     Commencez par copier le fichier d'exemple pour créer votre propre fichier d'environnement local :
+
     ```bash
     cp .env.example .env.local
     ```
+
     Ensuite, ouvrez le nouveau fichier `.env.local` et remplissez les variables avec vos clés d'API personnelles.
 
     ```env
@@ -63,6 +87,7 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
     VITE_KEY_GEMINI_API_KEY=VOTRE_CLE_PERSONNELLE_GEMINI
     VITE_JINA_API_KEY=VOTRE_CLE_PERSONNELLE_JINA
     ```
+
 5.  **Lancez le serveur de développement :**
     ```bash
     npm run dev
