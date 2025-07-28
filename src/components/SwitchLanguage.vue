@@ -1,42 +1,22 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { useLanguageSwitcher } from '../composables/useLanguageSwitch'
+const { changeLanguage, languageOptions, locale, t } = useLanguageSwitcher()
 
-const { t, locale, availableLocales } = useI18n()
 const emit = defineEmits<{
   'language-changed': [lang: string]
 }>()
 
-const persistPreference = (pref: string): void => {
-  localStorage.setItem('language-preference', pref)
+const handleLanguageChange = (event: Event): void => {
+  const target = event.target as HTMLSelectElement
+  const newLocale = target.value
+  changeLanguage(newLocale)
+  emit('language-changed', newLocale)
 }
-const changeLanguage = (newLocale: string): void => {
-  try {
-    locale.value = newLocale
-    document.documentElement.lang = locale.value
-    persistPreference(newLocale)
-    emit('language-changed', newLocale)
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error('Language change failed:', error.message)
-    } else {
-      console.error('unknown error', error)
-    }
-  }
-}
-
-const languageOptions = computed(() =>
-  availableLocales.map((langCode) => ({
-    lang: langCode,
-    label: t(`common.languages.${langCode}`),
-    display: langCode.toUpperCase(),
-  })),
-)
 </script>
 
 <template>
   <label for="locale-switch">{{ t('common.lang_choice') }}</label>
-  <select v-model="locale" @change="changeLanguage(locale)" id="locale-switch">
+  <select :value="locale" @change="handleLanguageChange" id="locale-switch">
     <option
       v-for="lang in languageOptions"
       :key="lang.lang"
