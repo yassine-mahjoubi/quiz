@@ -38,26 +38,29 @@ const handleInput = () => {
 </script>
 
 <template>
-  <label for="youQuestion">your question: {{ yourQuestion }} | loading: {{ loading }}</label>
-  <input
-    type="text"
-    id="youQuestion"
-    ref="yourQuestion_input"
-    name="youQuestion"
-    v-model="yourQuestion"
-    placeholder="ask a question"
-    :aria-invalid="isInvalid"
-    @blur="hasBeenTouched = true"
-    aria-labelledby="input-error"
-  />
-  <small v-show="isInvalid" id="input-error" aria-invalid="true">texte n'est pas valide!</small>
-
-  <label for="difficuty">select a level: {{ difficulty }}</label>
-  <select id="difficuty" name="difficuty" v-model="difficulty">
-    <option value="Facile" default>Facile</option>
-    <option value="Moyen">Moyen</option>
-    <option value="Difficile">Difficile</option>
-  </select>
+  <fieldset>
+    <label for="youQuestion">your question: {{ yourQuestion }} </label>
+    <input
+      type="text"
+      id="youQuestion"
+      ref="yourQuestion_input"
+      name="youQuestion"
+      v-model="yourQuestion"
+      placeholder="ask a question"
+      :aria-invalid="isInvalid"
+      @blur="hasBeenTouched = true"
+      aria-labelledby="input-error"
+    />
+    <small v-show="isInvalid" id="input-error" aria-invalid="true">texte n'est pas valide!</small>
+  </fieldset>
+  <fieldset>
+    <label for="difficuty">select a level: {{ difficulty }}</label>
+    <select id="difficuty" name="difficuty" v-model="difficulty">
+      <option value="Facile" default>Facile</option>
+      <option value="Moyen">Moyen</option>
+      <option value="Difficile">Difficile</option>
+    </select>
+  </fieldset>
 
   <button @click="handleInput" :disabled="isInvalid || props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}

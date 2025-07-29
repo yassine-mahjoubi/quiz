@@ -9,8 +9,7 @@ import QuizForm from './components/QuizForm.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
 const { t, locale } = useI18n()
-const msg = ref<string>('générateur de quiz')
-const answer = ref<quizResponse>({ quiz_questions: [] })
+const answer = ref<quizResponse | null>(null)
 const loading = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
 const userAnswers = ref<number[]>([])
@@ -29,25 +28,24 @@ const handleGenerateQuiz = async (payload: {
   try {
     const response = await generateQuiz(payload.question, payload.difficulty)
     answer.value = <quizResponse>JSON.parse(response)
-    msg.value = 'Quiz generated successfully sur: ' + payload.question
+    console.log('answer.value', answer.value)
+    console.warn('Quiz generated successfully sur: ', payload.question)
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
     userAnswers.value = answer.value.quiz_questions.map(() => -1)
     hasBeenTouched.value = false
     totalQuestion.value = answer.value.quiz_questions.length
-    //blocAnswer.value?.focus()
     if (quizWrapper.value) {
       quizWrapper.value?.setFocus()
     }
   } catch (error) {
     console.error('Error generating quiz:', error)
-    msg.value = 'An error occurred while generating the quiz.'
   } finally {
     loading.value = false
   }
 }
 
-const validateAnswer = (index: number) => {
+/* onst validateAnswer = (index: number) => {
   showUserAnswers.value[index] = true
 
   if (userAnswers.value[index] === answer.value.quiz_questions[index].correct_answer_index) {
@@ -56,7 +54,7 @@ const validateAnswer = (index: number) => {
   } else {
     isInvalidAnswer.value[index] = true
   }
-}
+} */
 
 watch(locale, () => {
   document.title = t('seo.title')
@@ -68,18 +66,39 @@ const handelUpdateScreen = (): void => {
 </script>
 
 <template>
+  <progress-bar v-if="loading" :progress-type="false" />
+
+  <header class="container">
+    <nav>
+      <ul>
+        <li>
+          <h1>{{ t('quizForm.title') }}</h1>
+        </li>
+      </ul>
+      <ul>
+        <li><switch-language @language-changed="handelUpdateScreen" /></li>
+      </ul>
+    </nav>
+  </header>
   <main class="container" role="main">
-    <switch-language @language-changed="handelUpdateScreen" />
     <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
       {{ t('common.language_changed_announcement') }}
     </p>
-    <h1>{{ msg }}</h1>
-    <p>{{ t('quizForm.title') }}</p>
-    <progress-bar v-if="loading" :progress-type="false" />
-    <quiz-display :answer="answer" :userAnswers="userAnswers" ref="quizWrapper" />
-    <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
-    <p v-if="answer">nombre de question {{ totalQuestion }}</p>
-    <pre class="container"><code>{{ answer }}</code></pre>
+    <section>
+      <quiz-display v-if="answer" :answer="answer" :userAnswers="userAnswers" ref="quizWrapper" />
+    </section>
+    <section>
+      <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
+    </section>
+    <hr />
+    <section>
+      <details name="api" v-if="answer">
+        <summary role="button" class="outline secondary">
+          show the API generated for the quiz
+        </summary>
+        <pre><code> {{ answer }}</code></pre>
+      </details>
+    </section>
   </main>
 </template>
 
