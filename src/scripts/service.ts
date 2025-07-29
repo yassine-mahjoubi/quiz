@@ -25,7 +25,7 @@ try {
 export async function generateQuiz(yourQuestion: string, level: string): Promise<string> {
   const response = <ApiResponse>await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: `crée un quiz, niveau ${level} sur: ${yourQuestion} ?`,
+    contents: `crée un quiz avec minimum 3 questions, niveau ${level} sur: ${yourQuestion} ?`,
     config: {
       responseMimeType: 'application/json',
       responseSchema: schema,
