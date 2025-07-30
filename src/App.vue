@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
 import SwitchLanguage from './components/SwitchLanguage.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
+import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
 const { t, locale } = useI18n()
 const answer = ref<quizResponse | null>(null)
 const loading = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
-const userAnswers = ref<number[]>([])
+const userAnswers = ref<(number | null)[]>([])
 const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
 const totalQuestion = ref<number>(0)
@@ -32,9 +33,10 @@ const handleGenerateQuiz = async (payload: {
     console.warn('Quiz generated successfully sur: ', payload.question)
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
-    userAnswers.value = answer.value.quiz_questions.map(() => -1)
+    userAnswers.value = answer.value.quiz_questions.map(() => null)
     hasBeenTouched.value = false
     totalQuestion.value = answer.value.quiz_questions.length
+    const status = ref<string>('')
     if (quizWrapper.value) {
       quizWrapper.value?.setFocus()
     }
@@ -45,23 +47,32 @@ const handleGenerateQuiz = async (payload: {
   }
 }
 
-/* onst validateAnswer = (index: number) => {
-  showUserAnswers.value[index] = true
-
-  if (userAnswers.value[index] === answer.value.quiz_questions[index].correct_answer_index) {
-    console.log('reponse juste')
-    isInvalidAnswer.value[index] = false
-  } else {
-    isInvalidAnswer.value[index] = true
-  }
-} */
-
 watch(locale, () => {
   document.title = t('seo.title')
 })
 
 const handelUpdateScreen = (): void => {
   showReaderScreen.value = true
+}
+
+// update logic quizdisplay
+const quizResult = computed(() => {
+  if (!answer.value) return []
+  return answer.value.quiz_questions.map((question, index) => {
+    const questionText = question.question_text
+    const userAnswer = userAnswers.value[index]
+    const correctAnswer = question.correct_answer_index
+    return {
+      questionText: questionText,
+      userAnswer: userAnswer,
+      correctAnswer: correctAnswer,
+      isCorrect: userAnswer !== null && userAnswer == correctAnswer,
+    }
+  })
+})
+
+const handleAnswerSelected = (indexQuestion: number, indexUserNewChoice: number) => {
+  userAnswers.value[indexQuestion] = indexUserNewChoice
 }
 </script>
 
@@ -84,8 +95,27 @@ const handelUpdateScreen = (): void => {
     <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
       {{ t('common.language_changed_announcement') }}
     </p>
+    <quiz-result v-if="answer" :answer="answer" :userAnswers="userAnswers" />
+    <section class="visually-hidden d-none">
+      <pre><code v-if="answer">tada{{ quizResult }}</code></pre>
+      <code v-if="answer"
+        ><small>nombre de question : {{ answer.quiz_questions.length }} | </small>
+        <small
+          >correct_answer_index[] :
+          {{
+            answer.quiz_questions.map((correctAnswer) => correctAnswer.correct_answer_index)
+          }}</small
+        ></code
+      >
+    </section>
     <section>
-      <quiz-display v-if="answer" :answer="answer" :userAnswers="userAnswers" ref="quizWrapper" />
+      <quiz-display
+        v-if="answer"
+        :answer="answer"
+        :userAnswers="userAnswers"
+        @answer-selected="handleAnswerSelected"
+        ref="quizWrapper"
+      />
     </section>
     <section>
       <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
@@ -103,6 +133,9 @@ const handelUpdateScreen = (): void => {
 </template>
 
 <style scoped>
+.d-none {
+  display: none;
+}
 .bloc {
   max-width: max-content;
 }

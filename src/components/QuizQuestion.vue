@@ -2,22 +2,29 @@
 import slugify from 'slugify'
 
 import type { Question } from '../type/Type'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps<{
   question: Question
   questionIndex: number
-  userChoice: number
+  userChoice: number | null
 }>()
 
 const isInvalid = ref<boolean | undefined>(undefined)
-const emits = defineEmits<{
+const emit = defineEmits<{
   'answer-selected': [indexQuestion: number, indexUserNewChoice: number]
 }>()
 
 const onSelectChoice = (answerIndex: number) => {
-  emits('answer-selected', props.questionIndex, answerIndex)
-  console.log("J'ai cliqué sur le choix:", answerIndex, 'pour la question:', props.questionIndex)
+  emit('answer-selected', props.questionIndex, answerIndex)
+  console.log(
+    "J'ai cliqué sur le choix:",
+    answerIndex,
+    'pour la question:',
+    props.questionIndex,
+    'sachant que la bonne reponse est :',
+    props.question.correct_answer_index,
+  )
 }
 </script>
 
