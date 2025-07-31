@@ -30,7 +30,7 @@ L'application elle-même se doit d'être un exemple de respect des bonnes pratiq
 
 ### En cours de développement :
 
-- 🔄 Intégration API Gemini
+- 🔄 Intégration API Gemini: done
 
 - 🔄 Pipeline RAG avec Jina Reader
 
