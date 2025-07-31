@@ -11,8 +11,7 @@ if (!GoogleGenAI) {
 import { schema } from './quizGeneratorTool.ts'
 
 // Initialize the Google GenAI client
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_KEY_GEMINI_API_KEY })
-
+console.log('API Key:', import.meta.env.VITE_GEMINI_API_KEY ? 'FOUND' : 'MISSING')
 try {
   // Check if the Google GenAI library is loaded
   if (typeof GoogleGenAI === 'undefined') {
