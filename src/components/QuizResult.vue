@@ -1,8 +1,12 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import { computed } from 'vue'
 import type { quizResponse } from '../type/Type'
 const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
-
+const emit = defineEmits<{
+  'new-quiz': [boolean]
+}>()
 // to do ameliore layout result
 const quizResult = computed(() => {
   if (!props.answer) return []
@@ -24,6 +28,9 @@ const quizResult = computed(() => {
     }
   })
 })
+const handleNewQuiz = () => {
+  emit('new-quiz', true)
+}
 </script>
 
 <template>
@@ -43,6 +50,17 @@ const quizResult = computed(() => {
       </article>
     </li>
   </ul>
+  <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
+  <section class="">
+    <code>
+      <small>nombre de question : {{ answer.quiz_questions.length }} | </small>
+      <small
+        >correct[]:
+        {{ answer.quiz_questions.map((correctAnswer) => correctAnswer.correct_answer_index) }}
+      </small>
+      <small>user[]: {{ userAnswers }}</small>
+    </code>
+  </section>
 </template>
 
 <style lang="scss" scoped>
