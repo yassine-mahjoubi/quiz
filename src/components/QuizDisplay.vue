@@ -1,19 +1,20 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 import QuizQuestion from './QuizQuestion.vue'
 import type { quizResponse } from '../type/Type'
-import { ref } from 'vue'
-
-const { t } = useI18n()
+import { computed, ref } from 'vue'
 
 const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
 const emit = defineEmits<{
   'answer-selected': [indexQuestion: number, indexUserNewChoice: number]
+  'answer-submit': [isCompleted: boolean]
 }>()
 
 const quizWrapper = ref<HTMLDivElement | null>(null)
 const counter = ref<number>(0)
+const isCompleted = ref<boolean>(false)
 const setFocus = () => {
   quizWrapper.value?.focus()
 }
@@ -22,32 +23,29 @@ defineExpose({
   setFocus,
 })
 
-//const userAnswers = ref<(number | null)[]>(Array(props.userAnswers.length).fill(null))
-//const numberOfQuestions = props.answer.quiz_questions.length
-//const currentUserAnswers = ref<(number | null)[]>(new Array(numberOfQuestions).fill(null))
 const nextQuestion = () => {
   counter.value++
 }
-/* const quizResult = computed(() => {
-  return props.answer.quiz_questions.map((question, index) => {
-    const Qquestion = question.question_text
-    const userAnswer = currentUserAnswers.value[index]
-    const QcorrectAnswer = question.correct_answer_index
-    return {
-      the_question: Qquestion,
-      the_user_answer: userAnswer,
-      the_correct_answer: QcorrectAnswer,
-      the_status: userAnswer == QcorrectAnswer,
-    }
-  })
-}) */
 
 const previousQuestion = () => {
   counter.value--
 }
+const atLeastAnswred = computed(() => {
+  return props.userAnswers.some((value) => value !== null)
+})
+const questionAnswred = computed(() => {
+  return props.userAnswers
+    .map((answer) => {
+      return answer !== null
+    })
+    .filter((tr) => tr === true).length
+})
+
+const handelSubmit = () => {
+  emit('answer-submit', isCompleted.value)
+}
 
 const handelAnswer = (questionIndex: number, answerIndex: number) => {
-  //currentUserAnswers.value[questionIndex] = answerIndex
   emit('answer-selected', questionIndex, answerIndex)
 }
 
@@ -62,14 +60,25 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       :questionIndex="counter"
       :userChoice="props.userAnswers[counter]"
     />
-    <small> la réponse totale est : {{ userAnswers }}</small>
+    <small v-if="answer"
+      >question(s) answred: {{ questionAnswred }} sur {{ answer.quiz_questions.length }}</small
+    >
+
     <div class="grid" v-if="props.answer.quiz_questions.length > 1">
-      <button @click="previousQuestion" :disabled="counter === 0">
+      <button class="outline" @click="previousQuestion" :disabled="counter === 0">
         {{ t('common.previous') }}
       </button>
-      <button @click="nextQuestion" :disabled="counter >= props.answer.quiz_questions.length - 1">
+      <button
+        class="outline"
+        @click="nextQuestion"
+        :disabled="counter >= props.answer.quiz_questions.length - 1"
+      >
         {{ t('common.next') }}
       </button>
     </div>
+    <hr />
+    <button class="contraste" @click="handelSubmit" v-if="atLeastAnswred">
+      {{ t('common.submit') }}
+    </button>
   </div>
 </template>
