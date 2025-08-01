@@ -11,6 +11,7 @@ if (!GoogleGenAI) {
 import { schema } from './quizGeneratorTool.ts'
 
 // Initialize the Google GenAI client
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY
 console.log('API Key:', import.meta.env.VITE_GEMINI_API_KEY ? 'FOUND' : 'MISSING')
 try {
   // Check if the Google GenAI library is loaded
@@ -21,6 +22,7 @@ try {
   console.error('Error initializing Google GenAI:', error)
 }
 
+const ai = new GoogleGenAI({ apiKey: apiKey })
 export async function generateQuiz(yourQuestion: string, level: string): Promise<string> {
   const response = <ApiResponse>await ai.models.generateContent({
     model: 'gemini-2.5-flash',
