@@ -16,7 +16,7 @@ const quizResult = computed(() => {
     const choices = question.choices
     const correctAnswer = question.correct_answer_index
     const correctAnswerText = choices[question.correct_answer_index]
-    const userAnswerText = userAnswer !== null ? choices[userAnswer] : 'non répondu'
+    const userAnswerText = userAnswer !== null ? choices[userAnswer] : null
     return {
       userAnswerText: userAnswerText,
       questionText: questionText,
@@ -31,28 +31,53 @@ const quizResult = computed(() => {
 const handleNewQuiz = () => {
   emit('new-quiz', true)
 }
+const scoreUser = computed(() => {
+  if (!props.answer || !quizResult.value) {
+    return '0%'
+  }
+  const score = quizResult.value.filter((response) => response.isCorrect === true)
+  return Math.round((score.length / props.answer?.quiz_questions.length) * 100) + '%'
+})
 </script>
 
 <template>
+  <h2>{{ t('quiz.score', { score: scoreUser }) }} sur 100%</h2>
+
   <ul>
     <li v-for="result in quizResult" :key="result.questionText">
-      <article :class="result.isCorrect ? 'corret' : 'incorrect'">
+      <article>
         <header>{{ result.questionText }}</header>
         <ul>
-          <li v-for="choice in result.choices" :key="choice">
-            <span>{{ choice }}</span>
+          <li v-for="(choice, index) in result.choices" :key="choice">
+            <span
+              :class="
+                result.userAnswer == index && result.isCorrect
+                  ? 'valide'
+                  : result.userAnswer == index && !result.isCorrect
+                    ? 'invalide'
+                    : result.correctAnswer == index
+                      ? 'valide'
+                      : ''
+              "
+              >{{ choice }}</span
+            >
           </li>
         </ul>
         <footer>
-          <p>réponse correcte: {{ result.correctAnswerText }}</p>
-          <p>vous avez répondu : {{ result.userAnswerText }}</p>
+          <p v-if="result.userAnswerText">{{ result.isCorrect ? 'Bonne' : 'Mauvaise' }} réponse</p>
+          <p v-else>Question non répondu !</p>
         </footer>
       </article>
     </li>
   </ul>
   <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
   <section class="">
-    <code>
+    <code class="visually-hidden">
+      <pre><code>{{ quizResult }}</code></pre>
+      <small
+        >Score: {{ quizResult.filter((r) => r.isCorrect).length }} /
+        {{ answer.quiz_questions.length }}</small
+      >
       <small>nombre de question : {{ answer.quiz_questions.length }} | </small>
       <small
         >correct[]:
@@ -64,10 +89,10 @@ const handleNewQuiz = () => {
 </template>
 
 <style lang="scss" scoped>
-.corret {
+.valide {
   border: 1px solid green;
 }
-.incorrect {
+.invalide {
   border: 1px solid red;
 }
 </style>
