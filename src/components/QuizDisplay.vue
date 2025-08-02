@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 import QuizQuestion from './QuizQuestion.vue'
+import ProgressBar from './ProgressBar.vue'
 import type { quizResponse } from '../type/Type'
 import { computed, ref } from 'vue'
 
@@ -53,16 +54,22 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 </script>
 
 <template>
+  <progress-bar
+    :progress-type="true"
+    :completed-steps="questionAnswred"
+    :total-steps="answer.quiz_questions.length"
+  />
+
   <div ref="quizWrapper" tabindex="-1" aria-live="polite">
+    <p v-if="answer">
+      question(s) answred: {{ questionAnswred }} sur {{ answer.quiz_questions.length }}
+    </p>
     <quiz-question
       @answer-selected="handelAnswer"
       :question="props.answer.quiz_questions[counter]"
       :questionIndex="counter"
       :userChoice="props.userAnswers[counter]"
     />
-    <small v-if="answer"
-      >question(s) answred: {{ questionAnswred }} sur {{ answer.quiz_questions.length }}</small
-    >
 
     <div class="grid" v-if="props.answer.quiz_questions.length > 1">
       <button class="outline" @click="previousQuestion" :disabled="counter === 0">
