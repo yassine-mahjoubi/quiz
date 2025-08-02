@@ -26,11 +26,17 @@ const showQuizDisplay = ref<boolean>(false)
 const handleGenerateQuiz = async (payload: {
   question: string
   difficulty: 'Facile' | 'Moyen' | 'Difficile'
+  numberQuestions: 5 | 10 | 15
 }) => {
   loading.value = true
 
   try {
-    const response = await generateQuiz(payload.question, payload.difficulty)
+    const response = await generateQuiz(
+      payload.question,
+      payload.difficulty,
+      payload.numberQuestions,
+      locale.value,
+    )
     answer.value = <quizResponse>JSON.parse(response)
     console.warn('Quiz generated successfully sur: ', payload.question)
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
