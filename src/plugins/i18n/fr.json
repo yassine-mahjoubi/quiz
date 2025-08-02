@@ -12,7 +12,9 @@
     "success": "Succès",
     "restart": "Recommencer le Quiz",
     "lang_choice": "choisir la langue",
-    "languages": {
+    "language": "Français",
+
+    "languages_choice_label": {
       "fr": "choisir Français",
       "en": "choose English"
     },
@@ -20,12 +22,12 @@
   },
   "quizForm": {
     "title": "Générateur de Quiz",
+    "subject": "Votre sujet",
     "numQuestionsLabel": "Nombre de questions :",
     "categoryLabel": "Catégorie :",
-    "difficultyLabel": "Difficulté :",
+    "difficultyLabel": "Choisir la difficulté :",
     "generateButton": "Générer le Quiz",
     "difficulty": {
-      "any": "Toutes",
       "easy": "Facile",
       "medium": "Moyen",
       "hard": "Difficile"

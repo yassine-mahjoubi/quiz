@@ -12,7 +12,8 @@
     "success": "Success",
     "restart": "Restart Quiz",
     "lang_choice": "select language",
-    "languages": {
+    "language": "English",
+    "languages_choice_label": {
       "fr": "choisir Français",
       "en": "choose English"
     },
@@ -20,12 +21,12 @@
   },
   "quizForm": {
     "title": "Quiz Generator",
+    "subject": "Your subject",
     "numQuestionsLabel": "Number of questions:",
     "categoryLabel": "Category:",
-    "difficultyLabel": "Difficulty:",
+    "difficultyLabel": "Choose Difficulty:",
     "generateButton": "Generate Quiz",
     "difficulty": {
-      "any": "Any",
       "easy": "Easy",
       "medium": "Medium",
       "hard": "Hard"

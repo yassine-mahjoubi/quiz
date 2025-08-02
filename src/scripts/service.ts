@@ -23,10 +23,15 @@ try {
 }
 
 const ai = new GoogleGenAI({ apiKey: apiKey })
-export async function generateQuiz(yourQuestion: string, level: string): Promise<string> {
+export async function generateQuiz(
+  yourQuestion: string,
+  level: string,
+  numberQuestion: number,
+  locale: string,
+): Promise<string> {
   const response = <ApiResponse>await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: `crée un quiz avec minimum 3 questions, niveau ${level} sur: ${yourQuestion} ?`,
+    contents: `crée un quiz en ${locale == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${yourQuestion} ?`,
     config: {
       responseMimeType: 'application/json',
       responseSchema: schema,

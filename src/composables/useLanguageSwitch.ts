@@ -32,7 +32,7 @@ export const useLanguageSwitcher = () => {
   const languageOptions = computed(() =>
     availableLocales.map((langCode) => ({
       lang: langCode,
-      label: t(`common.languages.${langCode}`),
+      label: t(`common.languages_choice_label.${langCode}`),
       display: langCode.toUpperCase(),
     })),
   )
