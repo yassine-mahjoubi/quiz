@@ -16,7 +16,6 @@ const emit = defineEmits<{
       question: string
       difficulty: 'Facile' | 'Moyen' | 'Difficile'
       numberQuestions: 5 | 10 | 15
-      lang: string
     },
   ]
 }>()
@@ -47,8 +46,10 @@ const handleInput = () => {
 </script>
 
 <template>
-  <fieldset>
-    <label for="youQuestion"> {{ t('quizForm.subject') }} : {{ yourQuestion }} </label>
+  <fieldset :disabled="props.loading">
+    <small>{{ t('quizForm.field.requiered') }}</small>
+    <hr />
+    <label for="youQuestion"> {{ t('quizForm.subject') }} : {{ yourQuestion }} *</label>
     <input
       type="text"
       id="youQuestion"
@@ -60,10 +61,13 @@ const handleInput = () => {
       @blur="hasBeenTouched = true"
       aria-labelledby="input-error"
     />
-    <small v-show="isInvalid" id="input-error" aria-invalid="true">texte n'est pas valide!</small>
+    <small v-show="isInvalid" id="input-error" aria-invalid="true">{{
+      t('quizForm.field.error')
+    }}</small>
   </fieldset>
   <div class="grid">
-    <fieldset>
+    <p>props.loading{{ props.loading }}</p>
+    <fieldset :disabled="props.loading">
       <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
       <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">
         <option value="5" default>5</option>
@@ -71,7 +75,7 @@ const handleInput = () => {
         <option value="15">15</option>
       </select>
     </fieldset>
-    <fieldset>
+    <fieldset :disabled="props.loading">
       <label for="difficuty">{{ t('quizForm.difficultyLabel') }}</label>
       <select id="difficuty" name="difficuty" v-model="difficulty">
         <option value="Facile" default>{{ t('quizForm.difficulty.easy') }}</option>

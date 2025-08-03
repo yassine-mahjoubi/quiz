@@ -32,11 +32,22 @@
       "easy": "Facile",
       "medium": "Moyen",
       "hard": "Difficile"
+    },
+    "field": {
+      "requiered": "Les champs obligatoires sont marqués d'un astérisque (*) et doivent être remplis pour générer le quiz",
+      "error": "Le champ obligatoire doit être un texte valide et non vide"
     }
   },
   "quiz": {
-    "questionProgress": "Question {current} sur {total}",
-    "score": "Score : {score}"
+    "questionProgress": "Question {current} of {total}",
+    "statusQuestion": "{answred} question(s) répondu sur {total}",
+
+    "score": "Score : {score}",
+    "answer": {
+      "good": "Bonne réponse",
+      "bad": "mauvaise réponse",
+      "skiped": "question non répondu"
+    }
   },
   "results": {
     "title": "Résultats",

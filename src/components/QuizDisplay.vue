@@ -31,6 +31,7 @@ const nextQuestion = () => {
 const previousQuestion = () => {
   counter.value--
 }
+const totalQuestions = computed(() => props.answer.quiz_questions.length)
 const atLeastAnswred = computed(() => {
   return props.userAnswers.some((value) => value !== null)
 })
@@ -42,6 +43,7 @@ const questionAnswred = computed(() => {
     .filter((tr) => tr === true).length
 })
 
+const currentQuestion = computed(() => counter.value + 1)
 const handelSubmit = () => {
   emit('answer-submit', isCompleted.value)
 }
@@ -56,13 +58,16 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 <template>
   <progress-bar
     :progress-type="true"
-    :completed-steps="counter"
-    :total-steps="answer.quiz_questions.length"
+    :completed-steps="currentQuestion"
+    :total-steps="totalQuestions"
   />
+  <p>
+    {{ t('quiz.statusQuestion', { answred: questionAnswred, total: totalQuestions }) }}
+  </p>
 
   <div ref="quizWrapper" tabindex="-1" aria-live="polite">
     <p v-if="answer">
-      question(s) answred: {{ questionAnswred }} sur {{ answer.quiz_questions.length }}
+      {{ t('quiz.questionProgress', { current: currentQuestion, total: totalQuestions }) }}
     </p>
     <quiz-question
       @answer-selected="handelAnswer"
@@ -71,18 +76,14 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       :userChoice="props.userAnswers[counter]"
     />
 
-    <div class="grid" v-if="props.answer.quiz_questions.length > 1">
+    <nav class="grid" v-if="totalQuestions > 1">
       <button class="outline" @click="previousQuestion" :disabled="counter === 0">
         {{ t('common.previous') }}
       </button>
-      <button
-        class="outline"
-        @click="nextQuestion"
-        :disabled="counter >= props.answer.quiz_questions.length - 1"
-      >
+      <button class="outline" @click="nextQuestion" :disabled="counter >= totalQuestions - 1">
         {{ t('common.next') }}
       </button>
-    </div>
+    </nav>
     <hr />
     <button class="contraste" @click="handelSubmit" v-if="atLeastAnswred">
       {{ t('common.submit') }}
