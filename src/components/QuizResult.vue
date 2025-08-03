@@ -83,7 +83,7 @@ const scoreUser = computed(() => {
     </li>
   </ul>
   <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
-  <section class="">
+  <section class="d-none">
     <code class="visually-hiddenv">
       <pre><code>{{ quizResult }}</code></pre>
       <small

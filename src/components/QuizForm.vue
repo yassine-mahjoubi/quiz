@@ -66,7 +66,6 @@ const handleInput = () => {
     }}</small>
   </fieldset>
   <div class="grid">
-    <p>props.loading{{ props.loading }}</p>
     <fieldset :disabled="props.loading">
       <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
       <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">

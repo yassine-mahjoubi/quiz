@@ -108,7 +108,7 @@ const handleNewQuiz = () => {
       <quiz-form v-if="showQuizForm" @user-question="handleGenerateQuiz" :loading="loading" />
     </section>
     <hr />
-    <section>
+    <section class="d-none">
       <details name="api" v-if="answer">
         <summary role="button" class="outline secondary">
           show the API generated for the quiz

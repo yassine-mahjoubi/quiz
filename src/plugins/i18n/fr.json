@@ -41,6 +41,7 @@
   "quiz": {
     "questionProgress": "Question {current} of {total}",
     "statusQuestion": "{answred} question(s) répondu sur {total}",
+    "progress": "Progression du quiz",
 
     "score": "Score : {score}",
     "answer": {

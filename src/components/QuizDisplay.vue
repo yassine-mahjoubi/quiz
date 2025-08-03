@@ -5,7 +5,7 @@ const { t } = useI18n()
 import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
 import type { quizResponse } from '../type/Type'
-import { computed, ref } from 'vue'
+import { computed, ref, nextTick } from 'vue'
 
 const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
 const emit = defineEmits<{
@@ -26,11 +26,18 @@ defineExpose({
 
 const nextQuestion = () => {
   counter.value++
+  nextTick(() => {
+    setFocus()
+  })
 }
 
 const previousQuestion = () => {
   counter.value--
+  nextTick(() => {
+    setFocus()
+  })
 }
+
 const totalQuestions = computed(() => props.answer.quiz_questions.length)
 const atLeastAnswred = computed(() => {
   return props.userAnswers.some((value) => value !== null)
@@ -56,19 +63,25 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 </script>
 
 <template>
+  <label for="progressBar">{{ t('quiz.progress') }}</label>
   <progress-bar
     :progress-type="true"
     :completed-steps="currentQuestion"
     :total-steps="totalQuestions"
+    id="progressBar"
   />
-  <p>
-    {{ t('quiz.statusQuestion', { answred: questionAnswred, total: totalQuestions }) }}
-  </p>
 
-  <div ref="quizWrapper" tabindex="-1" aria-live="polite">
-    <p v-if="answer">
+  <section v-if="answer" aria-live="polite" aria-atomic="true">
+    <p>
       {{ t('quiz.questionProgress', { current: currentQuestion, total: totalQuestions }) }}
     </p>
+
+    <p>
+      {{ t('quiz.statusQuestion', { answred: questionAnswred, total: totalQuestions }) }}
+    </p>
+  </section>
+
+  <div ref="quizWrapper" tabindex="-1">
     <quiz-question
       @answer-selected="handelAnswer"
       :question="props.answer.quiz_questions[counter]"
