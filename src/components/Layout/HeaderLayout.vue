@@ -14,16 +14,26 @@ const handelUpdateScreen = (lang: string) => {
 }
 </script>
 <template>
-  <header class="container">
-    <nav>
-      <ul>
-        <li>
-          <h1>{{ t('quizForm.title') }}</h1>
-        </li>
-      </ul>
-      <ul>
-        <li><switch-language @language-changed="handelUpdateScreen" /></li>
-      </ul>
-    </nav>
+  <header class="container custom-header">
+    <div>
+      <h1>{{ t('quizForm.title') }}</h1>
+    </div>
+    <div>
+      <switch-language @language-changed="handelUpdateScreen" />
+    </div>
   </header>
 </template>
+<style lang="scss">
+.custom-header {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+</style>

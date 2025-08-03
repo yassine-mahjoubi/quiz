@@ -41,15 +41,15 @@ const scoreUser = computed(() => {
 </script>
 
 <template>
-  <h2>{{ t('quiz.score', { score: scoreUser }) }} sur 100%</h2>
+  <h2>{{ t('quiz.score', { score: scoreUser }) }} / 100%</h2>
 
   <ul>
     <li v-for="result in quizResult" :key="result.questionText">
       <article>
-        <header>{{ result.questionText }}</header>
+        <header>Question: {{ result.questionText }}</header>
         <ul>
           <li v-for="(choice, index) in result.choices" :key="choice">
-            <span
+            <p
               :class="
                 result.userAnswer == index && result.isCorrect
                   ? 'valide'
@@ -59,20 +59,32 @@ const scoreUser = computed(() => {
                       ? 'valide'
                       : ''
               "
-              >{{ choice }}</span
+              :aria-label="
+                result.userAnswer == index && result.isCorrect
+                  ? t('quiz.answer.good')
+                  : result.userAnswer == index && !result.isCorrect
+                    ? t('quiz.answer.bad')
+                    : result.correctAnswer == index
+                      ? t('quiz.answer.good')
+                      : ''
+              "
             >
+              {{ choice }}
+            </p>
           </li>
         </ul>
         <footer>
-          <p v-if="result.userAnswerText">{{ result.isCorrect ? 'Bonne' : 'Mauvaise' }} réponse</p>
-          <p v-else>Question non répondu !</p>
+          <p v-if="result.userAnswerText">
+            {{ result.isCorrect ? t('quiz.answer.good') : t('quiz.answer.bad') }}
+          </p>
+          <p v-else>{{ t('quiz.answer.skiped') }}</p>
         </footer>
       </article>
     </li>
   </ul>
   <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
-  <section class="">
-    <code class="visually-hidden">
+  <section class="d-none">
+    <code class="visually-hiddenv">
       <pre><code>{{ quizResult }}</code></pre>
       <small
         >Score: {{ quizResult.filter((r) => r.isCorrect).length }} /

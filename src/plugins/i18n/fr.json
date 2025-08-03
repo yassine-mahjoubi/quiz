@@ -13,6 +13,7 @@
     "restart": "Recommencer le Quiz",
     "lang_choice": "choisir la langue",
     "language": "Français",
+    "change_immidiate": "Le changement de la langue s'applique immédiatement",
 
     "languages_choice_label": {
       "fr": "choisir Français",
@@ -31,11 +32,23 @@
       "easy": "Facile",
       "medium": "Moyen",
       "hard": "Difficile"
+    },
+    "field": {
+      "requiered": "Les champs obligatoires sont marqués d'un astérisque (*) et doivent être remplis pour générer le quiz",
+      "error": "Le champ obligatoire doit être un texte valide et non vide"
     }
   },
   "quiz": {
-    "questionProgress": "Question {current} sur {total}",
-    "score": "Score : {score}"
+    "questionProgress": "Question {current} of {total}",
+    "statusQuestion": "{answred} question(s) répondu sur {total}",
+    "progress": "Progression du quiz",
+
+    "score": "Score : {score}",
+    "answer": {
+      "good": "Bonne réponse",
+      "bad": "mauvaise réponse",
+      "skiped": "question non répondu"
+    }
   },
   "results": {
     "title": "Résultats",

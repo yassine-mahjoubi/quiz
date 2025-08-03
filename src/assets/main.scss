@@ -3,7 +3,8 @@
 );
 
 /**utilities for rgaa*/
-.visually-hidden {
+.visually-hidden,
+.sr-only {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important;
   -webkit-clip-path: inset(50%) !important;
@@ -14,4 +15,7 @@
   position: absolute !important;
   width: 1px !important;
   white-space: nowrap !important;
+}
+.d-none {
+  display: none;
 }
