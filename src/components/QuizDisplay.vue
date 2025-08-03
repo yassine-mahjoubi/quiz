@@ -56,7 +56,7 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 <template>
   <progress-bar
     :progress-type="true"
-    :completed-steps="questionAnswred"
+    :completed-steps="counter"
     :total-steps="answer.quiz_questions.length"
   />
 

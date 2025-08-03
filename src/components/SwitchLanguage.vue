@@ -15,7 +15,9 @@ const handleLanguageChange = (event: Event): void => {
 </script>
 
 <template>
-  <label for="locale-switch">{{ t('common.lang_choice') }}</label>
+  <label for="locale-switch" aria-labelledby="language-selector-helper">{{
+    t('common.lang_choice')
+  }}</label>
   <select :value="locale" @change="handleLanguageChange" id="locale-switch">
     <option
       v-for="lang in languageOptions"
@@ -27,4 +29,7 @@ const handleLanguageChange = (event: Event): void => {
       {{ lang.display }}
     </option>
   </select>
+  <p class="sr-only">
+    {{ t('common.change_immidiate') }}
+  </p>
 </template>

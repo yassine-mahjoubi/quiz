@@ -13,6 +13,7 @@
     "restart": "Recommencer le Quiz",
     "lang_choice": "choisir la langue",
     "language": "Français",
+    "change_immidiate": "Le changement de la langue s'applique immédiatement",
 
     "languages_choice_label": {
       "fr": "choisir Français",

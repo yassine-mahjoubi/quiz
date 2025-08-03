@@ -17,14 +17,6 @@ const emit = defineEmits<{
 
 const onSelectChoice = (answerIndex: number) => {
   emit('answer-selected', props.questionIndex, answerIndex)
-  console.log(
-    "J'ai cliqué sur le choix:",
-    answerIndex,
-    'pour la question:',
-    props.questionIndex,
-    'sachant que la bonne reponse est :',
-    props.question.correct_answer_index,
-  )
 }
 </script>
 

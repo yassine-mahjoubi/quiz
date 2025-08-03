@@ -13,6 +13,8 @@
     "restart": "Restart Quiz",
     "lang_choice": "select language",
     "language": "English",
+    "change_immidiate": "The language change is applied immediately",
+
     "languages_choice_label": {
       "fr": "choisir Français",
       "en": "choose English"
