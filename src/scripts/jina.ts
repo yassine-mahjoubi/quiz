@@ -8,13 +8,22 @@ const jina = 'https://r.jina.ai/'
  */
 export async function fetchCententFromUrl(urlToAnalyse: string): Promise<string> {
   const url = jina + urlToAnalyse
-  console.log('url', url)
   try {
     const response = await fetch(url, {
       headers: {
         Authorization: apiKey,
       },
     })
+    if (!response.ok) {
+      // try to lire le corps de l'erreur en JSON
+      const errorDetails = await response.json()
+      console.error(
+        `Erreur de l'API Jina : ${response.status} ${response.statusText}`,
+        errorDetails,
+      )
+      throw new Error(`L'authentification avec Jina a échoué. Clé API invalide ou manquante.`)
+    }
+
     const content = await response.text()
     return content
   } catch (error) {
