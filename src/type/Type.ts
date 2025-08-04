@@ -1,5 +1,3 @@
-//response?.candidates?.[0].content?.parts?.[0]
-
 type ApiText = {
   text?: string
 }
@@ -31,5 +29,4 @@ interface quizResponse {
 
 type invalid = boolean | undefined
 
-// Exporting types for use in other parts of the application
 export type { invalid, quizResponse, Question, ApiText, ApiContent, ApiCandidate, ApiResponse }

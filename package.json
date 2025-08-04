@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@google/genai": "^1.8.0",
+    "@google/genai": "^1.12.0",
     "@picocss/pico": "^2.1.1",
     "pinia": "^3.0.3",
     "slugify": "^1.6.6",
