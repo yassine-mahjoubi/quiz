@@ -37,9 +37,8 @@ jobs:
 
       - name: Build application
         env:
-          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_JINA_API_KEY: ${{ secrets.VITE_JINA_API_KEY }}
-
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_APP_NAME: 'Quiz RGAA'
         run: |
           npm run build-only
