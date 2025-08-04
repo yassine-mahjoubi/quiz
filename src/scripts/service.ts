@@ -23,6 +23,7 @@ try {
 }
 
 const ai = new GoogleGenAI({ apiKey: apiKey })
+
 export async function generateQuiz(
   yourQuestion: string,
   level: string,
