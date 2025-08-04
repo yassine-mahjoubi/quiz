@@ -50,7 +50,7 @@ export const quizGeneratorTool = {
   function_declarations: [
     {
       name: 'generateur_de_quiz',
-      description: 'quiz multilangue',
+      description: 'quiz generator',
       parameters: schema,
     },
   ],

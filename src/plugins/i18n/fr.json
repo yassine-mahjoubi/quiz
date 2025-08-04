@@ -24,6 +24,7 @@
   "quizForm": {
     "title": "Générateur de Quiz",
     "subject": "Votre sujet",
+    "url": "Votre url",
     "numQuestionsLabel": "Nombre de questions :",
     "categoryLabel": "Catégorie :",
     "difficultyLabel": "Choisir la difficulté :",

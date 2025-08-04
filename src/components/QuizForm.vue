@@ -7,6 +7,7 @@ const { t } = useI18n()
 const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
 const numberQuestions = ref<5 | 10 | 15>(5)
 const yourQuestion = ref<string>('')
+const url = ref<string>('https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/')
 const yourQuestion_input = ref<HTMLInputElement | null>(null)
 const hasBeenTouched = ref<boolean>(false)
 
@@ -16,6 +17,7 @@ const emit = defineEmits<{
       question: string
       difficulty: 'Facile' | 'Moyen' | 'Difficile'
       numberQuestions: 5 | 10 | 15
+      url: string
     },
   ]
 }>()
@@ -38,6 +40,7 @@ const handleInput = () => {
       question: yourQuestion.value,
       difficulty: difficulty.value,
       numberQuestions: numberQuestions.value,
+      url: url.value,
     })
   }
   yourQuestion.value = ''
@@ -49,6 +52,16 @@ const handleInput = () => {
   <fieldset :disabled="props.loading">
     <small>{{ t('quizForm.field.requiered') }}</small>
     <hr />
+    <label for="urlInput">{{ t('quizForm.url') }}</label>
+    <input
+      type="url"
+      :value="url"
+      name="urlInput"
+      id="urlInput"
+      ref="url_input_ref"
+      aria-labelledby="url-info"
+    />
+    <small id="url-info">exemple d'une url valide: http://exemple.com</small>
     <label for="youQuestion"> {{ t('quizForm.subject') }} : {{ yourQuestion }} *</label>
     <input
       type="text"
