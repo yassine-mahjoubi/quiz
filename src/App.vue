@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, watch } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import { generateQuiz } from './scripts/service'
 import type { quizResponse } from './type/Type'
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
@@ -10,7 +10,7 @@ import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
 const { t, locale } = useI18n()
-const answer = ref<quizResponse | null>(null)
+const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
@@ -31,7 +31,6 @@ const handleGenerateQuiz = async (payload: {
   url: string
 }) => {
   loading.value = true
-
   try {
     const { text, context } = await generateQuiz(
       payload.question,
@@ -43,6 +42,7 @@ const handleGenerateQuiz = async (payload: {
     answer.value = <quizResponse>JSON.parse(text)
     contexte.value = context
     console.warn('Quiz generated successfully sur: ', payload.question)
+
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
     userAnswers.value = answer.value.quiz_questions.map(() => null)

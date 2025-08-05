@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
-import { ref, computed } from 'vue'
+import { ref, computed, useTemplateRef } from 'vue'
 const { t } = useI18n()
 
 const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
 const numberQuestions = ref<5 | 10 | 15>(5)
 const yourQuestion = ref<string>('')
 const url = ref<string>('https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/')
-const yourQuestion_input = ref<HTMLInputElement | null>(null)
+const yourQuestion_input = useTemplateRef<HTMLInputElement>('yourQuestion_input')
 const hasBeenTouched = ref<boolean>(false)
 
 const emit = defineEmits<{
@@ -52,10 +52,10 @@ const handleInput = () => {
   <fieldset :disabled="props.loading">
     <small>{{ t('quizForm.field.requiered') }}</small>
     <hr />
-    <label for="urlInput">{{ t('quizForm.url') }}</label>
+    <label for="urlInput">{{ t('quizForm.url') }}:::{{ url }}</label>
     <input
       type="url"
-      :value="url"
+      v-model="url"
       name="urlInput"
       id="urlInput"
       ref="url_input_ref"
