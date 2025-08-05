@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref, shallowRef, watch } from 'vue'
 import { generateQuiz } from './scripts/service'
+import { getDuration } from './utils/timeduration'
 import type { quizResponse } from './type/Type'
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
@@ -23,6 +24,7 @@ const showResultQuiz = ref<boolean>(false)
 const showQuizForm = ref<boolean>(true)
 const showQuizDisplay = ref<boolean>(false)
 const contexte = ref<string>('')
+const quizTimeDuration = ref<number>(0)
 
 const handleGenerateQuiz = async (payload: {
   question: string
@@ -31,6 +33,7 @@ const handleGenerateQuiz = async (payload: {
   url: string
 }) => {
   loading.value = true
+  const quizDurationGeneration = Date.now()
   try {
     const { text, context } = await generateQuiz(
       payload.question,
@@ -42,7 +45,6 @@ const handleGenerateQuiz = async (payload: {
     answer.value = <quizResponse>JSON.parse(text)
     contexte.value = context
     console.warn('Quiz generated successfully sur: ', payload.question)
-
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
     userAnswers.value = answer.value.quiz_questions.map(() => null)
@@ -57,6 +59,7 @@ const handleGenerateQuiz = async (payload: {
     console.error('Error generating quiz:', error)
   } finally {
     loading.value = false
+    quizTimeDuration.value = getDuration(quizDurationGeneration)
   }
 }
 
@@ -103,6 +106,7 @@ const handleNewQuiz = () => {
         v-if="answer && showQuizDisplay"
         :answer="answer"
         :userAnswers="userAnswers"
+        :duration="quizTimeDuration"
         @answer-selected="handleAnswerSelected"
         @answer-submit="handleAnswerSubmit"
         ref="quizWrapper"

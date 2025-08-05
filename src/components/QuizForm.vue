@@ -52,7 +52,7 @@ const handleInput = () => {
   <fieldset :disabled="props.loading">
     <small>{{ t('quizForm.field.requiered') }}</small>
     <hr />
-    <label for="urlInput">{{ t('quizForm.url') }}:::{{ url }}</label>
+    <label for="urlInput">{{ t('quizForm.url') }}</label>
     <input
       type="url"
       v-model="url"

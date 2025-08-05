@@ -48,7 +48,8 @@
       "good": "correct answer",
       "bad": "bad answer",
       "skiped": "question not answred"
-    }
+    },
+    "duration": "Quiz generated on: {time}"
   },
   "results": {
     "title": "Results",
