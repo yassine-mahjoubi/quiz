@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { ref, shallowRef, watch } from 'vue'
+
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
+
 import type { quizResponse } from './type/Type'
+
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
