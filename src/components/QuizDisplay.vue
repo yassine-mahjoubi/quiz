@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
-
+import { formatDurationToSeconds } from '../utils/timeduration'
 import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
 import type { quizResponse } from '../type/Type'
 import { computed, ref, nextTick } from 'vue'
 
-const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
+const props = defineProps<{
+  answer: quizResponse
+  userAnswers: (number | null)[]
+  duration: number
+}>()
 const emit = defineEmits<{
   'answer-selected': [indexQuestion: number, indexUserNewChoice: number]
   'answer-submit': [isCompleted: boolean]
@@ -16,6 +20,7 @@ const emit = defineEmits<{
 const quizWrapper = ref<HTMLDivElement | null>(null)
 const counter = ref<number>(0)
 const isCompleted = ref<boolean>(false)
+const quizDuration = computed(() => formatDurationToSeconds(props.duration))
 const setFocus = () => {
   quizWrapper.value?.focus()
 }
@@ -63,6 +68,7 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 </script>
 
 <template>
+  <h2>{{ t('quiz.duration', { time: quizDuration }) }}</h2>
   <label for="progressBar">{{ t('quiz.progress') }}</label>
   <progress-bar
     :progress-type="true"
