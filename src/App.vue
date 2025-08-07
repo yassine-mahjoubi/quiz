@@ -121,7 +121,7 @@ const handleNewQuiz = () => {
       />
     </section>
     <section>
-      <p v-if="infosQuiz">infosQuiz: {{ t(infosQuiz) }}</p>
+      <p v-if="infosQuiz">{{ t(infosQuiz) }}</p>
       <quiz-display
         v-if="answer && showQuizDisplay"
         :answer="answer"
