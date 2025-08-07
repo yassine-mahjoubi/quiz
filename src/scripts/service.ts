@@ -17,7 +17,7 @@ import ai from './gemini.ts'
  * @param {number} numberQuestion - nombre de questions peut être 5|10|15 par défault 5
  * @param {string} locale - la langue de l'user fr|eng
  * @param {string} url - optionel par default url sur les criteres d'rgaa,
- * @returns {Promise<{text: string, context: string }>} object contenant le contexte génére par JINA et text généré par gemini
+ * @returns {Promise<{text: string, context: string, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
  */
 export async function generateQuiz(
   yourQuestion: string,
@@ -25,32 +25,50 @@ export async function generateQuiz(
   numberQuestion: number,
   locale: string,
   url: string,
-): Promise<{ text: string; context: string }> {
-  const context = await fetchCententFromUrl(url || urlToFetch)
-  if (!context) {
-    throw new Error("La réponse de l'API JINA était vide.")
-  }
-  const finalPrompt = `en te basant uniquement sur le context suivant:
+): Promise<{ text: string; context: string; messageKey: string }> {
+  let contextOK = ''
+  let messageKey = ''
+  let context = ''
+  let text: string = ''
+
+  try {
+    const fetchContent = await fetchCententFromUrl(url || urlToFetch)
+    if (fetchContent) {
+      context = fetchContent
+      messageKey = 'quiz.generated.withUrl'
+      contextOK = `en te basant uniquement sur le context suivant:
   ---
   ${context}
-  ---
-  crée un quiz en ${locale == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${yourQuestion}  `
-
-  const response = <ApiResponse>await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
-    contents: finalPrompt,
-    config: {
-      responseMimeType: 'application/json',
-      responseSchema: schema,
-    },
-  })
-  const parts = response?.candidates?.[0].content?.parts?.[0]
-  const text = parts?.text
-  // check the response
-  if (!text) {
-    // On peut créer notre propre erreur pour la gérer dans le catch.
-    throw new Error("La réponse de l'API était vide.")
+  ---`
+    } else {
+      throw new Error("Le contenu récupéré depuis l'URL est vide.")
+    }
+  } catch (error) {
+    console.error("Impossible de récupérer le contenu de l'URL:", error)
+    messageKey = 'quiz.generated.withFallback'
   }
 
-  return { text, context }
+  const finalPrompt = `${contextOK}
+  crée un quiz en ${locale == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${yourQuestion}  `
+
+  try {
+    const response = <ApiResponse>await ai.models.generateContent({
+      model: 'gemini-2.5-flashkkk',
+      contents: finalPrompt,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: schema,
+      },
+    })
+    const parts = response?.candidates?.[0].content?.parts?.[0]
+    text = parts?.text ?? ''
+    if (!text) {
+      messageKey = 'quiz.error.generationFailed'
+    }
+  } catch (error) {
+    console.log(error)
+    messageKey = 'quiz.error.generationFailed'
+    text = ''
+  }
+  return { text, context, messageKey }
 }

@@ -15,13 +15,12 @@ export async function fetchCententFromUrl(urlToAnalyse: string): Promise<string>
       },
     })
     if (!response.ok) {
-      // try to lire le corps de l'erreur en JSON
-      const errorDetails = await response.json()
+      const errorDetails: object = await response.json()
       console.error(
         `Erreur de l'API Jina : ${response.status} ${response.statusText}`,
         errorDetails,
       )
-      throw new Error(`L'authentification avec Jina a échoué. Clé API invalide ou manquante.`)
+      throw errorDetails
     }
 
     const content = await response.text()

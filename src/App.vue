@@ -28,6 +28,7 @@ const showQuizForm = ref<boolean>(true)
 const showQuizDisplay = ref<boolean>(false)
 const contexte = ref<string>('')
 const quizTimeDuration = ref<number>(0)
+const infosQuiz = ref<string>('')
 
 const handleGenerateQuiz = async (payload: {
   question: string
@@ -37,29 +38,44 @@ const handleGenerateQuiz = async (payload: {
 }) => {
   loading.value = true
   const quizDurationGeneration = Date.now()
+  let messageKey = ''
   try {
-    const { text, context } = await generateQuiz(
+    const {
+      text,
+      context,
+      messageKey: serviceMessageKey,
+    } = await generateQuiz(
       payload.question,
       payload.difficulty,
       payload.numberQuestions,
       locale.value,
       payload.url,
     )
-    answer.value = <quizResponse>JSON.parse(text)
-    contexte.value = context
-    console.warn('Quiz generated successfully sur: ', payload.question)
-    showUserAnswers.value = answer.value.quiz_questions.map(() => false)
-    isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
-    userAnswers.value = answer.value.quiz_questions.map(() => null)
-    hasBeenTouched.value = false
-    totalQuestion.value = answer.value.quiz_questions.length
-    showQuizForm.value = false
-    showQuizDisplay.value = true
-    if (quizWrapper.value) {
-      quizWrapper.value?.setFocus()
+    messageKey = serviceMessageKey
+    if (text) {
+      answer.value = <quizResponse>JSON.parse(text)
+      console.warn('Quiz generated successfully sur: ', payload.question)
+      showUserAnswers.value = answer.value.quiz_questions.map(() => false)
+      isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
+      userAnswers.value = answer.value.quiz_questions.map(() => null)
+      hasBeenTouched.value = false
+      totalQuestion.value = answer.value.quiz_questions.length
+      showQuizForm.value = false
+      showQuizDisplay.value = true
+      infosQuiz.value = messageKey
+      if (contexte.value) {
+        contexte.value = context
+      }
+
+      if (quizWrapper.value) {
+        quizWrapper.value?.setFocus()
+      }
+    } else {
+      infosQuiz.value = messageKey
     }
   } catch (error) {
     console.error('Error generating quiz:', error)
+    infosQuiz.value = messageKey
   } finally {
     loading.value = false
     quizTimeDuration.value = getDuration(quizDurationGeneration)
@@ -105,6 +121,7 @@ const handleNewQuiz = () => {
       />
     </section>
     <section>
+      <p v-if="infosQuiz">infosQuiz: {{ t(infosQuiz) }}</p>
       <quiz-display
         v-if="answer && showQuizDisplay"
         :answer="answer"

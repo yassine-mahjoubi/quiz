@@ -21,6 +21,12 @@
     },
     "language_changed_announcement": "The page is now in English"
   },
+  "concept": {
+    "title": "Welcome to our intelligent quiz generator!",
+    "main": "For a quiz perfectly tailored to an article or document, simply provide its URL. When you do, we use the Jina AI API (jina.ai/reader) to analyze its content. Then, our AI, Google Gemini (ai.google.dev), creates questions based exclusively on that information for maximum relevance. If you leave the URL field empty, or if the address is inaccessible, no worries! Google Gemini automatically switches to its own knowledge base to generate a high-quality quiz on the requested topic.",
+    "link": "➡️ Curious about how it works in detail?",
+    "linkAction": "Discover the technical process here"
+  },
   "quizForm": {
     "title": "Quiz Generator",
     "subject": "Your subject",
@@ -49,7 +55,14 @@
       "bad": "bad answer",
       "skiped": "question not answred"
     },
-    "duration": "Quiz generated on: {time}"
+    "duration": "Quiz generated on: {time}",
+    "generated": {
+      "withUrl": "The quiz was successfully generated from the URL.",
+      "withFallback": "The quiz was successfully generated! The provided URL could not be used, so it's based on the AI's general knowledge."
+    },
+    "error": {
+      "generationFailed": "Sorry, an error occurred while creating the quiz. Please try again."
+    }
   },
   "results": {
     "title": "Results",
