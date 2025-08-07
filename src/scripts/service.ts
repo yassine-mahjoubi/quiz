@@ -53,7 +53,7 @@ export async function generateQuiz(
 
   try {
     const response = <ApiResponse>await ai.models.generateContent({
-      model: 'gemini-2.5-flashkkk',
+      model: 'gemini-2.5-flash',
       contents: finalPrompt,
       config: {
         responseMimeType: 'application/json',
