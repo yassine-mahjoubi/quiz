@@ -6,13 +6,107 @@ import { schema } from './quizGeneratorTool.ts'
 
 // Import Jina reader API
 import { fetchCententFromUrl } from './jina.ts'
-const urlToFetch = 'https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/'
+const urlToFetch: string = ''
 // Import Gemini LLM
 import ai from './gemini.ts'
 
 /**
+ *
+ * @param context
+ * @returns
+ */
+const promptContext = (context: string): string => {
+  return context
+    ? `en te basant uniquement sur le context suivant:
+  ---
+  ${context}
+  ---`
+    : ''
+}
+/**
+ *
+ * @param url
+ * @returns
+ */
+const fetchContext = async (url: string): Promise<string | null> => {
+  let result: string | null = ''
+
+  try {
+    const response = await fetchCententFromUrl(url || urlToFetch)
+    if (response) {
+      result = promptContext(response)
+    } else {
+      result = null
+      throw new Error("Le contenu récupéré depuis l'URL est vide.")
+    }
+  } catch (error) {
+    console.error("Impossible de récupérer le contenu de l'URL:", error)
+  }
+  return result
+}
+/**
+ *
+ * @param context
+ * @param lang
+ * @param numberQuestion
+ * @param level
+ * @param question
+ * @returns
+ */
+const prompt = (
+  context: string | null,
+  lang: string,
+  numberQuestion: number,
+  level: string,
+  question: string,
+): string => {
+  return `${context ? context : ''}
+  crée un quiz en ${lang == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${question}  `
+}
+/**
+ *
+ * @param promptUser
+ * @returns
+ */
+const fetchText = async (promptUser: string): Promise<string> => {
+  let textContent: string = ''
+  try {
+    const response = <ApiResponse>await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: promptUser,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: schema,
+      },
+    })
+    const parts = response?.candidates?.[0].content?.parts?.[0]
+    textContent = parts?.text ?? ''
+  } catch (error) {
+    console.log(error)
+    textContent = ''
+  }
+  return textContent
+}
+/**
+ *
+ * @param text
+ * @param context
+ * @returns
+ */
+const handleMessageKey = (text: string, context: string | null): string => {
+  if (!text) {
+    return 'quiz.generated.generationFailed'
+  }
+  if (context) {
+    return 'quiz.generated.withUrl'
+  }
+
+  return 'quiz.generated.withFallback'
+}
+
+/**
  * generateQuiz: crée un quiz en se basant sur url fourni ( le contexte) et la question avec des options
- * @param  {string} yourQuestion - input obligatoire, la question
+ * @param  {string} question - la question de l'user
  * @param {string} level - peut être facile|moyen|déficile par défaut facile
  * @param {number} numberQuestion - nombre de questions peut être 5|10|15 par défault 5
  * @param {string} locale - la langue de l'user fr|eng
@@ -20,55 +114,19 @@ import ai from './gemini.ts'
  * @returns {Promise<{text: string, context: string, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
  */
 export async function generateQuiz(
-  yourQuestion: string,
+  question: string,
   level: string,
   numberQuestion: number,
-  locale: string,
+  lang: string,
   url: string,
-): Promise<{ text: string; context: string; messageKey: string }> {
-  let contextOK = ''
-  let messageKey = ''
-  let context = ''
-  let text: string = ''
+): Promise<{ text: string; context: string | null; messageKey: string }> {
+  const context = await fetchContext(url)
 
-  try {
-    const fetchContent = await fetchCententFromUrl(url || urlToFetch)
-    if (fetchContent) {
-      context = fetchContent
-      messageKey = 'quiz.generated.withUrl'
-      contextOK = `en te basant uniquement sur le context suivant:
-  ---
-  ${context}
-  ---`
-    } else {
-      throw new Error("Le contenu récupéré depuis l'URL est vide.")
-    }
-  } catch (error) {
-    console.error("Impossible de récupérer le contenu de l'URL:", error)
-    messageKey = 'quiz.generated.withFallback'
-  }
+  const promptUser = prompt(context, lang, numberQuestion, level, question)
 
-  const finalPrompt = `${contextOK}
-  crée un quiz en ${locale == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${yourQuestion}  `
+  const text = await fetchText(promptUser)
 
-  try {
-    const response = <ApiResponse>await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: finalPrompt,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: schema,
-      },
-    })
-    const parts = response?.candidates?.[0].content?.parts?.[0]
-    text = parts?.text ?? ''
-    if (!text) {
-      messageKey = 'quiz.error.generationFailed'
-    }
-  } catch (error) {
-    console.log(error)
-    messageKey = 'quiz.error.generationFailed'
-    text = ''
-  }
+  const messageKey = handleMessageKey(text, context)
+
   return { text, context, messageKey }
 }
