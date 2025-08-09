@@ -23,6 +23,7 @@ const promptContext = (context: string): string => {
   ---`
     : ''
 }
+
 /**
  *
  * @param url
@@ -44,6 +45,7 @@ const fetchContext = async (url: string): Promise<string | null> => {
   }
   return result
 }
+
 /**
  *
  * @param context
@@ -63,6 +65,7 @@ const prompt = (
   return `${context ? context : ''}
   crée un quiz en ${lang == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${question}  `
 }
+
 /**
  *
  * @param promptUser
@@ -87,21 +90,30 @@ const fetchText = async (promptUser: string): Promise<string> => {
   }
   return textContent
 }
+
 /**
- *
- * @param text
- * @param context
- * @returns
+ * Clés des messages pour les différents états de génération de quiz
+ * @readonly
+ */
+const MESSAGE_KEY = {
+  /** Message d'erreur quand la génération échoue */
+  ERROR: 'quiz.generated.generationFailed',
+  /** Message de succès quand une URL est utilisée */
+  WITH_URL: 'quiz.generated.withUrl',
+  /** Message de succès en mode fallback (sans URL) */
+  WITH_FALLBACK: 'quiz.generated.withFallback',
+} as const
+
+/**
+ * Détermine la clé de message appropriée selon le résultat de génération
+ * @param {string} text - Le texte généré (vide si échec)
+ * @param {string|null} context - Le contexte URL utilisé (null si fallback)
+ * @returns {string} La clé de message correspondante
  */
 const handleMessageKey = (text: string, context: string | null): string => {
-  if (!text) {
-    return 'quiz.generated.generationFailed'
-  }
-  if (context) {
-    return 'quiz.generated.withUrl'
-  }
-
-  return 'quiz.generated.withFallback'
+  if (!text) return MESSAGE_KEY.ERROR
+  if (context) return MESSAGE_KEY.WITH_URL
+  return MESSAGE_KEY.WITH_FALLBACK
 }
 
 /**
@@ -109,7 +121,7 @@ const handleMessageKey = (text: string, context: string | null): string => {
  * @param  {string} question - la question de l'user
  * @param {string} level - peut être facile|moyen|déficile par défaut facile
  * @param {number} numberQuestion - nombre de questions peut être 5|10|15 par défault 5
- * @param {string} locale - la langue de l'user fr|eng
+ * @param {string} lang - la langue de l'user fr|eng
  * @param {string} url - optionel par default url sur les criteres d'rgaa,
  * @returns {Promise<{text: string, context: string, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
  */
