@@ -40,6 +40,10 @@
       "medium": "Medium",
       "hard": "Hard"
     },
+    "enableContext": {
+      "label": "Limit to a URL",
+      "helper": "The quiz will be created using only the content of the provided web address."
+    },
     "field": {
       "requiered": "Required fields are marked with an asterisk (*) and must be filled in to generate the quiz",
       "error": "Required field must be valid text and not empty"
@@ -58,6 +62,7 @@
     "duration": "Quiz generated on: {time}",
     "generated": {
       "withUrl": "The quiz was successfully generated from the URL.",
+      "withoutUrl": "The quiz was successfully generated.",
       "withFallback": "The quiz was successfully generated! The provided URL could not be used, so it's based on the AI's general knowledge."
     },
     "error": {

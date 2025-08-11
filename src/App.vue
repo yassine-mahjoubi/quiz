@@ -35,6 +35,7 @@ const handleGenerateQuiz = async (payload: {
   difficulty: 'Facile' | 'Moyen' | 'Difficile'
   numberQuestions: 5 | 10 | 15
   url: string
+  contextEnabled: boolean
 }) => {
   loading.value = true
   const quizDurationGeneration = Date.now()
@@ -50,6 +51,7 @@ const handleGenerateQuiz = async (payload: {
       payload.numberQuestions,
       locale.value,
       payload.url,
+      payload.contextEnabled,
     )
     messageKey = serviceMessageKey
     if (text) {
@@ -102,6 +104,7 @@ const handleAnswerSelected = (indexQuestion: number, indexUserNewChoice: number)
 const handleNewQuiz = () => {
   showQuizForm.value = true
   showResultQuiz.value = false
+  infosQuiz.value = ''
 }
 </script>
 

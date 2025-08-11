@@ -100,7 +100,9 @@ const MESSAGE_KEY = {
   ERROR: 'quiz.generated.generationFailed',
   /** Message de succès quand une URL est utilisée */
   WITH_URL: 'quiz.generated.withUrl',
-  /** Message de succès en mode fallback (sans URL) */
+  /** Message de succès sans le choix (sans URL) */
+  WITHOUT_URL: 'quiz.generated.withoutUrl',
+  /** Message de succès en mode fallback (URL fourni mais echec) */
   WITH_FALLBACK: 'quiz.generated.withFallback',
 } as const
 
@@ -110,9 +112,21 @@ const MESSAGE_KEY = {
  * @param {string|null} context - Le contexte URL utilisé (null si fallback)
  * @returns {string} La clé de message correspondante
  */
-const handleMessageKey = (text: string, context: string | null): string => {
+const handleMessageKey = (
+  text: string,
+  context: string | null,
+  contextEnabled: boolean,
+): string => {
+  // 1: case: echec global (gemini)
   if (!text) return MESSAGE_KEY.ERROR
+
+  // 2: case: success (gemini) without context choice
+  if (!contextEnabled) return MESSAGE_KEY.WITHOUT_URL
+
+  // 3: case: success global ( gemini et jina)
   if (context) return MESSAGE_KEY.WITH_URL
+
+  // 4: Case l'user voulait un contexte, mais ça a échoué (fallback)
   return MESSAGE_KEY.WITH_FALLBACK
 }
 
@@ -122,8 +136,9 @@ const handleMessageKey = (text: string, context: string | null): string => {
  * @param {string} level - peut être facile|moyen|déficile par défaut facile
  * @param {number} numberQuestion - nombre de questions peut être 5|10|15 par défault 5
  * @param {string} lang - la langue de l'user fr|eng
- * @param {string} url - optionel par default url sur les criteres d'rgaa,
- * @returns {Promise<{text: string, context: string, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
+ * @param {string} url - optionel par default disabled,
+ * @param {string} contextEnabled - optionnel par default false si activé alors url obligatoire,
+ * @returns {Promise<{text: string, context: string|null, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
  */
 export async function generateQuiz(
   question: string,
@@ -131,14 +146,18 @@ export async function generateQuiz(
   numberQuestion: number,
   lang: string,
   url: string,
+  contextEnabled: boolean,
 ): Promise<{ text: string; context: string | null; messageKey: string }> {
-  const context = await fetchContext(url)
+  let context = null
+  if (contextEnabled) {
+    context = await fetchContext(url)
+  }
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
 
   const text = await fetchText(promptUser)
 
-  const messageKey = handleMessageKey(text, context)
+  const messageKey = handleMessageKey(text, context, contextEnabled)
 
   return { text, context, messageKey }
 }
