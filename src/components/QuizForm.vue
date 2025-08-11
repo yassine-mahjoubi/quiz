@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-
 import { ref, computed, useTemplateRef } from 'vue'
-const { t } = useI18n()
 
+const { t } = useI18n()
 const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
 const numberQuestions = ref<5 | 10 | 15>(5)
 const yourQuestion = ref<string>('')
-const url = ref<string>('https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/')
+const url = ref<string>('')
+const url_input = useTemplateRef<HTMLInputElement>('url_input')
 const yourQuestion_input = useTemplateRef<HTMLInputElement>('yourQuestion_input')
+const enableContext = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
+const props = defineProps<{ loading: boolean }>()
 
 const emit = defineEmits<{
   'user-question': [
@@ -17,12 +19,12 @@ const emit = defineEmits<{
       question: string
       difficulty: 'Facile' | 'Moyen' | 'Difficile'
       numberQuestions: 5 | 10 | 15
+      contextEnabled: boolean
       url: string
     },
   ]
 }>()
 
-const props = defineProps<{ loading: boolean }>()
 const handleTextButton = computed(() => {
   return props.loading ? t('common.loading') : t('quizForm.generateButton')
 })
@@ -40,6 +42,7 @@ const handleInput = () => {
       question: yourQuestion.value,
       difficulty: difficulty.value,
       numberQuestions: numberQuestions.value,
+      contextEnabled: enableContext.value,
       url: url.value,
     })
   }
@@ -49,20 +52,37 @@ const handleInput = () => {
 </script>
 
 <template>
+  <fieldset>
+    <label for="enableContext">
+      <input
+        name="enableContext"
+        type="checkbox"
+        role="switch"
+        id="enableContext"
+        v-model="enableContext"
+        aria-labelledby="enable-selector-helper"
+      />
+      {{ t('quizForm.enableContext.label') }}
+      <p class="sr-only">
+        {{ t('quizForm.enableContext.helper') }}
+      </p>
+    </label>
+  </fieldset>
   <fieldset :disabled="props.loading">
     <small>{{ t('quizForm.field.requiered') }}</small>
     <hr />
-    <label for="urlInput">{{ t('quizForm.url') }}</label>
+    <label for="urlInput">{{ t('quizForm.url') }} *</label>
     <input
       type="url"
       v-model="url"
       name="urlInput"
       id="urlInput"
-      ref="url_input_ref"
+      ref="url_input"
+      :disabled="!enableContext"
       aria-labelledby="url-info"
     />
-    <small id="url-info">exemple d'une url valide: http://exemple.com</small>
-    <label for="youQuestion"> {{ t('quizForm.subject') }} : {{ yourQuestion }} *</label>
+    <small id="url-info"> exemple d'une url valide: http://exemple.com</small>
+    <label for="youQuestion"> {{ t('quizForm.subject') }} *: {{ yourQuestion }} </label>
     <input
       type="text"
       id="youQuestion"
