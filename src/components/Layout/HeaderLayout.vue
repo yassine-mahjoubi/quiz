@@ -16,7 +16,7 @@ const handelUpdateScreen = (lang: string) => {
 <template>
   <header class="container custom-header">
     <div>
-      <h1>{{ t('quizForm.title') }}</h1>
+      <p>{{ t('quizForm.title') }}</p>
     </div>
     <div>
       <switch-language @language-changed="handelUpdateScreen" />

@@ -14,7 +14,6 @@
     "lang_choice": "select language",
     "language": "English",
     "change_immidiate": "The language change is applied immediately",
-
     "languages_choice_label": {
       "fr": "choisir Français",
       "en": "choose English"
@@ -22,10 +21,10 @@
     "language_changed_announcement": "The page is now in English"
   },
   "concept": {
-    "title": "Welcome to our intelligent quiz generator!",
-    "main": "For a quiz perfectly tailored to an article or document, simply provide its URL. When you do, we use the Jina AI API (jina.ai/reader) to analyze its content. Then, our AI, Google Gemini (ai.google.dev), creates questions based exclusively on that information for maximum relevance. If you leave the URL field empty, or if the address is inaccessible, no worries! Google Gemini automatically switches to its own knowledge base to generate a high-quality quiz on the requested topic.",
-    "link": "➡️ Curious about how it works in detail?",
-    "linkAction": "Discover the technical process here"
+    "title": "Quiz Generator, with a hint of hallucination",
+    "intro": "The goal of this project is to explore the results of the RAG (Retrieval-Augmented Generation) principle.\nGive it a topic or a URL, and the AI will try to derive a quiz from it.\nKeep in mind, it's not perfect: errors or 'hallucinations' are possible!",
+    "techdetails_link": "Curious about the technical details?",
+    "techdetails_description": "Our goal is to let you benefit from 'Retrieval-Augmented Generation' (RAG) without being an expert. The principle: the AI is 'augmented' with the content you provide. Technically, the `flash` model from [Jina AI Reader](https://jina.ai/reader/) reads the URL and transforms it into clean Markdown optimized for AIs (LLM-Friendly). This text is then passed to [Google Gemini](https://ai.google.dev) which uses it as the single source of truth for the quiz. Without a URL, Gemini relies on its general knowledge."
   },
   "quizForm": {
     "title": "Quiz Generator",

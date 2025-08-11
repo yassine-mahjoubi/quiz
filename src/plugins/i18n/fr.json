@@ -14,7 +14,6 @@
     "lang_choice": "choisir la langue",
     "language": "Français",
     "change_immidiate": "Le changement de la langue s'applique immédiatement",
-
     "languages_choice_label": {
       "fr": "choisir Français",
       "en": "choose English"
@@ -22,10 +21,10 @@
     "language_changed_announcement": "The page est désormais en Français"
   },
   "concept": {
-    "title": "Bienvenue sur notre générateur de quiz intelligent !",
-    "main": "Pour un quiz parfaitement adapté à un article ou un document, il vous suffit de fournir son URL. Lorsque vous le faites, nous utilisons l'API Jina AI (jina.ai/reader) pour en analyser le contenu. Ensuite, notre IA, Google Gemini (ai.google.dev), crée des questions en se basant exclusivement sur ces informations pour une pertinence maximale. Si vous laissez le champ URL vide, ou si l'adresse est inaccessible, pas d'inquiétude ! Google Gemini bascule automatiquement sur sa propre base de connaissances pour générer un quiz de haute qualité sur le sujet demandé.",
-    "link": "➡️ Curieux de savoir comment cela fonctionne en détail ?",
-    "linkAction": "Découvrez le processus technique ici"
+    "title": "Générateur de Quiz, avec un zeste d'hallucination",
+    "intro": "Le but de ce projet est d'explorer les résultats du principe RAG (Retrieval-Augmented Generation).\nDonnez-lui un sujet ou une URL, et l'IA essaiera d'en dériver un quiz.\nAttention, elle n'est pas parfaite : des erreurs ou 'hallucinations' sont possibles !",
+    "techdetails_link": "Curieux d'en savoir plus sur la technique ?",
+    "techdetails_description": "Notre but est de vous faire bénéficier de la 'Génération Augmentée par Récupération' (RAG) sans être un expert. Le principe : l'IA est 'augmentée' par le contenu que vous fournissez. Techniquement, le modèle `flash` de [Jina AI Reader](https://jina.ai/reader/) lit l'URL et la transforme en Markdown optimisé pour les IA (LLM-Friendly). Ce texte est ensuite passé à [Google Gemini](https://ai.google.dev) qui l'utilise comme unique source de vérité pour le quiz. Sans URL, Gemini se base sur son savoir général."
   },
   "quizForm": {
     "title": "Générateur de Quiz",
