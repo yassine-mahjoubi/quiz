@@ -8,6 +8,7 @@ import { getDuration } from './utils/timeduration'
 import type { quizResponse } from './type/Type'
 
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
+import HeroLayout from './components/Layout/HeroLayout.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
@@ -115,6 +116,9 @@ const handleNewQuiz = () => {
     <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
       {{ t('common.language_changed_announcement') }}
     </p>
+    <section>
+      <hero-layout />
+    </section>
     <section>
       <quiz-result
         v-if="answer && showResultQuiz"
