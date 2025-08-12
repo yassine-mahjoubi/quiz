@@ -13,6 +13,7 @@ import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
+import BaseModal from './components/ui/BaseModal.vue'
 
 const { t, locale } = useI18n()
 const answer = shallowRef<quizResponse | null>(null)
@@ -108,7 +109,6 @@ const handleNewQuiz = () => {
   infosQuiz.value = ''
 }
 </script>
-
 <template>
   <progress-bar v-if="loading" :progress-type="false" />
   <header-layout @language-changed="handelUpdateScreen" />
