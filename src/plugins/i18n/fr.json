@@ -21,10 +21,13 @@
     "language_changed_announcement": "The page est désormais en Français"
   },
   "concept": {
-    "title": "Générateur de Quiz, avec un zeste d'hallucination",
-    "intro": "Le but de ce projet est d'explorer les résultats du principe RAG (Retrieval-Augmented Generation).\nDonnez-lui un sujet ou une URL, et l'IA essaiera d'en dériver un quiz.\nAttention, elle n'est pas parfaite : des erreurs ou 'hallucinations' sont possibles !",
-    "techdetails_link": "Curieux d'en savoir plus sur la technique ?",
-    "techdetails_description": "Notre but est de vous faire bénéficier de la 'Génération Augmentée par Récupération' (RAG) sans être un expert. Le principe : l'IA est 'augmentée' par le contenu que vous fournissez. Techniquement, le modèle `flash` de [Jina AI Reader](https://jina.ai/reader/) lit l'URL et la transforme en Markdown optimisé pour les IA (LLM-Friendly). Ce texte est ensuite passé à [Google Gemini](https://ai.google.dev) qui l'utilise comme unique source de vérité pour le quiz. Sans URL, Gemini se base sur son savoir général."
+    "title": "Générateur de Quiz personnalisé basé sur l'IA, avec transparence sur ses limites",
+    "intro": "Ce projet explore la technologie RAG (Retrieval-Augmented Generation) de manière accessible.\nFournissez un sujet ou une URL : l'IA génère automatiquement un quiz personnalisé.\nImportant : l'IA peut commettre des erreurs ou « hallucinations » - utilisez ce quiz comme base d'apprentissage, pas comme vérité absolue !",
+    "modal": {
+      "title": "Comment fonctionne la génération de quiz",
+      "link": "Découvrir la technologie",
+      "description": "Cette application démocratise la 'Génération Augmentée par Récupération' (RAG) - pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
+    }
   },
   "quizForm": {
     "title": "Générateur de Quiz",

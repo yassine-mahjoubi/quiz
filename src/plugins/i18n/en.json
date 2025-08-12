@@ -21,10 +21,13 @@
     "language_changed_announcement": "The page is now in English"
   },
   "concept": {
-    "title": "Quiz Generator, with a hint of hallucination",
-    "intro": "The goal of this project is to explore the results of the RAG (Retrieval-Augmented Generation) principle.\nGive it a topic or a URL, and the AI will try to derive a quiz from it.\nKeep in mind, it's not perfect: errors or 'hallucinations' are possible!",
-    "techdetails_link": "Curious about the technical details?",
-    "techdetails_description": "Our goal is to let you benefit from 'Retrieval-Augmented Generation' (RAG) without being an expert. The principle: the AI is 'augmented' with the content you provide. Technically, the `flash` model from [Jina AI Reader](https://jina.ai/reader/) reads the URL and transforms it into clean Markdown optimized for AIs (LLM-Friendly). This text is then passed to [Google Gemini](https://ai.google.dev) which uses it as the single source of truth for the quiz. Without a URL, Gemini relies on its general knowledge."
+    "title": "AI-Powered Personalized Quiz Generator, with full transparency about its limitations",
+    "intro": "This project explores RAG (Retrieval-Augmented Generation) technology in an accessible way.\nProvide a topic or URL, and the AI will automatically generate a tailored quiz.\nHeads up: AI can make mistakes or 'hallucinate' - treat this as a learning tool, not gospel truth!",
+    "modal": {
+      "title": "How quiz generation works",
+      "link": "Learn about the tech",
+      "description": "This app makes 'Retrieval-Augmented Generation' (RAG) accessible to everyone - no expertise required. Here's how it works: [Jina AI Reader](https://jina.ai/reader/) scrapes your URL and converts it into structured, AI-friendly content. [Google Gemini](https://ai.google.dev) then uses this content as its sole source of truth to craft relevant quiz questions. No URL? Gemini falls back on its general knowledge to generate questions."
+    }
   },
   "quizForm": {
     "title": "Quiz Generator",
