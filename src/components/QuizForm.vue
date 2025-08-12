@@ -52,72 +52,85 @@ const handleInput = () => {
 </script>
 
 <template>
-  <fieldset>
-    <label for="enableContext">
-      <input
-        name="enableContext"
-        type="checkbox"
-        role="switch"
-        id="enableContext"
-        v-model="enableContext"
-        aria-labelledby="enable-selector-helper"
-      />
-      {{ t('quizForm.enableContext.label') }}
-      <p class="sr-only">
-        {{ t('quizForm.enableContext.helper') }}
-      </p>
-    </label>
-  </fieldset>
-  <fieldset :disabled="props.loading">
+  <section class="right">
+    <fieldset>
+      <label for="enableContext">
+        <input
+          name="enableContext"
+          type="checkbox"
+          role="switch"
+          id="enableContext"
+          v-model="enableContext"
+          aria-labelledby="enable-selector-helper"
+        />
+        {{ t('quizForm.enableContext.label') }}
+        <p class="sr-only">
+          {{ t('quizForm.enableContext.helper') }}
+        </p>
+      </label>
+    </fieldset>
+  </section>
+  <section>
     <small>{{ t('quizForm.field.requiered') }}</small>
-    <hr />
-    <label for="urlInput">{{ t('quizForm.url') }} *</label>
-    <input
-      type="url"
-      v-model="url"
-      name="urlInput"
-      id="urlInput"
-      ref="url_input"
-      :disabled="!enableContext"
-      aria-labelledby="url-info"
-    />
-    <small id="url-info"> exemple d'une url valide: http://exemple.com</small>
-    <label for="youQuestion"> {{ t('quizForm.subject') }} *: {{ yourQuestion }} </label>
-    <input
-      type="text"
-      id="youQuestion"
-      ref="yourQuestion_input"
-      name="youQuestion"
-      v-model="yourQuestion"
-      :placeholder="t('quizForm.subject') + '...'"
-      :aria-invalid="isInvalid"
-      @blur="hasBeenTouched = true"
-      aria-labelledby="input-error"
-    />
-    <small v-show="isInvalid" id="input-error" aria-invalid="true">{{
-      t('quizForm.field.error')
-    }}</small>
-  </fieldset>
-  <div class="grid">
+  </section>
+  <section>
     <fieldset :disabled="props.loading">
-      <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
-      <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">
-        <option value="5" default>5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-      </select>
+      <label for="urlInput">{{ t('quizForm.url') }} *</label>
+      <input
+        type="url"
+        v-model="url"
+        name="urlInput"
+        id="urlInput"
+        ref="url_input"
+        :disabled="!enableContext"
+        aria-labelledby="url-info"
+      />
+      <small id="url-info"> exemple d'une url valide: http://exemple.com</small>
+      <label for="youQuestion"> {{ t('quizForm.subject') }} *: {{ yourQuestion }} </label>
+      <input
+        type="text"
+        id="youQuestion"
+        ref="yourQuestion_input"
+        name="youQuestion"
+        v-model="yourQuestion"
+        :placeholder="t('quizForm.subject') + '...'"
+        :aria-invalid="isInvalid"
+        @blur="hasBeenTouched = true"
+        aria-labelledby="input-error"
+      />
+      <small v-show="isInvalid" id="input-error" aria-invalid="true">{{
+        t('quizForm.field.error')
+      }}</small>
     </fieldset>
-    <fieldset :disabled="props.loading">
-      <label for="difficuty">{{ t('quizForm.difficultyLabel') }}</label>
-      <select id="difficuty" name="difficuty" v-model="difficulty">
-        <option value="Facile" default>{{ t('quizForm.difficulty.easy') }}</option>
-        <option value="Moyen">{{ t('quizForm.difficulty.medium') }}</option>
-        <option value="Difficile">{{ t('quizForm.difficulty.hard') }}</option>
-      </select>
-    </fieldset>
-  </div>
+  </section>
+  <section>
+    <div class="grid">
+      <fieldset :disabled="props.loading">
+        <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
+        <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">
+          <option value="5" default>5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </fieldset>
+      <fieldset :disabled="props.loading">
+        <label for="difficuty">{{ t('quizForm.difficultyLabel') }}</label>
+        <select id="difficuty" name="difficuty" v-model="difficulty">
+          <option value="Facile" default>{{ t('quizForm.difficulty.easy') }}</option>
+          <option value="Moyen">{{ t('quizForm.difficulty.medium') }}</option>
+          <option value="Difficile">{{ t('quizForm.difficulty.hard') }}</option>
+        </select>
+      </fieldset>
+    </div>
+  </section>
 
   <button @click="handleInput" :disabled="isInvalid || props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}
   </button>
 </template>
+
+<style scoped>
+.right {
+  float: right;
+}
+</style>
