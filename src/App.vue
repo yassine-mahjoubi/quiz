@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watch, provide } from 'vue'
 
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
@@ -13,7 +13,6 @@ import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
-import BaseModal from './components/ui/BaseModal.vue'
 
 const { t, locale } = useI18n()
 const answer = shallowRef<quizResponse | null>(null)
@@ -31,7 +30,8 @@ const showQuizDisplay = ref<boolean>(false)
 const contexte = ref<string>('')
 const quizTimeDuration = ref<number>(0)
 const infosQuiz = ref<string>('')
-
+const allowDebug = ref<boolean>(false)
+provide('allowDebug', allowDebug.value)
 const handleGenerateQuiz = async (payload: {
   question: string
   difficulty: 'Facile' | 'Moyen' | 'Difficile'
@@ -68,6 +68,7 @@ const handleGenerateQuiz = async (payload: {
       showQuizDisplay.value = true
       infosQuiz.value = messageKey
       if (contexte.value) {
+        //to fix
         contexte.value = context
       }
 
@@ -117,7 +118,7 @@ const handleNewQuiz = () => {
       {{ t('common.language_changed_announcement') }}
     </p>
     <section>
-      <hero-layout />
+      <hero-layout v-if="!infosQuiz" />
     </section>
     <section>
       <quiz-result
@@ -128,12 +129,12 @@ const handleNewQuiz = () => {
       />
     </section>
     <section>
-      <p v-if="infosQuiz">{{ t(infosQuiz) }}</p>
       <quiz-display
         v-if="answer && showQuizDisplay"
         :answer="answer"
         :userAnswers="userAnswers"
         :duration="quizTimeDuration"
+        :infosQuiz="infosQuiz"
         @answer-selected="handleAnswerSelected"
         @answer-submit="handleAnswerSubmit"
         ref="quizWrapper"
@@ -142,8 +143,7 @@ const handleNewQuiz = () => {
     <section>
       <quiz-form v-if="showQuizForm" @user-question="handleGenerateQuiz" :loading="loading" />
     </section>
-    <hr />
-    <section class="">
+    <section v-if="allowDebug">
       <details name="api" v-if="answer">
         <summary role="button" class="outline secondary">
           show the API generated for the quiz

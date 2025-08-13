@@ -85,7 +85,7 @@ const handleInput = () => {
         :disabled="!enableContext"
         aria-labelledby="url-info"
       />
-      <small id="url-info"> exemple d'une url valide: http://exemple.com</small>
+      <small id="url-info"> {{ t('quizForm.field.urlInfo') }}: http://exemple.com</small>
       <label for="youQuestion"> {{ t('quizForm.subject') }} *: {{ yourQuestion }} </label>
       <input
         type="text"
