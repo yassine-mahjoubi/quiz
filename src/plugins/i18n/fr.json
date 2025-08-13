@@ -48,24 +48,25 @@
     },
     "field": {
       "requiered": "Les champs obligatoires sont marqués d'un astérisque (*) et doivent être remplis pour générer le quiz",
-      "error": "Le champ obligatoire doit être un texte valide et non vide"
+      "error": "Le champ obligatoire doit être un texte valide et non vide",
+      "urlInfo": "exemple d'une url valide"
     }
   },
   "quiz": {
     "questionProgress": "Question {current} of {total}",
-    "statusQuestion": "{answred} question(s) répondu sur {total}",
+    "statusQuestion": "{answred} question{s} répondu sur {total}",
     "progress": "Progression du quiz",
     "score": "Score : {score}",
     "answer": {
       "good": "Bonne réponse",
-      "bad": "mauvaise réponse",
-      "skiped": "question non répondu"
+      "bad": "Mauvaise réponse",
+      "skiped": "Question non répondu"
     },
-    "duration": "Quiz géneré en: {time}",
+    "duration": "en: {time}",
     "generated": {
-      "withUrl": "Le quiz a été généré avec succès à partir de l'URL.",
-      "withoutUrl": "Le quiz a été généré avec succès.",
-      "withFallback": "Le quiz a été généré avec succès ! L'URL n'a pas pu être utilisée, il est donc basé sur les connaissances générales de l'IA."
+      "withUrl": "Le quiz a été généré avec succès à partir de l'URL",
+      "withoutUrl": "Le quiz a été généré avec succès",
+      "withFallback": "L'URL n'a pas pu être utilisée, il est donc basé sur les connaissances générales de l'IA Gemini"
     },
     "error": {
       "generationFailed": "Désolé, une erreur est survenue lors de la création du quiz. Veuillez réessayer."

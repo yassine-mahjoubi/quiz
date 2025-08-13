@@ -1,7 +1,15 @@
 @use '@picocss/pico/scss/pico' with (
   $theme-color: 'jade'
 );
-
+/** surcharge <hn>*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--pico-primary);
+}
 /**utilities for rgaa*/
 .visually-hidden,
 .sr-only {

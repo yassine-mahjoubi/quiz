@@ -11,6 +11,7 @@ const props = defineProps<{
   answer: quizResponse
   userAnswers: (number | null)[]
   duration: number
+  infosQuiz: string
 }>()
 const emit = defineEmits<{
   'answer-selected': [indexQuestion: number, indexUserNewChoice: number]
@@ -54,6 +55,9 @@ const questionAnswred = computed(() => {
     })
     .filter((tr) => tr === true).length
 })
+const plural = computed(() => {
+  return questionAnswred.value > 1 ? 's' : ''
+})
 
 const currentQuestion = computed(() => counter.value + 1)
 const handelSubmit = () => {
@@ -68,7 +72,9 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 </script>
 
 <template>
-  <h2>{{ t('quiz.duration', { time: quizDuration }) }}</h2>
+  <h2>
+    {{ t(infosQuiz) }} <small>{{ t('quiz.duration', { time: quizDuration }) }}</small>
+  </h2>
   <label for="progressBar">{{ t('quiz.progress') }}</label>
   <progress-bar
     :progress-type="true"
@@ -79,11 +85,23 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 
   <section v-if="answer" aria-live="polite" aria-atomic="true">
     <p>
-      {{ t('quiz.questionProgress', { current: currentQuestion, total: totalQuestions }) }}
+      {{
+        t('quiz.questionProgress', {
+          current: currentQuestion,
+          s: plural,
+          total: totalQuestions,
+        })
+      }}
     </p>
 
     <p>
-      {{ t('quiz.statusQuestion', { answred: questionAnswred, total: totalQuestions }) }}
+      {{
+        t('quiz.statusQuestion', {
+          answred: questionAnswred,
+          total: totalQuestions,
+          s: plural,
+        })
+      }}
     </p>
   </section>
 

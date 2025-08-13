@@ -2,7 +2,7 @@
 import slugify from 'slugify'
 
 import type { Question } from '../type/Type'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 const props = defineProps<{
   question: Question
@@ -18,6 +18,7 @@ const emit = defineEmits<{
 const onSelectChoice = (answerIndex: number) => {
   emit('answer-selected', props.questionIndex, answerIndex)
 }
+const allowDebug = inject('allowDebug')
 </script>
 
 <template>
@@ -39,5 +40,5 @@ const onSelectChoice = (answerIndex: number) => {
     </template>
   </fieldset>
 
-  <small>Correct Answer: {{ question.correct_answer_index }}</small>
+  <small v-if="allowDebug">Correct Answer: {{ question.correct_answer_index }}</small>
 </template>
