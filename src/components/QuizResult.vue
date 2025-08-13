@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import type { quizResponse } from '../type/Type'
 const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
 const emit = defineEmits<{
@@ -38,53 +38,57 @@ const scoreUser = computed(() => {
   const score = quizResult.value.filter((response) => response.isCorrect === true)
   return Math.round((score.length / props.answer?.quiz_questions.length) * 100) + '%'
 })
+
+const allowDebug = inject('allowDebug')
 </script>
 
 <template>
-  <h2>{{ t('quiz.score', { score: scoreUser }) }} / 100%</h2>
-
-  <ul>
-    <li v-for="result in quizResult" :key="result.questionText">
-      <article>
-        <header>Question: {{ result.questionText }}</header>
-        <ul>
-          <li v-for="(choice, index) in result.choices" :key="choice">
-            <p
-              :class="
-                result.userAnswer == index && result.isCorrect
-                  ? 'valide'
-                  : result.userAnswer == index && !result.isCorrect
-                    ? 'invalide'
-                    : result.correctAnswer == index
-                      ? 'valide'
-                      : ''
-              "
-              :aria-label="
-                result.userAnswer == index && result.isCorrect
-                  ? t('quiz.answer.good')
-                  : result.userAnswer == index && !result.isCorrect
-                    ? t('quiz.answer.bad')
-                    : result.correctAnswer == index
-                      ? t('quiz.answer.good')
-                      : ''
-              "
-            >
-              {{ choice }}
+  <section>
+    <h1 class="center">{{ t('quiz.score', { score: scoreUser }) }}</h1>
+    <ul class="questions">
+      <li v-for="result in quizResult" :key="result.questionText">
+        <article>
+          <header>Question: {{ result.questionText }}</header>
+          <ul>
+            <li v-for="(choice, index) in result.choices" :key="choice">
+              <p
+                :class="
+                  result.userAnswer == index && result.isCorrect
+                    ? 'valide'
+                    : result.userAnswer == index && !result.isCorrect
+                      ? 'invalide'
+                      : result.correctAnswer == index
+                        ? 'valide'
+                        : ''
+                "
+                :aria-label="
+                  result.userAnswer == index && result.isCorrect
+                    ? t('quiz.answer.good')
+                    : result.userAnswer == index && !result.isCorrect
+                      ? t('quiz.answer.bad')
+                      : result.correctAnswer == index
+                        ? t('quiz.answer.good')
+                        : ''
+                "
+              >
+                {{ choice }}
+              </p>
+            </li>
+          </ul>
+          <footer>
+            <p v-if="result.userAnswerText">
+              {{ result.isCorrect ? t('quiz.answer.good') : t('quiz.answer.bad') }}
             </p>
-          </li>
-        </ul>
-        <footer>
-          <p v-if="result.userAnswerText">
-            {{ result.isCorrect ? t('quiz.answer.good') : t('quiz.answer.bad') }}
-          </p>
-          <p v-else>{{ t('quiz.answer.skiped') }}</p>
-        </footer>
-      </article>
-    </li>
-  </ul>
+            <p v-else>{{ t('quiz.answer.skiped') }}</p>
+          </footer>
+        </article>
+      </li>
+    </ul>
+  </section>
   <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
-  <section class="d-none">
-    <code class="visually-hiddenv">
+
+  <section v-if="allowDebug">
+    <code>
       <pre><code>{{ quizResult }}</code></pre>
       <small
         >Score: {{ quizResult.filter((r) => r.isCorrect).length }} /
@@ -102,9 +106,15 @@ const scoreUser = computed(() => {
 
 <style lang="scss" scoped>
 .valide {
-  border: 1px solid green;
+  color: var(--pico-primary);
 }
 .invalide {
-  border: 1px solid red;
+  color: #d92662;
+}
+ul {
+  padding-inline-start: 0;
+  &.questions li {
+    list-style: none;
+  }
 }
 </style>

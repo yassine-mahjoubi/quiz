@@ -48,24 +48,25 @@
     },
     "field": {
       "requiered": "Required fields are marked with an asterisk (*) and must be filled in to generate the quiz",
-      "error": "Required field must be valid text and not empty"
+      "error": "Required field must be valid text and not empty",
+      "urlInfo": "example for valide url"
     }
   },
   "quiz": {
     "questionProgress": "Question {current} of {total}",
-    "statusQuestion": "{answred} question answered out of {total}",
+    "statusQuestion": "{answred} question{s} answered out of {total}",
     "progress": "Quiz progression",
     "score": "Score: {score}",
     "answer": {
-      "good": "correct answer",
-      "bad": "bad answer",
-      "skiped": "question not answred"
+      "good": "Correct answer",
+      "bad": "Bad answer",
+      "skiped": "Question not answred"
     },
-    "duration": "Quiz generated on: {time}",
+    "duration": "on: {time}",
     "generated": {
-      "withUrl": "The quiz was successfully generated from the URL.",
-      "withoutUrl": "The quiz was successfully generated.",
-      "withFallback": "The quiz was successfully generated! The provided URL could not be used, so it's based on the AI's general knowledge."
+      "withUrl": "The quiz was successfully generated from the URL",
+      "withoutUrl": "The quiz was successfully generated",
+      "withFallback": "The provided URL could not be used, so it's based on the Gemini 's general knowledge"
     },
     "error": {
       "generationFailed": "Sorry, an error occurred while creating the quiz. Please try again."
