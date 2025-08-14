@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ref, computed, useTemplateRef } from 'vue'
+import { ref, computed, useTemplateRef, watch } from 'vue'
+import { useInputCheck } from '@/composables/useInputCheck'
 
 const { t } = useI18n()
 const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
@@ -11,8 +12,9 @@ const url_input = useTemplateRef<HTMLInputElement>('url_input')
 const yourQuestion_input = useTemplateRef<HTMLInputElement>('yourQuestion_input')
 const enableContext = ref<boolean>(false)
 const hasBeenTouched = ref<boolean>(false)
-const props = defineProps<{ loading: boolean }>()
+const hasBeenTouchedUrl = ref<boolean>(false)
 
+const props = defineProps<{ loading: boolean }>()
 const emit = defineEmits<{
   'user-question': [
     {
@@ -25,30 +27,58 @@ const emit = defineEmits<{
   ]
 }>()
 
-const handleTextButton = computed(() => {
-  return props.loading ? t('common.loading') : t('quizForm.generateButton')
-})
-const isInvalid = computed(() => {
+const isInvalidQuestion = computed(() => {
   if (!hasBeenTouched.value) return undefined
   return !yourQuestion.value.trim()
 })
-const handleInput = () => {
+
+const handleInputQuestion = () => {
   hasBeenTouched.value = true
-  if (isInvalid.value) {
+  if (isInvalidQuestion.value) {
     yourQuestion_input.value?.focus()
-    return
+    return false
   } else {
-    emit('user-question', {
-      question: yourQuestion.value,
-      difficulty: difficulty.value,
-      numberQuestions: numberQuestions.value,
-      contextEnabled: enableContext.value,
-      url: url.value,
-    })
+    return true
   }
-  yourQuestion.value = ''
-  hasBeenTouched.value = false
 }
+
+const isInvalidUrl = computed(() => {
+  if (!hasBeenTouchedUrl.value || !enableContext.value) return undefined
+  return !useInputCheck(url.value)
+})
+
+const handleInputUrl = () => {
+  hasBeenTouchedUrl.value = true
+  if (isInvalidUrl.value) {
+    url_input.value?.focus()
+    return false
+  } else {
+    return true
+  }
+}
+
+//reset field url when enableContexte change
+watch(enableContext, () => {
+  url.value = ''
+})
+
+const submitForm = (): void => {
+  if (!handleInputUrl()) return
+
+  if (!handleInputQuestion()) return
+
+  emit('user-question', {
+    question: yourQuestion.value,
+    difficulty: difficulty.value,
+    numberQuestions: numberQuestions.value,
+    contextEnabled: enableContext.value,
+    url: url.value,
+  })
+}
+
+const handleTextButton = computed(() => {
+  return props.loading ? t('common.loading') : t('quizForm.generateButton')
+})
 </script>
 
 <template>
@@ -82,7 +112,9 @@ const handleInput = () => {
         name="urlInput"
         id="urlInput"
         ref="url_input"
+        @blur="hasBeenTouchedUrl = true"
         :disabled="!enableContext"
+        :aria-invalid="isInvalidUrl"
         aria-labelledby="url-info"
       />
       <small id="url-info"> {{ t('quizForm.field.urlInfo') }}: http://exemple.com</small>
@@ -94,11 +126,11 @@ const handleInput = () => {
         name="youQuestion"
         v-model="yourQuestion"
         :placeholder="t('quizForm.subject') + '...'"
-        :aria-invalid="isInvalid"
+        :aria-invalid="isInvalidQuestion"
         @blur="hasBeenTouched = true"
         aria-labelledby="input-error"
       />
-      <small v-show="isInvalid" id="input-error" aria-invalid="true">{{
+      <small v-show="isInvalidQuestion" id="input-error" aria-invalid="true">{{
         t('quizForm.field.error')
       }}</small>
     </fieldset>
@@ -124,7 +156,7 @@ const handleInput = () => {
     </div>
   </section>
 
-  <button @click="handleInput" :disabled="isInvalid || props.loading" :aria-busy="props.loading">
+  <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}
   </button>
 </template>
