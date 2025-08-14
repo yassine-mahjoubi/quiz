@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
-
 import SwitchLanguage from '../SwitchLanguage.vue'
+import BaseLogo from '../ui/BaseLogo.vue'
 
+const { t } = useI18n()
 const emit = defineEmits<{
   'language-changed': [lang: string]
 }>()
@@ -15,6 +15,7 @@ const handelUpdateScreen = (lang: string) => {
 </script>
 <template>
   <header class="container custom-header">
+    <div><base-logo /></div>
     <div>
       <p>{{ t('quizForm.title') }}</p>
     </div>
