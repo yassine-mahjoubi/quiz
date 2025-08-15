@@ -2,10 +2,11 @@
 import { useI18n } from 'vue-i18n'
 import { ref, computed, useTemplateRef, watch } from 'vue'
 import { useInputCheck } from '@/composables/useInputCheck'
+import type { numberQuestions, difficulty } from '@/type/Type'
 
 const { t } = useI18n()
-const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
-const numberQuestions = ref<5 | 10 | 15>(5)
+const difficulty = ref<difficulty>('Facile')
+const numberQuestions = ref<numberQuestions>(5)
 const yourQuestion = ref<string>('')
 const url = ref<string>('')
 const url_input = useTemplateRef<HTMLInputElement>('url_input')
@@ -19,8 +20,8 @@ const emit = defineEmits<{
   'user-question': [
     {
       question: string
-      difficulty: 'Facile' | 'Moyen' | 'Difficile'
-      numberQuestions: 5 | 10 | 15
+      difficulty: difficulty
+      numberQuestions: numberQuestions
       contextEnabled: boolean
       url: string
     },
@@ -139,7 +140,7 @@ const handleTextButton = computed(() => {
     <div class="grid">
       <fieldset :disabled="props.loading">
         <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
-        <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">
+        <select id="numberQuestions" name="numberQuestions" v-model.number="numberQuestions">
           <option value="5" default>5</option>
           <option value="10">10</option>
           <option value="15">15</option>
