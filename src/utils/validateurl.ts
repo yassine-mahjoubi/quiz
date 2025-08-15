@@ -9,7 +9,6 @@ export const isvalideUrl = (urlToCheck: string): boolean => {
   if (!urlToCheck || urlToCheck.length < 11) return false
   try {
     const url = new URL(urlToCheck)
-    console.log('🚀 ~ isvalideUrl ~ url:', url.protocol)
     return ALLOWED_PROTOCOL.includes(url.protocol)
   } catch (error) {
     console.error('syntaxe url Invalid:', error)

@@ -1,19 +1,28 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ref, computed, useTemplateRef, watch } from 'vue'
-import { useInputCheck } from '@/composables/useInputCheck'
+import { ref, computed, watch } from 'vue'
 import type { numberQuestions, difficulty } from '@/type/Type'
+import { useRequiredField } from '@/composables/useRequiredField'
+import { useUrlField } from '@/composables/useUrlField'
 
 const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
 const numberQuestions = ref<numberQuestions>(5)
-const yourQuestion = ref<string>('')
-const url = ref<string>('')
-const url_input = useTemplateRef<HTMLInputElement>('url_input')
-const yourQuestion_input = useTemplateRef<HTMLInputElement>('yourQuestion_input')
 const enableContext = ref<boolean>(false)
-const hasBeenTouched = ref<boolean>(false)
-const hasBeenTouchedUrl = ref<boolean>(false)
+
+const {
+  value: yourQuestion,
+  isInvalid: isInvalidQuestion,
+  validate: handleInputQuestion,
+  markAsTouched,
+} = useRequiredField('yourQuestion_input')
+
+const {
+  Inputvalue: url,
+  markAsTouched: markAsTouchedUrl,
+  isInvalid: isInvalidUrl,
+  validate: handleInputUrl,
+} = useUrlField('url_input', enableContext)
 
 const props = defineProps<{ loading: boolean }>()
 const emit = defineEmits<{
@@ -28,39 +37,13 @@ const emit = defineEmits<{
   ]
 }>()
 
-const isInvalidQuestion = computed(() => {
-  if (!hasBeenTouched.value) return undefined
-  return !yourQuestion.value.trim()
-})
-
-const handleInputQuestion = () => {
-  hasBeenTouched.value = true
-  if (isInvalidQuestion.value) {
-    yourQuestion_input.value?.focus()
-    return false
-  } else {
-    return true
-  }
-}
-
-const isInvalidUrl = computed(() => {
-  if (!hasBeenTouchedUrl.value || !enableContext.value) return undefined
-  return !useInputCheck(url.value)
-})
-
-const handleInputUrl = () => {
-  hasBeenTouchedUrl.value = true
-  if (isInvalidUrl.value) {
-    url_input.value?.focus()
-    return false
-  } else {
-    return true
-  }
-}
-
 //reset field url when enableContexte change
 watch(enableContext, () => {
   url.value = ''
+})
+
+watch(markAsTouchedUrl, () => {
+  console.log(markAsTouchedUrl)
 })
 
 const submitForm = (): void => {
@@ -113,7 +96,7 @@ const handleTextButton = computed(() => {
         name="urlInput"
         id="urlInput"
         ref="url_input"
-        @blur="hasBeenTouchedUrl = true"
+        @blur="markAsTouchedUrl"
         :disabled="!enableContext"
         :aria-invalid="isInvalidUrl"
         aria-labelledby="url-info"
@@ -128,7 +111,7 @@ const handleTextButton = computed(() => {
         v-model="yourQuestion"
         :placeholder="t('quizForm.subject') + '...'"
         :aria-invalid="isInvalidQuestion"
-        @blur="hasBeenTouched = true"
+        @blur="markAsTouched()"
         aria-labelledby="input-error"
       />
       <small v-show="isInvalidQuestion" id="input-error" aria-invalid="true">{{
