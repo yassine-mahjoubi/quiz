@@ -14,10 +14,14 @@ type ApiResponse = {
   candidates?: ApiCandidate[]
 }
 
+type difficulty = 'Facile' | 'Moyen' | 'Difficile'
+
+type numberQuestions = 5 | 10 | 15
+
 interface Question {
   choices: string[]
   correct_answer_index: number
-  difficulty: 'Facile' | 'Moyen' | 'Difficile'
+  difficulty: difficulty
   question_text: string
   category: string
   lang: string
@@ -29,4 +33,14 @@ interface quizResponse {
 
 type invalid = boolean | undefined
 
-export type { invalid, quizResponse, Question, ApiText, ApiContent, ApiCandidate, ApiResponse }
+export type {
+  invalid,
+  quizResponse,
+  Question,
+  ApiText,
+  ApiContent,
+  ApiCandidate,
+  ApiResponse,
+  difficulty,
+  numberQuestions,
+}

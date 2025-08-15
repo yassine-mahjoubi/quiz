@@ -1,54 +1,68 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ref, computed, useTemplateRef } from 'vue'
+import { ref, computed, watch } from 'vue'
+import type { numberQuestions, difficulty } from '@/type/Type'
+import { useRequiredField } from '@/composables/useRequiredField'
+import { useUrlField } from '@/composables/useUrlField'
 
 const { t } = useI18n()
-const difficulty = ref<'Facile' | 'Moyen' | 'Difficile'>('Facile')
-const numberQuestions = ref<5 | 10 | 15>(5)
-const yourQuestion = ref<string>('')
-const url = ref<string>('')
-const url_input = useTemplateRef<HTMLInputElement>('url_input')
-const yourQuestion_input = useTemplateRef<HTMLInputElement>('yourQuestion_input')
+const difficulty = ref<difficulty>('Facile')
+const numberQuestions = ref<numberQuestions>(5)
 const enableContext = ref<boolean>(false)
-const hasBeenTouched = ref<boolean>(false)
-const props = defineProps<{ loading: boolean }>()
 
+const {
+  value: yourQuestion,
+  isInvalid: isInvalidQuestion,
+  validate: handleInputQuestion,
+  markAsTouched,
+} = useRequiredField('yourQuestion_input')
+
+const {
+  Inputvalue: url,
+  markAsTouched: markAsTouchedUrl,
+  isInvalid: isInvalidUrl,
+  validate: handleInputUrl,
+} = useUrlField('url_input', enableContext)
+
+const props = defineProps<{ loading: boolean }>()
 const emit = defineEmits<{
   'user-question': [
     {
       question: string
-      difficulty: 'Facile' | 'Moyen' | 'Difficile'
-      numberQuestions: 5 | 10 | 15
+      difficulty: difficulty
+      numberQuestions: numberQuestions
       contextEnabled: boolean
       url: string
     },
   ]
 }>()
 
+//reset field url when enableContexte change
+watch(enableContext, () => {
+  url.value = ''
+})
+
+watch(markAsTouchedUrl, () => {
+  console.log(markAsTouchedUrl)
+})
+
+const submitForm = (): void => {
+  if (!handleInputUrl()) return
+
+  if (!handleInputQuestion()) return
+
+  emit('user-question', {
+    question: yourQuestion.value,
+    difficulty: difficulty.value,
+    numberQuestions: numberQuestions.value,
+    contextEnabled: enableContext.value,
+    url: url.value,
+  })
+}
+
 const handleTextButton = computed(() => {
   return props.loading ? t('common.loading') : t('quizForm.generateButton')
 })
-const isInvalid = computed(() => {
-  if (!hasBeenTouched.value) return undefined
-  return !yourQuestion.value.trim()
-})
-const handleInput = () => {
-  hasBeenTouched.value = true
-  if (isInvalid.value) {
-    yourQuestion_input.value?.focus()
-    return
-  } else {
-    emit('user-question', {
-      question: yourQuestion.value,
-      difficulty: difficulty.value,
-      numberQuestions: numberQuestions.value,
-      contextEnabled: enableContext.value,
-      url: url.value,
-    })
-  }
-  yourQuestion.value = ''
-  hasBeenTouched.value = false
-}
 </script>
 
 <template>
@@ -82,7 +96,9 @@ const handleInput = () => {
         name="urlInput"
         id="urlInput"
         ref="url_input"
+        @blur="markAsTouchedUrl"
         :disabled="!enableContext"
+        :aria-invalid="isInvalidUrl"
         aria-labelledby="url-info"
       />
       <small id="url-info"> {{ t('quizForm.field.urlInfo') }}: http://exemple.com</small>
@@ -94,11 +110,11 @@ const handleInput = () => {
         name="youQuestion"
         v-model="yourQuestion"
         :placeholder="t('quizForm.subject') + '...'"
-        :aria-invalid="isInvalid"
-        @blur="hasBeenTouched = true"
+        :aria-invalid="isInvalidQuestion"
+        @blur="markAsTouched()"
         aria-labelledby="input-error"
       />
-      <small v-show="isInvalid" id="input-error" aria-invalid="true">{{
+      <small v-show="isInvalidQuestion" id="input-error" aria-invalid="true">{{
         t('quizForm.field.error')
       }}</small>
     </fieldset>
@@ -107,7 +123,7 @@ const handleInput = () => {
     <div class="grid">
       <fieldset :disabled="props.loading">
         <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
-        <select id="numberQuestions" name="numberQuestions" v-model="numberQuestions">
+        <select id="numberQuestions" name="numberQuestions" v-model.number="numberQuestions">
           <option value="5" default>5</option>
           <option value="10">10</option>
           <option value="15">15</option>
@@ -124,7 +140,7 @@ const handleInput = () => {
     </div>
   </section>
 
-  <button @click="handleInput" :disabled="isInvalid || props.loading" :aria-busy="props.loading">
+  <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}
   </button>
 </template>
