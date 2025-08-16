@@ -88,7 +88,6 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       {{
         t('quiz.questionProgress', {
           current: currentQuestion,
-          s: plural,
           total: totalQuestions,
         })
       }}

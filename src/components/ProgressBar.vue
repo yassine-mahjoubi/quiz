@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
+const { t } = useI18n()
 const props = withDefaults(
   defineProps<{
     completedSteps?: number
@@ -10,14 +12,11 @@ const props = withDefaults(
   {
     completedSteps: 0,
     totalSteps: 0,
-    progressType: false,
+    progressType: true,
   },
 )
 
-const progressPercentage = computed<number | undefined>(() => {
-  if (!props.progressType) {
-    return undefined
-  }
+const progressPercentage = computed<number>(() => {
   if (props.totalSteps === 0) {
     return 0
   }
@@ -26,8 +25,15 @@ const progressPercentage = computed<number | undefined>(() => {
 </script>
 <template>
   <progress
+    v-if="progressType"
     :value="progressPercentage"
     max="100"
-    aria-label="génération de quiz en cours"
+    :aria-label="
+      t('quiz.questionProgress', {
+        current: completedSteps,
+        total: totalSteps,
+      })
+    "
   ></progress>
+  <progress v-else :aria-label="t('common.loading')"></progress>
 </template>

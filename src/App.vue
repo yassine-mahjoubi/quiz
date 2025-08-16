@@ -147,12 +147,3 @@ const handleNewQuiz = () => {
     </section>
   </main>
 </template>
-
-<style scoped>
-.d-none {
-  display: none;
-}
-.bloc {
-  max-width: max-content;
-}
-</style>
