@@ -53,10 +53,10 @@
     }
   },
   "quiz": {
-    "questionProgress": "Question {current} of {total}",
+    "questionProgress": "Question {current} sur {total}",
     "statusQuestion": "{answred} question{s} répondu sur {total}",
     "progress": "Progression du quiz",
-    "score": "Score : {score}",
+    "score": "Score: {score}",
     "answer": {
       "good": "Bonne réponse",
       "bad": "Mauvaise réponse",
