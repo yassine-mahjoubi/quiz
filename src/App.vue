@@ -17,7 +17,6 @@ import ProgressBar from './components/ProgressBar.vue'
 const { t, locale } = useI18n()
 const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
-const hasBeenTouched = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
 const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
