@@ -5,7 +5,7 @@ import { ref, shallowRef, watch, provide } from 'vue'
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
 
-import type { quizResponse } from './type/Type'
+import type { quizResponse, difficulty, numberQuestions } from './type/Type'
 
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import HeroLayout from './components/Layout/HeroLayout.vue'
@@ -17,7 +17,6 @@ import ProgressBar from './components/ProgressBar.vue'
 const { t, locale } = useI18n()
 const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
-const hasBeenTouched = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
 const showUserAnswers = ref<boolean[]>([])
 const isInvalidAnswer = ref<(boolean | undefined)[]>([])
@@ -27,15 +26,15 @@ const showReaderScreen = ref<boolean>(false)
 const showResultQuiz = ref<boolean>(false)
 const showQuizForm = ref<boolean>(true)
 const showQuizDisplay = ref<boolean>(false)
-const contexte = ref<string>('')
+const contexte = ref<string | null>(null)
 const quizTimeDuration = ref<number>(0)
 const infosQuiz = ref<string>('')
 const allowDebug = ref<boolean>(false)
 provide('allowDebug', allowDebug.value)
 const handleGenerateQuiz = async (payload: {
   question: string
-  difficulty: 'Facile' | 'Moyen' | 'Difficile'
-  numberQuestions: 5 | 10 | 15
+  difficulty: difficulty
+  numberQuestions: numberQuestions
   url: string
   contextEnabled: boolean
 }) => {
@@ -62,16 +61,11 @@ const handleGenerateQuiz = async (payload: {
       showUserAnswers.value = answer.value.quiz_questions.map(() => false)
       isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
       userAnswers.value = answer.value.quiz_questions.map(() => null)
-      hasBeenTouched.value = false
       totalQuestion.value = answer.value.quiz_questions.length
       showQuizForm.value = false
       showQuizDisplay.value = true
       infosQuiz.value = messageKey
-      if (contexte.value) {
-        //to fix
-        contexte.value = context
-      }
-
+      contexte.value = context
       if (quizWrapper.value) {
         quizWrapper.value?.setFocus()
       }
@@ -117,20 +111,14 @@ const handleNewQuiz = () => {
     <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
       {{ t('common.language_changed_announcement') }}
     </p>
-    <section>
-      <hero-layout v-if="!infosQuiz" />
+    <section v-if="!infosQuiz">
+      <hero-layout />
     </section>
-    <section>
-      <quiz-result
-        v-if="answer && showResultQuiz"
-        :answer="answer"
-        :userAnswers="userAnswers"
-        @new-quiz="handleNewQuiz"
-      />
+    <section v-if="answer && showResultQuiz">
+      <quiz-result :answer="answer" :userAnswers="userAnswers" @new-quiz="handleNewQuiz" />
     </section>
-    <section>
+    <section v-if="answer && showQuizDisplay">
       <quiz-display
-        v-if="answer && showQuizDisplay"
         :answer="answer"
         :userAnswers="userAnswers"
         :duration="quizTimeDuration"
@@ -140,8 +128,8 @@ const handleNewQuiz = () => {
         ref="quizWrapper"
       />
     </section>
-    <section>
-      <quiz-form v-if="showQuizForm" @user-question="handleGenerateQuiz" :loading="loading" />
+    <section v-if="showQuizForm">
+      <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
     </section>
     <section v-if="allowDebug">
       <details name="api" v-if="answer">
@@ -159,12 +147,3 @@ const handleNewQuiz = () => {
     </section>
   </main>
 </template>
-
-<style scoped>
-.d-none {
-  display: none;
-}
-.bloc {
-  max-width: max-content;
-}
-</style>
