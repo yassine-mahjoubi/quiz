@@ -7,7 +7,7 @@
     "next": "Next",
     "previous": "Previous",
     "submit": "Submit",
-    "loading": "Loading...",
+    "loading": "Quiz is generating...",
     "error": "Error",
     "success": "Success",
     "restart": "Restart Quiz",

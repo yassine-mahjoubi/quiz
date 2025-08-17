@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import slugify from 'slugify'
-
 import type { Question } from '../type/Type'
 import { ref, inject } from 'vue'
+
+// delete space and accent to create a clean id
+import slugify from 'slugify'
 
 const props = defineProps<{
   question: Question
@@ -24,7 +25,6 @@ const allowDebug = inject('allowDebug')
 <template>
   <fieldset>
     <legend>{{ props.question.question_text }}</legend>
-
     <template v-for="(choice, answerIndex) in props.question.choices" :key="choice">
       <label :for="`q-${props.questionIndex}-${slugify(choice)}`">
         <input
