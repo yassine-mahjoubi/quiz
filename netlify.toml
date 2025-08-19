@@ -11,3 +11,4 @@ package = "@netlify/plugin-functions-install-core"
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false #Ne pas capturer les fichiers existants
