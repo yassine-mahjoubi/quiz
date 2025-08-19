@@ -1,7 +1,7 @@
-#on force lz redirect car note base url est "/quiz" qui est exigé par githubPages
+#force redirect car notre base url est "/quiz" qui est exigé par githubPages
 
 [build]
-  command = "npm run build"
+  command = "npm run build-only"
   publish = "dist"
 
 [[redirects]]
