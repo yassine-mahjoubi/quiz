@@ -1,5 +1,8 @@
 #force redirect car notre base url est "/quiz" qui est exigé par githubPages
 
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
+
 [build]
   command = "npm run build-only"
   publish = "dist"
