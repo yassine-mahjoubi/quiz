@@ -1,7 +1,6 @@
-const urlTFetch = 'https://picocss.com/docs'
-const url = `/.netlify/functions/parser?url=${encodeURIComponent(urlTFetch)}`
+export const fetchUrl = async (urlTFetch: string) => {
+  const url = `/.netlify/functions/parser?url=${encodeURIComponent(urlTFetch)}`
 
-const fetchUrl = async (url: string) => {
   let result = null
   try {
     const response = await fetch(url)
@@ -15,5 +14,3 @@ const fetchUrl = async (url: string) => {
   console.log('🚀 ~ fetchUrl ~ result:', result)
   return result
 }
-
-export const tada = await fetchUrl(url)

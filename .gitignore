@@ -29,3 +29,6 @@ coverage
 
 *.tsbuildinfo
 src/components/Practice.vue
+
+# Local Netlify folder
+.netlify
