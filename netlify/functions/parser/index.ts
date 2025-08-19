@@ -35,12 +35,9 @@ export const getMarkdownFromUrl = async (url: string): Promise<string> => {
 
     //create dom
     const dom = new JSDOM(html)
-    const title = dom.window.document.title
-    console.log('🚀 ~ handler ~ title:', title)
 
     //check Readability
     const reader = new Readability(dom.window.document)
-    console.log('🚀 ~ handler ~ redear:', reader)
 
     // Readability d'analyser et d'extraire l'article
     const article = reader.parse()
@@ -51,37 +48,11 @@ export const getMarkdownFromUrl = async (url: string): Promise<string> => {
     }
     const turndownService = new TurndownService()
     const markdown = turndownService.turndown(article.content)
-    console.log('🚀 ~ handler ~ markdown:', markdown)
 
     return markdown
-
-    /* return {
-      statusCode: 200,
-      body: JSON.stringify({
-        success: `html okay longeurs : ${html.length} et voici le title: ${title}`,
-      }),
-    } */
-    /* return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Article extrait avec succès !',
-        title: article.title, // Le titre trouvé par Readability
-        author: article.byline, // L'auteur, si trouvé
-        length: article.length, // La longueur du contenu en caractères
-        excerpt: article.excerpt, // Un court extrait généré automatiquement
-        // La propriété la plus importante pour la suite est 'article.content'
-        // qui contient le HTML propre de l'article.
-      }),
-    } */
   } catch (error) {
     console.log('erreur dans le bloc fetch', error)
     throw Error
-    /* return {
-      statusCode: 500, // 500 Internal Server Error
-      body: JSON.stringify({
-        error: `Impossible de récupérer le contenu de l'URL. Détail: ${error.message}`,
-      }),
-    } */
   }
 }
 
