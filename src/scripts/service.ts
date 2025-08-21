@@ -6,22 +6,49 @@ import { schema } from './quizGeneratorTool.ts'
 
 // Import Jina reader API
 import { fetchCententFromUrl } from './jina.ts'
-const urlToFetch: string = ''
+
+// Import mimic JIna
+import { fetchUrl } from './mimicJIna.ts'
+
 // Import Gemini LLM
 import ai from './gemini.ts'
 
 /**
- *
- * @param context
- * @returns
+ * extract content from url using servie JIna sinon switch to mimicJina in case of echec
+ * @param {string} url source to extract the content from
+ * @returns {Promise<string|null>} content as markdwon
  */
-const promptContext = (context: string): string => {
-  return context
-    ? `en te basant uniquement sur le context suivant:
+
+const extractContentFromUrl = async (url: string): Promise<string | null> => {
+  let sourceContent = null
+  try {
+    sourceContent = await fetchContext(url)
+    if (!sourceContent) {
+      throw new Error('erreur lors du fetchContext')
+    }
+  } catch (error) {
+    console.log('erreur when fetching url with JIna :', error)
+    console.warn('switch to craft handmade mimicJIna')
+    try {
+      sourceContent = await fetchUrl(url)
+    } catch (error) {
+      console.log('erreur when fetching url with MimicJIna :', error)
+    }
+  }
+  return sourceContent
+}
+
+/**
+ *
+ * @param {string|null} context: text content as the only source
+ * @returns {string} prompt based on context
+ */
+const promptContext = (context: string | null): string => {
+  if (!context) return ''
+  return `en te basant uniquement sur le context suivant:
   ---
   ${context}
   ---`
-    : ''
 }
 
 /**
@@ -33,7 +60,7 @@ const fetchContext = async (url: string): Promise<string | null> => {
   let result: string | null = ''
 
   try {
-    const response = await fetchCententFromUrl(url || urlToFetch)
+    const response = await fetchCententFromUrl(url)
     if (response) {
       result = promptContext(response)
     } else {
@@ -53,7 +80,7 @@ const fetchContext = async (url: string): Promise<string | null> => {
  * @param numberQuestion
  * @param level
  * @param question
- * @returns
+ * @returns {string} final prompt to generate the quiz
  */
 const prompt = (
   context: string | null,
@@ -138,7 +165,7 @@ const handleMessageKey = (
  * @param {string} lang - la langue de l'user fr|eng
  * @param {string} url - optionel par default disabled,
  * @param {string} contextEnabled - optionnel par default false si activé alors url obligatoire,
- * @returns {Promise<{text: string, context: string|null, message:string }>} object contenant le contexte génére par JINA et text généré par gemini
+ * @returns {Promise<{text: string, context: string|null, message:string }>} object contenant le contexte génére soit par JINA si non disponible il switch vers mimicJna et text généré par gemini
  */
 export async function generateQuiz(
   question: string,
@@ -150,7 +177,7 @@ export async function generateQuiz(
 ): Promise<{ text: string; context: string | null; messageKey: string }> {
   let context = null
   if (contextEnabled) {
-    context = await fetchContext(url)
+    context = await extractContentFromUrl(url)
   }
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
