@@ -2,7 +2,7 @@ import type { Handler, HandlerEvent, HandlerContext, HandlerResponse } from '@ne
 // JSDOM : simule un environnement de navigateur prend html brut => object en créant un dom
 import { JSDOM } from 'jsdom'
 
-//filter brut html to essential content readable
+// filter brut html to essential content readable
 import { Readability } from '@mozilla/readability'
 
 // convert html to markdown
@@ -11,13 +11,12 @@ import TurndownService from 'turndown'
 import fetch from 'node-fetch'
 
 /**
- * @description Gère les requêtes pour analyser le contenu d'une page web externe.
- * Elle prend une URL en paramètre de requête, récupère le contenu HTML de cette URL,
- * et le renvoie.
- *
- * @param {HandlerEvent} event - L'objet contenant les détails de la requête HTTP entrante.
- * @param {HandlerContext} context - L'objet contenant des informations sur le contexte d'exécution.
- * @returns {Promise<HandlerResponse>} Un objet de réponse contenant le statut et le corps (body).
+  * @description Récupère le contenu d'une URL, extrait le contenu principal et le convertit en Markdown.
+  * Gère les erreurs de récupération ou de parsing en retournant une chaîne vide.
+  * @param {string} url L'URL complète de la page web à analyser.
+  * @returns {Promise<string>} Une promesse qui se résout avec le contenu en Markdown, ou une chaîne vide en cas
+ d'erreur.
+  * @throws {Error} Lance une erreur si le paramètre URL est manquant, qui sera interceptée par le handler.
  */
 
 export const getMarkdownFromUrl = async (url: string): Promise<string> => {
@@ -33,8 +32,18 @@ export const getMarkdownFromUrl = async (url: string): Promise<string> => {
     }
     const html = await response.text()
 
-    //create dom
-    const dom = new JSDOM(html)
+    // create dom Configuration JSDOM optimisée pour éviter l'erreur xhr-sync-worker
+    const dom = new JSDOM(html, {
+      url: url,
+      resources: 'usable',
+      runScripts: 'outside-only', // 'dangerously'
+      pretendToBeVisual: false,
+    })
+
+    // Vérification que le document a été créé
+    if (!dom.window.document) {
+      throw new Error('Impossible de créer le DOM à partir du HTML')
+    }
 
     //check Readability
     const reader = new Readability(dom.window.document)
@@ -52,9 +61,19 @@ export const getMarkdownFromUrl = async (url: string): Promise<string> => {
     return markdown
   } catch (error) {
     console.log('erreur dans le bloc fetch', error)
-    throw Error
+    return ''
   }
 }
+
+/**
+ * @description Gère les requêtes pour la fonction Netlify. Elle prend une URL via les paramètres de requête,
+ * appelle getMarkdownFromUrl pour obtenir le contenu en Markdown, et le renvoie dans une réponse HTTP.
+ * @param {HandlerEvent} event L'objet d'événement de Netlify contenant les détails de la requête, y compris les
+`queryStringParameters`.
+ * @param {HandlerContext} _context Le contexte d'exécution de Netlify (non utilisé ici).
+ * @returns {Promise<HandlerResponse>} Un objet de réponse HTTP avec le statut (200, 400, ou 500) et le corps de
+la réponse.
+ */
 
 const handler: Handler = async (
   event: HandlerEvent,
