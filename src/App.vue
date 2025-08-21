@@ -29,7 +29,7 @@ const showQuizDisplay = ref<boolean>(false)
 const contexte = ref<string | null>(null)
 const quizTimeDuration = ref<number>(0)
 const infosQuiz = ref<string>('')
-const allowDebug = ref<boolean>(false)
+const allowDebug = ref<boolean>(true)
 provide('allowDebug', allowDebug.value)
 const handleGenerateQuiz = async (payload: {
   question: string

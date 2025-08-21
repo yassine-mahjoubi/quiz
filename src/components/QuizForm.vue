@@ -4,7 +4,6 @@ import { ref, computed, watch } from 'vue'
 import type { numberQuestions, difficulty } from '@/type/Type'
 import { useRequiredField } from '@/composables/useRequiredField'
 import { useUrlField } from '@/composables/useUrlField'
-import { fetchUrl } from '../scripts/mimicJIna'
 
 const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
@@ -49,7 +48,6 @@ watch(markAsTouchedUrl, () => {
 
 const submitForm = (): void => {
   if (!handleInputUrl()) return
-  fetchUrl(url.value)
 
   if (!handleInputQuestion()) return
 
@@ -145,6 +143,7 @@ const handleTextButton = computed(() => {
   <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}
   </button>
+  <pre v-if="data"><code>{{ data }}</code></pre>
 </template>
 
 <style scoped>

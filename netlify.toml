@@ -12,3 +12,7 @@ package = "@netlify/plugin-functions-install-core"
   to = "/index.html"
   status = 200
   force = false #Ne pas capturer les fichiers existants
+
+# Configuration spécifique pour la fonction 'parser'
+[functions]  
+  external_node_modules = ["jsdom"]
