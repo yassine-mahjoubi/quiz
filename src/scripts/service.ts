@@ -8,7 +8,7 @@ import { schema } from './quizGeneratorTool.ts'
 import { fetchCententFromUrl } from './jina.ts'
 
 // Import mimic JIna
-import { fetchUrl } from './mimicJIna.ts'
+import { getMarkdownFromUrl } from './mimicJIna.ts'
 
 // Import Gemini LLM
 import ai from './gemini.ts'
@@ -30,7 +30,7 @@ const extractContentFromUrl = async (url: string): Promise<string | null> => {
     console.log('erreur when fetching url with JIna :', error)
     console.warn('switch to craft handmade mimicJIna')
     try {
-      sourceContent = await fetchUrl(url)
+      sourceContent = await getMarkdownFromUrl(url)
     } catch (error) {
       console.log('erreur when fetching url with MimicJIna :', error)
     }

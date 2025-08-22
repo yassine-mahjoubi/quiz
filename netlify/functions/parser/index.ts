@@ -94,6 +94,9 @@ const handler: Handler = async (
     const markdown = await getMarkdownFromUrl(urlToFetch)
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Allow anywhere
+      },
       body: markdown,
     }
   } catch (error) {

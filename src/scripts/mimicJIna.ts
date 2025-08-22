@@ -1,16 +1,21 @@
-export const fetchUrl = async (urlTFetch: string) => {
-  const url = `/.netlify/functions/parser?url=${encodeURIComponent(urlTFetch)}`
-
+const BASE_URL = `/.netlify/functions/parser?url=`
+/**
+ * fetch content parsed as markdown from netlify servless function based on url,
+ * @param {string} urlToFetch url to fetch content from to be parsed
+ * @returns {Promise<string | null>} contenu retourné sous format markdown
+ */
+export const getMarkdownFromUrl = async (urlToFetch: string): Promise<string | null> => {
+  const url = `${BASE_URL}${encodeURIComponent(urlToFetch)}`
   let result = null
   try {
     const response = await fetch(url)
-    console.log('🚀 ~ fetchUrl ~ response:', response)
+    if (!response.ok) {
+      console.log('erreur', response.status)
+      return null
+    }
     result = await response.text()
-    console.log('🚀 ~ fetchUrl ~ result:', result)
   } catch (error) {
-    console.log('error catch ', error)
-    return null
+    console.log('error when catching servless function from Netlify ', error)
   }
-  console.log('🚀 ~ fetchUrl ~ result:', result)
   return result
 }
