@@ -143,7 +143,6 @@ const handleTextButton = computed(() => {
   <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
     {{ handleTextButton }}
   </button>
-  <pre v-if="data"><code>{{ data }}</code></pre>
 </template>
 
 <style scoped>
