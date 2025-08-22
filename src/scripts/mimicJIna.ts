@@ -1,4 +1,8 @@
-const BASE_URL = `/.netlify/functions/parser?url=`
+const BASE_URL =
+  import.meta.env.MODE === 'production'
+    ? 'https://yassine-mahjoubi-quiz-ia-generator.netlify.app/.netlify/functions/parser?url='
+    : '/.netlify/functions/parser?url='
+
 /**
  * fetch content parsed as markdown from netlify servless function based on url,
  * @param {string} urlToFetch url to fetch content from to be parsed
