@@ -42,15 +42,18 @@ export const schema = {
       },
     },
   },
-  // L'objet principal doit obligatoirement contenir le tableau de questions
-  required: ['quiz_questions'],
+  error: {
+    type: 'STRING',
+    description:
+      "Un message d'erreur décrivant pourquoi le quiz n'a pas pu être généré. Ce champ ne doit être présent QUE si la génération a échoué.",
+  },
 }
 
 export const quizGeneratorTool = {
   function_declarations: [
     {
       name: 'generateur_de_quiz',
-      description: 'quiz generator',
+      description: 'Génère un quiz ou retourne une erreur si un contexte  fourni est invalide.',
       parameters: schema,
     },
   ],
