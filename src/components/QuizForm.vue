@@ -9,6 +9,11 @@ const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
 const numberQuestions = ref<numberQuestions>(5)
 const enableContext = ref<boolean>(false)
+const mimicPrompt = computed(() => {
+  return `Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
+  niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---
+  ${enableContext.value ? `en te basant uniquement sur le contenu extrait de " ${url.value} "` : ''} `
+})
 
 const {
   value: yourQuestion,
@@ -40,10 +45,6 @@ const emit = defineEmits<{
 //reset field url when enableContexte change
 watch(enableContext, () => {
   url.value = ''
-})
-
-watch(markAsTouchedUrl, () => {
-  console.log(markAsTouchedUrl)
 })
 
 const submitForm = (): void => {
@@ -138,6 +139,9 @@ const handleTextButton = computed(() => {
         </select>
       </fieldset>
     </div>
+  </section>
+  <section>
+    <code class="small">// pseudo Prompt:<br />{{ mimicPrompt }}</code>
   </section>
 
   <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
