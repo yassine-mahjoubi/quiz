@@ -91,17 +91,7 @@ export const prompt = (
   level: string,
   question: string,
 ): string => {
-  return `${
-    context
-      ? `Contenu fourni : ${context}
-
-  INSTRUCTIONS STRICTES :
-  1. Analyse si le contenu fourni traite du sujet : "${question}"
-  2. Si le contenu ne contient PAS d'informations pertinentes sur "${question}", réponds UNIQUEMENT :
-     "❌ Le contenu fourni ne traite pas du sujet demandé. Impossible de générer un quiz pertinent."
-  3. Si le contenu est pertinent, ALORS crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
-      : `Crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
-  }`
+  return `${context} ? ${context} :'' Crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
 }
 
 /**
