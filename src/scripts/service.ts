@@ -45,10 +45,12 @@ const extractContentFromUrl = async (url: string): Promise<string | null> => {
  */
 const promptContext = (context: string | null): string => {
   if (!context) return ''
-  return `en te basant uniquement sur le context suivant:
+  return `
+en te basant uniquement sur le context suivant:
   ---
   ${context}
-  ---`
+  ---
+  `
 }
 
 /**
@@ -82,15 +84,24 @@ const fetchContext = async (url: string): Promise<string | null> => {
  * @param question
  * @returns {string} final prompt to generate the quiz
  */
-const prompt = (
+export const prompt = (
   context: string | null,
   lang: string,
   numberQuestion: number,
   level: string,
   question: string,
 ): string => {
-  return `${context ? context : ''}
-  crée un quiz en ${lang == 'fr' ? 'français' : 'Anglais '} avec ${numberQuestion} questions, niveau ${level} sur: ${question}  `
+  return `${
+    context
+      ? `Contenu fourni : ${context}
+
+  INSTRUCTIONS STRICTES :
+  1. Analyse si le contenu fourni traite du sujet : "${question}"
+  2. Si le contenu ne contient PAS d'informations pertinentes sur "${question}", réponds UNIQUEMENT :
+     "❌ Le contenu fourni ne traite pas du sujet demandé. Impossible de générer un quiz pertinent."
+  3. Si le contenu est pertinent, ALORS crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
+      : `Crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
+  }`
 }
 
 /**
