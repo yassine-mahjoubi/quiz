@@ -21,8 +21,8 @@
     "language_changed_announcement": "The page is now in English"
   },
   "concept": {
-    "title": "AI-Powered Personalized Quiz Generator, with full transparency about its limitations",
-    "intro": "This project explores RAG (Retrieval-Augmented Generation) technology in an accessible way.\nProvide a topic or URL, and the AI will automatically generate a tailored quiz.\nHeads up: AI can make mistakes or 'hallucinate' - treat this as a learning tool, not gospel truth!",
+    "title": "Personalized Quiz Generator based on AI (Gemini)",
+    "intro": "This project mimics RAG (Retrieval-Augmented Generation) technology in a simple way.\nProvide your chosen topic (the generation prompt is ready) and a URL to define the context. The AI will automatically create a personalized quiz based on the content from that source.\nWarning: AI can generate incorrect information (hallucinations). Use this quiz as a learning aid, not as an absolute reference!",
     "modal": {
       "title": "How quiz generation works",
       "link": "Learn about the tech",

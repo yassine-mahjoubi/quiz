@@ -21,8 +21,8 @@
     "language_changed_announcement": "The page est désormais en Français"
   },
   "concept": {
-    "title": "Générateur de Quiz personnalisé basé sur l'IA, avec transparence sur ses limites",
-    "intro": "Ce projet explore la technologie RAG (Retrieval-Augmented Generation) de manière accessible.\nFournissez un sujet ou une URL : l'IA génère automatiquement un quiz personnalisé.\nImportant : l'IA peut commettre des erreurs ou « hallucinations » - utilisez ce quiz comme base d'apprentissage, pas comme vérité absolue !",
+    "title": "Générateur de Quiz personnalisé basé sur l'IA (Gemini)",
+    "intro": "Ce projet mimique la technologie RAG (Retrieval-Augmented Generation) d'une manière simple.\nFournissez le sujet de votre choix (le prompt de génération est prêt) et une URL pour délimiter le contexte. L'IA créera automatiquement un quiz personnalisé basé sur le contenu de cette source.\nAttention : l'IA peut générer des informations erronées (hallucinations). Utilisez ce quiz comme support d'apprentissage, non comme une référence.",
     "modal": {
       "title": "Comment fonctionne la génération de quiz",
       "link": "Découvrir la technologie",
