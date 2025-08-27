@@ -66,7 +66,8 @@
     "generated": {
       "withUrl": "The quiz was successfully generated from the URL",
       "withoutUrl": "The quiz was successfully generated",
-      "withFallback": "The provided URL could not be used, so it's based on the Gemini 's general knowledge"
+      "withFallback": "The provided URL could not be used, so it's based on the Gemini 's general knowledge",
+      "contextMismatch": "the content from the url provided mismatch with the subject of the question"
     },
     "error": {
       "generationFailed": "Sorry, an error occurred while creating the quiz. Please try again."

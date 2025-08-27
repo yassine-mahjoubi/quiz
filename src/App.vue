@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, shallowRef, watch, provide } from 'vue'
+import { ref, shallowRef, watch, provide, nextTick, useTemplateRef } from 'vue'
 
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
@@ -29,8 +29,11 @@ const showQuizDisplay = ref<boolean>(false)
 const contexte = ref<string | null>(null)
 const quizTimeDuration = ref<number>(0)
 const infosQuiz = ref<string>('')
+const showErrorMessage = ref<boolean>(false)
+const errorMessageRef = ref<HTMLDivElement | null>(null)
 const allowDebug = ref<boolean>(true)
 provide('allowDebug', allowDebug.value)
+
 const handleGenerateQuiz = async (payload: {
   question: string
   difficulty: difficulty
@@ -55,26 +58,27 @@ const handleGenerateQuiz = async (payload: {
       payload.contextEnabled,
     )
     messageKey = serviceMessageKey
-    if (text) {
-      answer.value = <quizResponse>JSON.parse(text)
-      console.warn('Quiz generated successfully sur: ', payload.question)
-      showUserAnswers.value = answer.value.quiz_questions.map(() => false)
-      isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
-      userAnswers.value = answer.value.quiz_questions.map(() => null)
-      totalQuestion.value = answer.value.quiz_questions.length
-      showQuizForm.value = false
-      showQuizDisplay.value = true
-      infosQuiz.value = messageKey
-      contexte.value = context
-      if (quizWrapper.value) {
-        quizWrapper.value?.setFocus()
-      }
-    } else {
-      infosQuiz.value = messageKey
+    contexte.value = context
+    if (!text) {
+      throw new Error('tada')
+    }
+
+    answer.value = <quizResponse>JSON.parse(text)
+    console.warn('Quiz generated successfully sur: ', payload.question)
+    showUserAnswers.value = answer.value.quiz_questions.map(() => false)
+    isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
+    userAnswers.value = answer.value.quiz_questions.map(() => null)
+    totalQuestion.value = answer.value.quiz_questions.length
+    showQuizForm.value = false
+    showQuizDisplay.value = true
+    infosQuiz.value = messageKey
+    if (quizWrapper.value) {
+      quizWrapper.value?.setFocus()
     }
   } catch (error) {
     console.error('Error generating quiz:', error)
     infosQuiz.value = messageKey
+    showErrorMessage.value = true
   } finally {
     loading.value = false
     quizTimeDuration.value = getDuration(quizDurationGeneration)
@@ -84,6 +88,14 @@ const handleGenerateQuiz = async (payload: {
 watch(locale, () => {
   document.title = t('seo.title')
 })
+
+watch(
+  showErrorMessage,
+  () => {
+    nextTick(() => errorMessageRef.value?.focus())
+  },
+  { flush: 'post' },
+)
 
 const handelUpdateScreen = (): void => {
   showReaderScreen.value = true
@@ -114,6 +126,12 @@ const handleNewQuiz = () => {
     <section v-if="!infosQuiz">
       <hero-layout />
     </section>
+    <section v-if="showErrorMessage" ref="errorMessageRef" role="alert" tabindex="-1">
+      <p class="error">
+        {{ t(infosQuiz) }}
+      </p>
+    </section>
+
     <section v-if="answer && showResultQuiz">
       <quiz-result :answer="answer" :userAnswers="userAnswers" @new-quiz="handleNewQuiz" />
     </section>
