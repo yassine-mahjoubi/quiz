@@ -28,7 +28,7 @@ const extractContentFromUrl = async (url: string): Promise<string | null> => {
     }
   } catch (error) {
     console.log('erreur when fetching url with JIna :', error)
-    console.warn('switch to craft handmade mimicJIna')
+    console.warn('switch to mimicJIna')
     try {
       sourceContent = await getMarkdownFromUrl(url)
     } catch (error) {
@@ -84,14 +84,31 @@ const fetchContext = async (url: string): Promise<string | null> => {
  * @param question
  * @returns {string} final prompt to generate the quiz
  */
-export const prompt = (
+const prompt = (
   context: string | null,
   lang: string,
   numberQuestion: number,
   level: string,
   question: string,
 ): string => {
-  return `${context} ? ${context} :'' Crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
+  if (!context) {
+    return `Crée un quiz en ${lang == 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions, niveau ${level} sur: ${question}`
+  }
+  return `
+   Tu es un assistant expert en création de quiz.
+   Analyse le contexte et la question ci-dessous.
+   Contexte :
+   ---
+   ${context}
+   ---
+   Question de l'utilisateur : "${question}"
+   Instructions :
+   1. Évalue si le contexte est directement pertinent pour répondre à la question de l'utilisateur.
+   2. Si le contexte n'est PAS pertinent, appelle la fonction 'generateur_de_quiz' en remplissant SEULEMENT le champ 'error' avec le message "Le contenu fourni ne
+   semble pas correspondre au sujet du quiz demandé.".
+   3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${lang === 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions de niveau
+   ${level}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
+   `
 }
 
 /**
@@ -113,10 +130,19 @@ const fetchText = async (promptUser: string): Promise<string> => {
     const parts = response?.candidates?.[0].content?.parts?.[0]
     textContent = parts?.text ?? ''
   } catch (error) {
-    console.log(error)
+    console.log('erreur depuis Gemini', error)
     textContent = ''
   }
   return textContent
+}
+
+const handleContextMatch = (context: string): boolean => {
+  try {
+    const lookingForError = JSON.parse(context)
+    return lookingForError.error && lookingForError.error.trim() !== ''
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -124,13 +150,15 @@ const fetchText = async (promptUser: string): Promise<string> => {
  * @readonly
  */
 const MESSAGE_KEY = {
-  /** Message d'erreur quand la génération échoue */
-  ERROR: 'quiz.generated.generationFailed',
-  /** Message de succès quand une URL est utilisée */
+  // Message d'erreur quand la génération échoue
+  ERROR: 'quiz.error.generationFailed',
+  // Message d'erreur quand le contexte ne match pas avec le contenu de l'url
+  CONTEXT_MISMATCH: 'quiz.generated.contextMismatch',
+  // Message de succès quand une URL est utilisée
   WITH_URL: 'quiz.generated.withUrl',
-  /** Message de succès sans le choix (sans URL) */
+  // Message de succès sans le choix (sans URL)
   WITHOUT_URL: 'quiz.generated.withoutUrl',
-  /** Message de succès en mode fallback (URL fourni mais echec) */
+  // Message de succès en mode fallback (URL fourni mais echec)
   WITH_FALLBACK: 'quiz.generated.withFallback',
 } as const
 
@@ -144,6 +172,7 @@ const handleMessageKey = (
   text: string,
   context: string | null,
   contextEnabled: boolean,
+  contextNotMatch: boolean,
 ): string => {
   // 1: case: echec global (gemini)
   if (!text) return MESSAGE_KEY.ERROR
@@ -151,10 +180,13 @@ const handleMessageKey = (
   // 2: case: success (gemini) without context choice
   if (!contextEnabled) return MESSAGE_KEY.WITHOUT_URL
 
-  // 3: case: success global ( gemini et jina)
+  // 3: case: le context ne match pas avec la question
+  if (contextNotMatch) return MESSAGE_KEY.CONTEXT_MISMATCH
+
+  // 4: case: success global ( gemini et jina)
   if (context) return MESSAGE_KEY.WITH_URL
 
-  // 4: Case l'user voulait un contexte, mais ça a échoué (fallback)
+  // 5: Case l'user voulait un contexte, mais ça a échoué (fallback)
   return MESSAGE_KEY.WITH_FALLBACK
 }
 
@@ -177,6 +209,7 @@ export async function generateQuiz(
   contextEnabled: boolean,
 ): Promise<{ text: string; context: string | null; messageKey: string }> {
   let context = null
+  let isContextMatch = false
   if (contextEnabled) {
     context = await extractContentFromUrl(url)
   }
@@ -185,7 +218,9 @@ export async function generateQuiz(
 
   const text = await fetchText(promptUser)
 
-  const messageKey = handleMessageKey(text, context, contextEnabled)
+  isContextMatch = handleContextMatch(text)
+
+  const messageKey = handleMessageKey(text, context, contextEnabled, isContextMatch)
 
   return { text, context, messageKey }
 }

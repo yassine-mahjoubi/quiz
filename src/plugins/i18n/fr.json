@@ -66,7 +66,8 @@
     "generated": {
       "withUrl": "Le quiz a été généré avec succès à partir de l'URL",
       "withoutUrl": "Le quiz a été généré avec succès",
-      "withFallback": "L'URL n'a pas pu être utilisée, il est donc basé sur les connaissances générales de l'IA Gemini"
+      "withFallback": "L'URL n'a pas pu être utilisée, il est donc basé sur les connaissances générales de l'IA Gemini",
+      "contextMismatch": "Le contenu de l'url fourni ne correspond pas au sujet du quiz demandé."
     },
     "error": {
       "generationFailed": "Désolé, une erreur est survenue lors de la création du quiz. Veuillez réessayer."

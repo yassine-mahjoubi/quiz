@@ -1,6 +1,6 @@
 export const schema = {
   type: 'OBJECT',
-  // Définition des propriétés de l'objet principal
+  // propriétés de l'objet principal
   properties: {
     // La propriété principale est un tableau de questions
     quiz_questions: {
@@ -41,12 +41,14 @@ export const schema = {
         required: ['question_text', 'difficulty', 'choices', 'correct_answer_index'],
       },
     },
+    error: {
+      type: 'STRING',
+      description:
+        "Un message d'erreur décrivant pourquoi le quiz n'a pas pu être généré. Ce champ ne doit être présent QUE si la génération a échoué.",
+    },
   },
-  error: {
-    type: 'STRING',
-    description:
-      "Un message d'erreur décrivant pourquoi le quiz n'a pas pu être généré. Ce champ ne doit être présent QUE si la génération a échoué.",
-  },
+  // l'un ou l'autre.
+  oneOf: [{ required: ['quiz_questions'] }, { required: ['error'] }],
 }
 
 export const quizGeneratorTool = {

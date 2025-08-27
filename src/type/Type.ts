@@ -29,6 +29,7 @@ interface Question {
 
 interface quizResponse {
   quiz_questions: Question[]
+  error: string
 }
 
 type invalid = boolean | undefined
