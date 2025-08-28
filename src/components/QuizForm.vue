@@ -9,10 +9,27 @@ const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
 const numberQuestions = ref<numberQuestions>(5)
 const enableContext = ref<boolean>(false)
-const mimicPrompt = computed(() => {
+const promptWithoutContext = computed(() => {
   return `Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
-  niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---
-  ${enableContext.value ? `en te basant uniquement sur le contenu extrait de " ${url.value} "` : ''} `
+  niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---`
+})
+
+const promptEnabledContext = computed(() => {
+  return ` Tu es un assistant expert en création de quiz.
+   Analyse le contexte et la question ci-dessous.
+   Contexte :
+   ---
+   ${url.value}
+   ---
+   Question de l'utilisateur : ---${yourQuestion.value.toUpperCase()}---
+   Instructions :
+   1. Évalue si le contexte est directement pertinent pour répondre à la question de l'utilisateur.
+   2. Si le contexte n'est PAS pertinent, appelle la fonction 'generateur_de_quiz' en remplissant SEULEMENT le champ 'error' avec le message "Le contenu fourni ne
+   semble pas correspondre au sujet du quiz demandé.".
+   3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'}
+   avec ${numberQuestions.value} questions de niveau
+   ${difficulty.value}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
+   `
 })
 
 const {
@@ -103,7 +120,7 @@ const handleTextButton = computed(() => {
         aria-labelledby="url-info"
       />
       <small id="url-info"> {{ t('quizForm.field.urlInfo') }}: http://exemple.com</small>
-      <label for="youQuestion"> {{ t('quizForm.subject') }} *: {{ yourQuestion }} </label>
+      <label for="youQuestion"> {{ t('quizForm.subject') }} *: </label>
       <input
         type="text"
         id="youQuestion"
@@ -141,7 +158,13 @@ const handleTextButton = computed(() => {
     </div>
   </section>
   <section>
-    <code class="small">// pseudo Prompt:<br />{{ mimicPrompt }}</code>
+    <details>
+      <summary role="button" class="outline secondary">show the pseudo prompt</summary>
+      <pre><code class="small">
+      // pseudo Prompt: <br />
+      {{ enableContext ?  promptEnabledContext  : promptWithoutContext }}
+    </code></pre>
+    </details>
   </section>
 
   <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
