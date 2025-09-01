@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref, shallowRef, watch, provide, nextTick, useTemplateRef } from 'vue'
+import { ref, shallowRef, watch, provide, nextTick } from 'vue'
 
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
@@ -32,6 +32,7 @@ const infosQuiz = ref<string>('')
 const showErrorMessage = ref<boolean>(false)
 const errorMessageRef = ref<HTMLDivElement | null>(null)
 const allowDebug = ref<boolean>(true)
+
 provide('allowDebug', allowDebug.value)
 
 const handleGenerateQuiz = async (payload: {
@@ -158,7 +159,7 @@ const handleNewQuiz = () => {
         <pre><code> {{ answer }}</code></pre>
       </details>
       <details name="api" v-if="contexte">
-        <summary role="button" class="outline secondary">markdown generated from {{ url }}</summary>
+        <summary role="button" class="outline secondary">markdown generated from</summary>
         <pre><code> {{ contexte }}</code></pre>
       </details>
     </section>
