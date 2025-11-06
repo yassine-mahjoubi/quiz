@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue'
 <template>
   <Icon aria-hidden="true" class="icon" icon="game-icons:wisdom" width="64" height="64" />
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .icon {
   color: #fff;
   &:hover {

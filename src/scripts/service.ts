@@ -136,10 +136,16 @@ const fetchText = async (promptUser: string): Promise<string> => {
   return textContent
 }
 
-const handleContextMatch = (context: string): boolean => {
+/**
+ * Vérifie si la réponse JSON de l'IA signale une non-concordance de contexte.
+ *
+ * @param {string} jsonString - La chaîne de caractères JSON brute reçue de l'API.
+ * @returns {boolean} `true` si la chaîne contient un objet avec une clé "error" non vide.
+ */
+const handleContextMatch = (jsonString: string): boolean => {
   try {
-    const lookingForError = JSON.parse(context)
-    return lookingForError.error && lookingForError.error.trim() !== ''
+    const parsed = JSON.parse(jsonString)
+    return Boolean(parsed?.error?.trim())
   } catch {
     return false
   }
@@ -209,7 +215,7 @@ export async function generateQuiz(
   contextEnabled: boolean,
 ): Promise<{ text: string; context: string | null; messageKey: string }> {
   let context = null
-  let isContextMatch = false
+  let isContextMismatch = false
   if (contextEnabled) {
     context = await extractContentFromUrl(url)
   }
@@ -218,9 +224,9 @@ export async function generateQuiz(
 
   const text = await fetchText(promptUser)
 
-  isContextMatch = handleContextMatch(text)
+  isContextMismatch = handleContextMatch(text)
 
-  const messageKey = handleMessageKey(text, context, contextEnabled, isContextMatch)
+  const messageKey = handleMessageKey(text, context, contextEnabled, isContextMismatch)
 
   return { text, context, messageKey }
 }
