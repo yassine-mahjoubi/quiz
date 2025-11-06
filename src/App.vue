@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { Icon } from '@iconify/vue'
+
 import { ref, shallowRef, watch, provide, nextTick } from 'vue'
 
 import { generateQuiz } from './scripts/service'
@@ -130,6 +132,13 @@ const handleNewQuiz = () => {
     </section>
     <section v-if="showErrorMessage" ref="errorMessageRef" role="alert" tabindex="-1">
       <p class="error">
+        <Icon
+          aria-hidden="true"
+          class="icon"
+          icon="game-icons:alien-skull"
+          width="32"
+          height="32"
+        />
         {{ t(infosQuiz) }}
       </p>
     </section>
@@ -153,13 +162,11 @@ const handleNewQuiz = () => {
     </section>
     <section v-if="allowDebug">
       <details name="api" v-if="answer">
-        <summary role="button" class="outline secondary">
-          show the API generated for the quiz
-        </summary>
+        <summary role="button" class="outline secondary">generated API</summary>
         <pre><code> {{ answer }}</code></pre>
       </details>
       <details name="api" v-if="contexte">
-        <summary role="button" class="outline secondary">markdown generated from</summary>
+        <summary role="button" class="outline secondary">markdown LLM friendly</summary>
         <pre><code> {{ contexte }}</code></pre>
       </details>
     </section>
