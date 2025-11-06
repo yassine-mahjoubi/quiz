@@ -8,23 +8,22 @@
 
 ** Projet en cours de développement**
 
-# AI Quiz Generator - Assistant d'Apprentissage Intelligent
+# AI Quiz Generator
 
-Une application qui génère des quiz personnalisés en utilisant l'Intelligence Artificielle. L'application peut créer des quiz sur n'importe quel sujet en analysant du contenu web fourni ou pas par l'utilisateur.
+Une app qui génère des quiz personnalisés en utilisant l'Intelligence Artificielle. L'application peut créer des quiz sur n'importe quel sujet en analysant du contenu web fourni ou pas par l'utilisateur.
 
-Ce projet démontre l'intégration avancée d'APIs d'IA modernes et de techniques de **Retrieval-Augmented Generation (RAG)** dans une application Vue 3.
+Ce projet démontre l'intégration avancée d'APIs d'IA et de techniques de **Retrieval-Augmented Generation (RAG)** dans une application Vue 3.
 
 ## Fonctionnalités Clés
 
 - **Génération de Quiz IA :** Quiz personnalisés générés par Google Gemini sur n'importe quel sujet
-- **RAG Intelligent :** Analyse automatique du contenu web via URL pour créer des quiz contextuels
+- **RAG Intelligent :** Analyse automatique du contenu web via URL pour limiter le contexte
 - **Scraping Adaptatif :**
   - Solution primaire avec **Jina AI Reader API** pour extraction optimisée
-  - Fallback automatique vers solution **homemade (jsdom)** si Jina n'est pas disponible
-- **Feedback Transparent :** Indication à l'utilisateur de la méthode utilisée (Jina ou solution interne)
+  - Fallback automatique vers solution **homemade (jsdom)** si Jina n'est pas disponible ou out of tokens
+- **Feedback Transparent :** Indication à l'utilisateur de la méthode utilisée (Jina ou solution homemade)
 - **Interface Accessible :** Interface responsive et accessible (en cours d'amélioration RGAA)
-- **Validation Interactive :** Retour immédiat sur les réponses pour un apprentissage efficace
-- ** Important :** L'IA peut commettre des erreurs - vérification humaine recommandée
+- ** Important :** L'IA peut commettre des erreurs
 
 ## État d'Avancement
 
@@ -35,14 +34,13 @@ Ce projet démontre l'intégration avancée d'APIs d'IA modernes et de technique
 - ✅ Intégration API Gemini
 - ✅ Pipeline pseudo RAG avec Jina Reader
 - ✅ Fallback scraping avec jsdom et readability
+- ✅ analyse si le sujet donné match avec l'url fourni
 - ✅ Interface de quiz interactive accessible
 
 ### En cours de développement :
 
-- 🔄 Amélioration de l'interface utilisateur
 - 🔄 Conformité RGAA complète pour l'accessibilité
 - ❌ Tests unitaires (pas encore implémentés)
-- 🔄 Optimisation des performances
 
 ## 🛠️ Stack Technique
 
@@ -62,7 +60,7 @@ Ce projet démontre l'intégration avancée d'APIs d'IA modernes et de technique
 Ce projet est un cas pratique pour maîtriser les concepts suivants :
 
 1. **Implémenter un pipeline pseudo RAG :** Extraction et analyse de contenu web pour alimenter l'IA en limitant le contexte
-2. **Maîtriser les APIs d'IA :** Intégration efficace avec Google Gemini
+2. **Maîtriser les APIs d'IA :** Intégration avec Google Gemini
 3. **Robustesse et Fallback :** Système de secours automatique entre différentes solutions de scraping
 4. **Architecture Résiliente :** Gestion transparente des échecs d'API et alternatives
 5. **Développement Vue 3 Moderne :** TypeScript, Composition API, et "bonnes pratiques"
@@ -74,17 +72,20 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
 - Les quiz générés par Gemini peuvent contenir des inexactitudes
 - Les réponses suggérées ne sont pas toujours correctes à 100%
 - **Toujours vérifier** les informations avec des sources fiables
-- Utiliser cet outil comme **aide à l'apprentissage**, pas comme source unique de vérité
 
 ## Comment ça Marche
 
-1. **L'utilisateur fournit une URL** du contenu à analyser
-2. **Extraction du contenu :**
-   - Tentative via **Jina AI Reader** (solution optimisée)
-   - Si échec → Basculement automatique vers **solution 'homeMade' basé sur jsdom et readability**
-3. **Traitement RAG :** Conversion du contenu en format markdown LLM-friendly
-4. **Génération IA :** Création du quiz par Google Gemini basé sur le contenu extrait
-5. **Feedback transparent :** Indication à l'utilisateur de la méthode utilisée
+1.  **Saisie Utilisateur :** L'utilisateur fournit une URL et, optionnellement, un sujet précis.
+2.  **Extraction du Contenu :**
+    *   Tentative via **Jina AI Reader** (solution optimisée).
+    *   Si échec → Basculement automatique vers la solution interne (**jsdom** + **readability**).
+3.  **Traitement RAG :** Le contenu extrait est nettoyé et converti au format Markdown, prêt pour l'IA.
+4.  **Vérification de Pertinence (si un sujet est fourni) :**
+    *   Le système vérifie si le sujet est présent dans le contenu extrait.
+    *   Si le sujet n'est pas trouvé, un message informe l'utilisateur que le contenu ne correspond pas au sujet demandé.
+    *   Le processus continue uniquement si le sujet est trouvé (ou si aucun sujet n'a été fourni).
+5.  **Génération IA :** Google Gemini crée le quiz en se basant sur le contenu pertinent.
+6.  **Feedback Transparent :** L'interface indique à l'utilisateur la méthode d'extraction qui a été utilisée.
 
 ## Installation et Lancement
 
