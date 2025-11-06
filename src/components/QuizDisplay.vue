@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
+import { Icon } from '@iconify/vue'
+
 import { formatDurationToSeconds } from '../utils/timeduration'
 import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
@@ -73,6 +75,8 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
 
 <template>
   <h2>
+    <Icon aria-hidden="true" icon="emojione-monotone:victory-hand" width="32" height="32" />
+
     {{ t(infosQuiz) }} <small>{{ t('quiz.duration', { time: quizDuration }) }}</small>
   </h2>
   <label for="progressBar">{{ t('quiz.progress') }}</label>
