@@ -1,18 +1,43 @@
-# AI Quiz Generator - Intelligent Learning Assistant
-
-![Status](https://img.shields.io/badge/Status-En%20Développement-yellow)
-![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green)
-![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)
-![Gemini AI](https://img.shields.io/badge/Gemini-AI-orange)
-![RAG](https://img.shields.io/badge/RAG-Enabled-purple)
-
-** Projet en cours de développement**
-
 # AI Quiz Generator
 
-Une app qui génère des quiz personnalisés en utilisant l'Intelligence Artificielle. L'application peut créer des quiz sur n'importe quel sujet en analysant du contenu web fourni ou pas par l'utilisateur.
+![Status](https://img.shields.io/badge/Status-En%20Développement-1AD599)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-00b478)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.x-008256)
+![Gemini AI](https://img.shields.io/badge/Gemini-AI-1AD599)
+![RAG](https://img.shields.io/badge/RAG-Enabled-00b478)
+![Jina AI](https://img.shields.io/badge/Jina-AI%20Reader-008256)
+![Serverless](https://img.shields.io/badge/Serverless-Netlify%20Functions-008256)
+![Fallback Scraping](https://img.shields.io/badge/Fallback%20Scraping-jsdom-1AD599)
 
-Ce projet démontre l'intégration avancée d'APIs d'IA et de techniques de **Retrieval-Augmented Generation (RAG)** dans une application Vue 3.
+![Démonstration de l'application](demo.gif)
+
+➡️ Voir la démo sur [GitHub Pages](https://yassine-mahjoubi.github.io/quiz/) | ➡️ Voir la démo sur [Netlify](https://yassine-mahjoubi-quiz-ia-generator.netlify.app/)
+
+**`AI Quiz Generator` est une application web qui simule la mise en œuvre d'un pipeline RAG (Retrieval-Augmented Generation). À partir d'une simple URL, l'application génère un quiz pertinent en utilisant Google Gemini, après avoir analysé et extrait le contenu sémantique de la page. (LLM friendly)**
+
+### Points Forts du Projet
+
+- **Architecture RAG Avancée :** Le système choisit automatiquement entre l'API de **Jina AI** et/ ou une solution de scraping interne (`jsdom`, `Readability`) pour garantir la robustesse de l'extraction de données.
+- **Architecture d'Hébergement Hybride (CI/CD) :** Le projet utilise deux pipelines de déploiement continus distincts : GitHub Actions pour le front-end sur **GitHub Pages**, et la plateforme Netlify pour les fonctions **serverless** back-end.
+- **Stack Technique Moderne :** Le projet est développé en **Vue.js 3** (Composition API) et **TypeScript**, en suivant les meilleures pratiques de qualité de code.
+
+## Architecture et Déploiement
+
+Ce projet possède une configuration de déploiement double, ce qui signifie que le site est construit et hébergé en parallèle à deux endroits distincts.
+
+### Pipeline 1 : Déploiement sur GitHub Pages
+
+- **Ce qui est déployé :** Uniquement le site front-end (l'application Vue.js).
+- **Méthode :** Le déploiement est automatisé via un workflow **GitHub Actions**.
+- **Déclencheur :** Un `push` sur la branche `main`.
+- **Fichier de configuration :** `.github/workflows/deploy.yml`.
+
+### Pipeline 2 : Déploiement sur Netlify
+
+- **Ce qui est déployé :** Le site front-end **ET** la fonction back-end (`parser`).
+- **Méthode :** Le déploiement est géré automatiquement par la **plateforme Netlify**, qui est connectée à ce dépôt.
+- **Déclencheur :** Un `push` sur la branche surveillée par Netlify (probablement `main`).
+- **Fichier de configuration :** `netlify.toml`.
 
 ## Fonctionnalités Clés
 
@@ -33,8 +58,8 @@ Ce projet démontre l'intégration avancée d'APIs d'IA et de techniques de **Re
 
 - ✅ Intégration API Gemini
 - ✅ Pipeline pseudo RAG avec Jina Reader
-- ✅ Fallback scraping avec jsdom et readability
-- ✅ analyse si le sujet donné match avec l'url fourni
+- ✅ Fallback scraping avec jsdom et readability au cas ou Jina n'est pas disponible
+- ✅ Analyse si le sujet donné match avec l'url fourni en se basant sur l'IA
 - ✅ Interface de quiz interactive accessible
 
 ### En cours de développement :
@@ -47,6 +72,7 @@ Ce projet démontre l'intégration avancée d'APIs d'IA et de techniques de **Re
 - **Framework :** [Vue.js 3](https://vuejs.org/) (Composition API)
 - **Langage :** [TypeScript](https://www.typescriptlang.org/)
 - **CSS Framework :** [Pico.css](https://picocss.com/) (pour un style sémantique et léger)
+- **Hébergement & Serverless :** [Netlify](https://www.netlify.com/) (Front-end & Fonctions) et [GitHub Pages](https://pages.github.com/)
 - **APIs & Services IA :**
   - [Google Gemini](https://ai.google.dev/) pour la génération de quiz
   - [Jina AI Reader](https://jina.ai/reader/) pour l'extraction de contenu web (RAG)
@@ -55,36 +81,35 @@ Ce projet démontre l'intégration avancée d'APIs d'IA et de techniques de **Re
 - **Tests :** [Vitest](https://vitest.dev/)
 - **Qualité de code :** [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/)
 
-## Objectifs du Projet
+## Compétences Techniques Démontrées
 
-Ce projet est un cas pratique pour maîtriser les concepts suivants :
+Ce projet met en œuvre et valide la maîtrise des compétences suivantes :
 
-1. **Implémenter un pipeline pseudo RAG :** Extraction et analyse de contenu web pour alimenter l'IA en limitant le contexte
-2. **Maîtriser les APIs d'IA :** Intégration avec Google Gemini
-3. **Robustesse et Fallback :** Système de secours automatique entre différentes solutions de scraping
-4. **Architecture Résiliente :** Gestion transparente des échecs d'API et alternatives
-5. **Développement Vue 3 Moderne :** TypeScript, Composition API, et "bonnes pratiques"
+- **Développement Back-End & Serverless :** Conception de fonctions serverless sur Netlify, gestion des dépendances (`node-fetch`, `jsdom`) et déploiement automatisé.
+- **Architecture IA & RAG :** Implémentation d'un pipeline RAG, incluant le choix dynamique de la source de données et l'orchestration d'appels à des LLMs (Gemini).
+- **Développement Front-End :** Maîtrise de l'écosystème Vue.js 3 (Composition API) et TypeScript pour une application robuste et typée.
+- **DevOps & CI/CD :** Configuration de deux pipelines de déploiement distincts (GitHub Actions, Netlify) pour une architecture découplée (front-end statique et back-end serverless).
+- **Résilience et Conception de Systèmes :** Mise en place d'un mécanisme de fallback automatique pour assurer la continuité du service (Jina AI vs. solution interne).
 
-## Avertissement Important
+## Avertissement
 
 **L'Intelligence Artificielle peut commettre des erreurs !**
 
-- Les quiz générés par Gemini peuvent contenir des inexactitudes
-- Les réponses suggérées ne sont pas toujours correctes à 100%
+- Les quiz générés par Gemini peuvent contenir des hallucinations
 - **Toujours vérifier** les informations avec des sources fiables
 
 ## Comment ça Marche
 
-1.  **Saisie Utilisateur :** L'utilisateur fournit une URL et, optionnellement, un sujet précis.
+1.  **Saisie Utilisateur :** L'utilisateur fournit optionnellement une URL et un sujet précis.
 2.  **Extraction du Contenu :**
-    *   Tentative via **Jina AI Reader** (solution optimisée).
-    *   Si échec → Basculement automatique vers la solution interne (**jsdom** + **readability**).
-3.  **Traitement RAG :** Le contenu extrait est nettoyé et converti au format Markdown, prêt pour l'IA.
-4.  **Vérification de Pertinence (si un sujet est fourni) :**
-    *   Le système vérifie si le sujet est présent dans le contenu extrait.
-    *   Si le sujet n'est pas trouvé, un message informe l'utilisateur que le contenu ne correspond pas au sujet demandé.
-    *   Le processus continue uniquement si le sujet est trouvé (ou si aucun sujet n'a été fourni).
-5.  **Génération IA :** Google Gemini crée le quiz en se basant sur le contenu pertinent.
+    - Tentative via **Jina AI Reader** (solution optimisée).
+    - Si échec → Basculement automatique vers la solution interne (**jsdom** + **readability**).
+3.  **Traitement RAG :** Le contenu extrait est nettoyé et converti au format Markdown (LLM friendly) prêt pour l'IA.
+4.  **Vérification de Pertinence du sujet fourni :**
+    - L'IA vérifie si le sujet est présent dans le contenu extrait.
+    - Si le sujet n'est pas trouvé, un message informe l'utilisateur que le contenu ne correspond pas au sujet demandé.
+    - Le processus continue uniquement si le sujet est trouvé (ou si aucune url n'a été fourni).
+5.  **Génération IA :** Google Gemini crée le quiz en se basant sur le contenu donné.
 6.  **Feedback Transparent :** L'interface indique à l'utilisateur la méthode d'extraction qui a été utilisée.
 
 ## Installation et Lancement
@@ -107,7 +132,13 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
    npm install
    ```
 
-4. **Configurez les clés d'API :**
+4. **Installer les dépendances de la fonction Netlify :**
+
+   ```bash
+   cd netlify/functions/parser && npm install && cd -
+   ```
+
+5. **Configurez les clés d'API :**
    Commencez par copier le fichier d'exemple pour créer votre propre fichier d'environnement local :
 
    ```bash
@@ -122,20 +153,16 @@ Ce projet est un cas pratique pour maîtriser les concepts suivants :
    VITE_JINA_API_KEY=VOTRE_CLE_PERSONNELLE_JINA
    ```
 
-5. **Lancez le serveur de développement :**
+6. **Lancez le serveur de développement de Netlify:**
    ```bash
-   npm run dev
+   netlify dev
    ```
 
 ## Scripts Disponibles
 
-- `npm run dev`: Lance le serveur de développement
+- `netlify dev`: Lance l'environnement de développement complet (front-end et fonctions Netlify).
 - `npm run build`: Compile l'application pour la production
 - `npm run test:unit`: ⚠️ Tests unitaires (pas encore implémentés)
 - `npm run lint`: Analyse le code pour trouver les problèmes de style
-
-## Cas d'Usage
-
-- **Auto-apprentissage :** Quiz personnalisés sur n'importe quel sujet web
 
 ---
