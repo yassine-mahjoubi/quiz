@@ -4,6 +4,11 @@
     "description": "Testez vos connaissances sur le Référentiel Général d'Amélioration de l'Accessibilité (RGAA) avec ce quiz dynamique. Le projet utilise  Vue.js 3, l'API Gemini de Google pour générer les questions, et Jina Reader pour l'analyse de contenu."
   },
   "common": {
+    "mode": {
+      "label": "Passer au thème",
+      "dark": "sombre",
+      "light": "clair"
+    },
     "next": "Suivant",
     "previous": "Précédent",
     "submit": "Valider",
