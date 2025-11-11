@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-import { computed, ref, watchEffect } from 'vue'
 import { Icon } from '@iconify/vue'
+import { computed } from 'vue'
+import { useThemeSwitcher } from '@/composables/useThemeSwitch'
 
-const dataTheme: HTMLElement | null = document.querySelector('html')
-const savedThemeChoice = localStorage.getItem('mode')
-const startWithDarkMode = savedThemeChoice === 'dark'
-const enabledDarkMode = ref<boolean>(startWithDarkMode)
+const { t } = useI18n()
 
-watchEffect(() => {
-  const newThemeChoice = enabledDarkMode.value ? 'dark' : 'light'
-  dataTheme?.setAttribute('data-theme', newThemeChoice)
-  localStorage.setItem('mode', newThemeChoice)
-})
-const toggleMode = () => {
-  enabledDarkMode.value = !enabledDarkMode.value
-}
+const { toggleMode, enabledDarkMode } = useThemeSwitcher()
+
 const labelThemeTranslated = computed(() => {
   return (
     t('common.mode.label') +
