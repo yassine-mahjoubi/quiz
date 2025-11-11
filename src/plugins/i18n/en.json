@@ -4,6 +4,11 @@
     "description": "Test your knowledge of web accessibility guidelines (WCAG/RGAA) with this dynamic quiz. This project uses Vue.js 3, Google's Gemini API for question generation, and Jina Reader for content analysis."
   },
   "common": {
+    "mode": {
+      "label": "Swich to",
+      "dark": "dark",
+      "light": "light"
+    },
     "next": "Next",
     "previous": "Previous",
     "submit": "Submit",
