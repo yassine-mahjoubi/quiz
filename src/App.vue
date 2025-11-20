@@ -11,6 +11,7 @@ import type { quizResponse, difficulty, numberQuestions } from './type/Type'
 
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import HeroLayout from './components/Layout/HeroLayout.vue'
+import FooterLayout from './components/Layout/FooterLayout.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
@@ -121,54 +122,64 @@ const handleNewQuiz = () => {
 }
 </script>
 <template>
-  <progress-bar v-if="loading" :progress-type="false" />
-  <header-layout @language-changed="handelUpdateScreen" />
-  <main class="container" role="main">
-    <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
-      {{ t('common.language_changed_announcement') }}
-    </p>
-    <section v-if="!infosQuiz">
-      <hero-layout />
-    </section>
-    <section v-if="showErrorMessage" ref="errorMessageRef" role="alert" tabindex="-1">
-      <p class="error">
-        <Icon
-          aria-hidden="true"
-          class="icon"
-          icon="game-icons:alien-skull"
-          width="32"
-          height="32"
-        />
-        {{ t(infosQuiz) }}
+  <div class="home-wrapper-layout">
+    <progress-bar v-if="loading" :progress-type="false" />
+    <header-layout @language-changed="handelUpdateScreen" />
+    <main class="container" role="main">
+      <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
+        {{ t('common.language_changed_announcement') }}
       </p>
-    </section>
+      <section v-if="!infosQuiz">
+        <hero-layout />
+      </section>
+      <section v-if="showErrorMessage" ref="errorMessageRef" role="alert" tabindex="-1">
+        <p class="error">
+          <Icon
+            aria-hidden="true"
+            class="icon"
+            icon="game-icons:alien-skull"
+            width="32"
+            height="32"
+          />
+          {{ t(infosQuiz) }}
+        </p>
+      </section>
 
-    <section v-if="answer && showResultQuiz">
-      <quiz-result :answer="answer" :userAnswers="userAnswers" @new-quiz="handleNewQuiz" />
-    </section>
-    <section v-if="answer && showQuizDisplay">
-      <quiz-display
-        :answer="answer"
-        :userAnswers="userAnswers"
-        :duration="quizTimeDuration"
-        :infosQuiz="infosQuiz"
-        @answer-selected="handleAnswerSelected"
-        @answer-submit="handleAnswerSubmit"
-        ref="quizWrapper"
-      />
-    </section>
-    <section v-if="showQuizForm">
-      <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
-    </section>
-    <section v-if="allowDebug">
-      <details name="api" v-if="answer">
-        <summary role="button" class="outline secondary">generated API</summary>
-        <pre><code> {{ answer }}</code></pre>
-      </details>
-      <details name="api" v-if="contexte">
-        <summary role="button" class="outline secondary">markdown LLM friendly</summary>
-        <pre><code> {{ contexte }}</code></pre>
-      </details>
-    </section>
-  </main>
+      <section v-if="answer && showResultQuiz">
+        <quiz-result :answer="answer" :userAnswers="userAnswers" @new-quiz="handleNewQuiz" />
+      </section>
+      <section v-if="answer && showQuizDisplay">
+        <quiz-display
+          :answer="answer"
+          :userAnswers="userAnswers"
+          :duration="quizTimeDuration"
+          :infosQuiz="infosQuiz"
+          @answer-selected="handleAnswerSelected"
+          @answer-submit="handleAnswerSubmit"
+          ref="quizWrapper"
+        />
+      </section>
+      <section v-if="showQuizForm">
+        <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
+      </section>
+      <section v-if="allowDebug">
+        <details name="api" v-if="answer">
+          <summary role="button" class="outline secondary">generated API</summary>
+          <pre><code> {{ answer }}</code></pre>
+        </details>
+        <details name="api" v-if="contexte">
+          <summary role="button" class="outline secondary">markdown LLM friendly</summary>
+          <pre><code> {{ contexte }}</code></pre>
+        </details>
+      </section>
+    </main>
+    <footer>
+      <FooterLayout />
+    </footer>
+  </div>
 </template>
+<style lang="scss">
+.home-wrapper-layout {
+  margin: 1rem;
+}
+</style>

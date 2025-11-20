@@ -32,6 +32,10 @@
       "title": "Comment fonctionne la génération de quiz",
       "link": "Découvrir la technologie",
       "description": "Cette application démocratise la 'Génération Augmentée par Récupération' (RAG) - pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
+    },
+    "linkLabel": {
+      "viewSourceOn": "voir la source sur",
+      "newWindow": "- nouvelle fenêtre"
     }
   },
   "quizForm": {
@@ -48,7 +52,7 @@
       "hard": "Difficile"
     },
     "enableContext": {
-      "label": "Limiter à une URL",
+      "label": "Basé sur une URL",
       "helper": "Le quiz sera créé uniquement avec le contenu de l'adresse web fournie."
     },
     "field": {
