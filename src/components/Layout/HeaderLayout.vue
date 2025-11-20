@@ -15,8 +15,8 @@ const handelUpdateScreen = (lang: string) => {
 </script>
 <template>
   <header class="container custom-header">
-    <div><base-logo /></div>
-    <div>
+    <div class="logo">
+      <base-logo />
       <p>{{ t('quizForm.title') }}</p>
     </div>
     <div>
@@ -25,16 +25,14 @@ const handelUpdateScreen = (lang: string) => {
   </header>
 </template>
 <style lang="scss">
+.logo {
+  text-align: center;
+}
 .custom-header {
   display: flex;
-  flex-direction: column;
-  align-items: baseline;
+  align-items: stretch;
+  justify-content: space-between;
   padding-top: 1rem;
   margin-bottom: 1rem;
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 }
 </style>

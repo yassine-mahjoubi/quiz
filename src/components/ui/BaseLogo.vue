@@ -31,8 +31,4 @@ const labelThemeTranslated = computed(() => {
   padding: 5px;
   border-radius: 100%;
 }
-.icon {
-  cursor: pointer;
-  color: currentColor;
-}
 </style>

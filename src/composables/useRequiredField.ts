@@ -14,6 +14,10 @@ export const useRequiredField = (element: string) => {
     return !value.value.trim()
   })
 
+  const canSubmit = computed<boolean>(() => {
+    return !value.value.trim()
+  })
+
   const validate = (): boolean => {
     markAsTouched()
     if (isInvalid.value) {
@@ -29,5 +33,6 @@ export const useRequiredField = (element: string) => {
     markAsTouched,
     isInvalid,
     validate,
+    canSubmit,
   }
 }
