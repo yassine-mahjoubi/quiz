@@ -37,6 +37,7 @@ const {
   isInvalid: isInvalidQuestion,
   validate: handleInputQuestion,
   markAsTouched,
+  canSubmit: disabledBtn,
 } = useRequiredField('yourQuestion_input')
 
 const {
@@ -93,10 +94,10 @@ const handleTextButton = computed(() => {
           role="switch"
           id="enableContext"
           v-model="enableContext"
-          aria-labelledby="enable-selector-helper"
+          aria-describedby="enable-selector-helper"
         />
         {{ t('quizForm.enableContext.label') }}
-        <p class="sr-only">
+        <p id="enable-selector-helper" class="sr-only">
           {{ t('quizForm.enableContext.helper') }}
         </p>
       </label>
@@ -106,7 +107,7 @@ const handleTextButton = computed(() => {
     <small>{{ t('quizForm.field.requiered') }}</small>
   </section>
   <section>
-    <fieldset :disabled="props.loading">
+    <fieldset class="disabled-wrapper">
       <label for="urlInput">{{ t('quizForm.url') }} *</label>
       <input
         type="url"
@@ -120,6 +121,8 @@ const handleTextButton = computed(() => {
         aria-labelledby="url-info"
       />
       <small id="url-info"> {{ t('quizForm.field.urlInfo') }}: http://exemple.com</small>
+    </fieldset>
+    <fieldset :disabled="props.loading">
       <label for="youQuestion"> {{ t('quizForm.subject') }} *: </label>
       <input
         type="text"
@@ -166,14 +169,28 @@ const handleTextButton = computed(() => {
     </code></pre>
     </details>
   </section>
-
-  <button @click="submitForm" :disabled="props.loading" :aria-busy="props.loading">
-    {{ handleTextButton }}
-  </button>
+  <section class="section-btn">
+    <div class="disabled-wrapper">
+      <button
+        @click="submitForm"
+        :disabled="props.loading || disabledBtn"
+        :aria-busy="props.loading"
+      >
+        {{ handleTextButton }}
+      </button>
+    </div>
+  </section>
 </template>
 
 <style scoped>
 .right {
   float: right;
+}
+.section-btn {
+  display: flex;
+  justify-content: center;
+}
+.disabled-wrapper:has([disabled]) {
+  cursor: not-allowed;
 }
 </style>
