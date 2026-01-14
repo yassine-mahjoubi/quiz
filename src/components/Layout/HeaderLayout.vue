@@ -14,10 +14,9 @@ const handelUpdateScreen = (lang: string) => {
 }
 </script>
 <template>
-  <header class="container custom-header">
+  <header class="container custom-header" role="header">
     <div class="logo">
       <base-logo />
-      <p>{{ t('quizForm.title') }}</p>
     </div>
     <div>
       <switch-language @language-changed="handelUpdateScreen" />
@@ -32,7 +31,7 @@ const handelUpdateScreen = (lang: string) => {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 </style>
