@@ -180,6 +180,6 @@ const handleNewQuiz = () => {
 </template>
 <style lang="scss">
 .home-wrapper-layout {
-  margin: 1rem;
+  padding: 0.5 1rem;
 }
 </style>

@@ -23,7 +23,7 @@ const labelThemeTranslated = computed(() => {
     :aria-label="labelThemeTranslated"
     @click="toggleMode()"
   >
-    <Icon aria-hidden="true" class="icon" icon="game-icons:wisdom" width="64" height="64" />
+    <Icon aria-hidden="true" class="icon" icon="game-icons:wisdom" width="36" height="36" />
   </button>
 </template>
 <style lang="scss" scoped>

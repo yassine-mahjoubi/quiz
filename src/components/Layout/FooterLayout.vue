@@ -16,12 +16,21 @@ const externalTitle = computed(() => {
       :title="externalTitle"
       rel="noopener"
     >
-      <Icon aria-hidden="true" class="icon" icon="bxl:github" width="64" height="64" />
+      <Icon aria-hidden="true" class="icon" icon="bxl:github" width="36" height="36" />
+    </a>
+    <a
+      href="https://www.linkedin.com/in/yassine-mahjoubi/"
+      target="_blank"
+      :title="'yassine mahjoubi, Linkedin ' + t('concept.linkLabel.newWindow')"
+    >
+      <Icon icon="entypo-social:linkedin-with-circle" width="36" height="36" class="icon" />
     </a>
   </div>
 </template>
 <style lang="scss" scoped>
 .layout {
-  text-align: center;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

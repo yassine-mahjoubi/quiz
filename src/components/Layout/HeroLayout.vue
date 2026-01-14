@@ -9,6 +9,7 @@ const { t } = useI18n()
     <h1>{{ t('concept.title') }}</h1>
     <p>
       {{ t('concept.intro') }}
+
       <base-modal :style="'link'">
         <template #title>{{ t('concept.modal.title') }}</template>
         <template #content>{{ t('concept.modal.description') }}</template>
