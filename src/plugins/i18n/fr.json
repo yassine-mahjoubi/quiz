@@ -30,12 +30,12 @@
     "intro": "Ce projet mimique la technologie RAG (Retrieval-Augmented Generation) d'une manière simple.\nFournissez le sujet de votre choix (le prompt de génération est prêt) et une URL pour délimiter le contexte. L'IA créera automatiquement un quiz personnalisé basé sur le contenu de cette source.\nAttention : l'IA peut générer des informations erronées (hallucinations). Utilisez ce quiz comme support d'apprentissage, non comme une référence.",
     "modal": {
       "title": "Comment fonctionne la génération de quiz",
-      "link": "Découvrir la technologie",
-      "description": "Cette application démocratise la 'Génération Augmentée par Récupération' (RAG) - pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
+      "link": "Découvrir la techno",
+      "description": "Cette application simplifie la 'Génération Augmentée par Récupération' (RAG) - pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
     },
     "linkLabel": {
       "viewSourceOn": "voir la source sur",
-      "newWindow": "- nouvelle fenêtre"
+      "newWindow": " - nouvelle fenêtre"
     }
   },
   "quizForm": {
