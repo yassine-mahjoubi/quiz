@@ -42,6 +42,7 @@ const handleGenerateQuiz = async (payload: {
   question: string
   difficulty: difficulty
   numberQuestions: numberQuestions
+  modelIA: string
   url: string
   contextEnabled: boolean
 }) => {
@@ -57,6 +58,7 @@ const handleGenerateQuiz = async (payload: {
       payload.question,
       payload.difficulty,
       payload.numberQuestions,
+      payload.modelIA,
       locale.value,
       payload.url,
       payload.contextEnabled,

@@ -8,7 +8,10 @@ import { useUrlField } from '@/composables/useUrlField'
 const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
 const numberQuestions = ref<numberQuestions>(5)
+const modelIA = ref<string>('gemini-flash-latest')
 const enableContext = ref<boolean>(false)
+
+const GEMINI_MODELS = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest']
 const promptWithoutContext = computed(() => {
   return `Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
   niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---`
@@ -53,6 +56,7 @@ const emit = defineEmits<{
     {
       question: string
       difficulty: difficulty
+      modelIA: ModelIA
       numberQuestions: numberQuestions
       contextEnabled: boolean
       url: string
@@ -74,6 +78,7 @@ const submitForm = (): void => {
     question: yourQuestion.value,
     difficulty: difficulty.value,
     numberQuestions: numberQuestions.value,
+    modelIA: modelIA.value,
     contextEnabled: enableContext.value,
     url: url.value,
   })
@@ -145,7 +150,7 @@ const handleTextButton = computed(() => {
       <fieldset :disabled="props.loading">
         <label for="numberQuestions">{{ t('quizForm.numQuestionsLabel') }}</label>
         <select id="numberQuestions" name="numberQuestions" v-model.number="numberQuestions">
-          <option value="5" default>5</option>
+          <option value="5">5</option>
           <option value="10">10</option>
           <option value="15">15</option>
         </select>
@@ -156,6 +161,14 @@ const handleTextButton = computed(() => {
           <option value="Facile" default>{{ t('quizForm.difficulty.easy') }}</option>
           <option value="Moyen">{{ t('quizForm.difficulty.medium') }}</option>
           <option value="Difficile">{{ t('quizForm.difficulty.hard') }}</option>
+        </select>
+      </fieldset>
+      <fieldset :disabled="props.loading">
+        <label for="model-IA">{{ t('quizForm.modelLabel') }}</label>
+        <select id="model-IA" name="model-IA" v-model="modelIA">
+          <option :value="model" v-for="model in GEMINI_MODELS" :key="model">
+            {{ model }}
+          </option>
         </select>
       </fieldset>
     </div>

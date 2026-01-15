@@ -42,15 +42,16 @@
     "title": "Générateur de Quiz",
     "subject": "Votre sujet",
     "url": "Votre url",
-    "numQuestionsLabel": "Nombre de questions :",
+    "numQuestionsLabel": "Nombre de questions",
     "categoryLabel": "Catégorie :",
-    "difficultyLabel": "Choisir la difficulté :",
+    "difficultyLabel": "Choisir la difficulté",
     "generateButton": "Générer le Quiz",
     "difficulty": {
       "easy": "Facile",
       "medium": "Moyen",
       "hard": "Difficile"
     },
+    "modelLabel": "Choisir un model",
     "enableContext": {
       "label": "Basé sur une URL",
       "helper": "Le quiz sera créé uniquement avec le contenu de l'adresse web fournie."
