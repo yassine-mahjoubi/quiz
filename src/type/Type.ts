@@ -44,4 +44,5 @@ export type {
   ApiResponse,
   difficulty,
   numberQuestions,
+  ModelIA,
 }

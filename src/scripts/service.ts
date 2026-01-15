@@ -10,8 +10,8 @@ import { fetchCententFromUrl } from './jina.ts'
 // Import mimic JIna
 import { getMarkdownFromUrl } from './mimicJIna.ts'
 
-// Import Gemini LLM
-import ai from './gemini.ts'
+// Import googleGen client
+import genAIClient from './gemini.ts'
 
 /**
  * extract content from url using servie JIna sinon switch to mimicJina in case of echec
@@ -116,11 +116,12 @@ const prompt = (
  * @param promptUser
  * @returns
  */
-const fetchText = async (promptUser: string): Promise<string> => {
+const fetchText = async (promptUser: string, modelIA: string): Promise<string> => {
+  console.log('fetchText() modelIA', modelIA)
   let textContent: string = ''
   try {
-    const response = <ApiResponse>await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+    const response = <ApiResponse>await genAIClient.models.generateContent({
+      model: modelIA,
       contents: promptUser,
       config: {
         responseMimeType: 'application/json',
@@ -201,6 +202,7 @@ const handleMessageKey = (
  * @param  {string} question - la question de l'user
  * @param {string} level - peut être facile|moyen|déficile par défaut facile
  * @param {number} numberQuestion - nombre de questions peut être 5|10|15 par défault 5
+ * @param {string} modelIA - model IA
  * @param {string} lang - la langue de l'user fr|eng
  * @param {string} url - optionel par default disabled,
  * @param {string} contextEnabled - optionnel par default false si activé alors url obligatoire,
@@ -210,6 +212,7 @@ export async function generateQuiz(
   question: string,
   level: string,
   numberQuestion: number,
+  modelIA: string,
   lang: string,
   url: string,
   contextEnabled: boolean,
@@ -219,10 +222,11 @@ export async function generateQuiz(
   if (contextEnabled) {
     context = await extractContentFromUrl(url)
   }
+  console.log('generateQuiz()modelIA:', modelIA)
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
 
-  const text = await fetchText(promptUser)
+  const text = await fetchText(promptUser, modelIA)
 
   isContextMismatch = handleContextMatch(text)
 
