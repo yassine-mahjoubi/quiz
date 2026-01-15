@@ -10,8 +10,8 @@ import { fetchCententFromUrl } from './jina.ts'
 // Import mimic JIna
 import { getMarkdownFromUrl } from './mimicJIna.ts'
 
-// Import Gemini LLM
-import ai from './gemini.ts'
+// Import googleGen client
+import genAIClient from './gemini.ts'
 
 /**
  * extract content from url using servie JIna sinon switch to mimicJina in case of echec
@@ -119,7 +119,7 @@ const prompt = (
 const fetchText = async (promptUser: string): Promise<string> => {
   let textContent: string = ''
   try {
-    const response = <ApiResponse>await ai.models.generateContent({
+    const response = <ApiResponse>await genAIClient.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: promptUser,
       config: {
