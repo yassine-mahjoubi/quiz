@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Interactive WCAG/RGAA Quiz with Gemini and Jina",
-    "description": "Test your knowledge of web accessibility guidelines (WCAG/RGAA) with this dynamic quiz. This project uses Vue.js 3, Google's Gemini API for question generation, and Jina Reader for content analysis."
+    "title": "AI Quiz Generator - Create quizzes from any URL",
+    "description": "Generate custom quizzes from any URL with this AI-powered generator. A technical demo using Vue.js 3 and the Gemini API to explore contextual content generation."
   },
   "common": {
     "mode": {
@@ -26,13 +26,14 @@
     "language_changed_announcement": "The page is now in English"
   },
   "concept": {
-    "title": "Quiz Generator based on AI",
-    "intro": "Provide your chosen topic (the generation prompt is ready) and a URL to define the context. The AI will automatically create a personalized quiz based on the content from that source.\nWarning: AI can generate incorrect information (hallucinations). Use this quiz as a learning aid, not as an absolute reference!",
+    "title": "Create a Quiz from any Web Page",
+    "intro": "Ready to test your knowledge? Pick a subject. Providing a URL is optional, but highly recommended for a quiz based on your chosen content. Without a URL, the AI will generate the quiz from its general knowledge, according to the selected LLM model.",
     "modal": {
       "title": "How quiz generation works",
       "link": "Learn about the tech",
-      "description": "This project mimics RAG technology 'Retrieval-Augmented Generation' in a simple way to make it accessible to everyone, no expertise required. Here's how it works:it scrapes your URL and converts it into structured, AI-friendly content.Then uses this content as its sole source of truth to craft relevant quiz questions. No URL? Gemini AI falls back on its general knowledge to generate questions."
+      "description": "This project is a technical demonstration that simulates a **RAG (Retrieval-Augmented Generation)** architecture. The app, built with **Vue 3**, scrapes content from a URL via an abstraction layer that relies on **Jina Reader**'s technology (with a fallback to a custom solution using **jsdom**). This content is then converted into LLM-optimized Markdown and used as context for the **Gemini API**. You can choose from **three different Gemini models** to generate the quiz."
     },
+    "alert": "*Disclaimer: The AI is powerful, but not infallible. Remember to double-check critical information.*",
     "linkLabel": {
       "viewSourceOn": "view source on",
       "newWindow": " - new window"
@@ -52,7 +53,7 @@
       "hard": "Hard"
     },
     "modelLabel": "Choose model",
-    "enableContext": {
+    "isContextEnabled": {
       "label": "Based on a URL",
       "helper": "The quiz will be created using only the content of the provided web address."
     },

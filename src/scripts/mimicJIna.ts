@@ -14,14 +14,12 @@ export const getMarkdownFromUrl = async (urlToFetch: string): Promise<string | n
   let result = null
   try {
     const response = await fetch(url)
-    console.log('response', response)
 
     if (!response.ok) {
       console.log('erreur', response.status)
       return null
     }
     result = await response.text()
-    console.log('response.text()', result)
   } catch (error) {
     console.log('error when catching servless function from Netlify ', error)
   }
