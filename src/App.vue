@@ -34,7 +34,8 @@ const quizTimeDuration = ref<number>(0)
 const infosQuiz = ref<string>('')
 const showErrorMessage = ref<boolean>(false)
 const errorMessageRef = ref<HTMLDivElement | null>(null)
-const allowDebug = ref<boolean>(true)
+const allowDebug = ref<boolean>(false)
+const url = ref<string>('')
 
 provide('allowDebug', allowDebug.value)
 
@@ -46,6 +47,8 @@ const handleGenerateQuiz = async (payload: {
   url: string
   contextEnabled: boolean
 }) => {
+  url.value = payload.url
+  console.log(url)
   loading.value = true
   const quizDurationGeneration = Date.now()
   let messageKey = ''
@@ -117,10 +120,11 @@ const handleAnswerSelected = (indexQuestion: number, indexUserNewChoice: number)
   userAnswers.value[indexQuestion] = indexUserNewChoice
 }
 
-const handleNewQuiz = () => {
+const handleNewQuiz = ($data) => {
   showQuizForm.value = true
   showResultQuiz.value = false
   infosQuiz.value = ''
+  console.log($data)
 }
 </script>
 <template>
@@ -153,6 +157,8 @@ const handleNewQuiz = () => {
       <section v-if="answer && showQuizDisplay">
         <quiz-display
           :answer="answer"
+          :contexte="contexte"
+          :url="url"
           :userAnswers="userAnswers"
           :duration="quizTimeDuration"
           :infosQuiz="infosQuiz"
@@ -163,16 +169,6 @@ const handleNewQuiz = () => {
       </section>
       <section v-if="showQuizForm">
         <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
-      </section>
-      <section v-if="allowDebug">
-        <details name="api" v-if="answer">
-          <summary role="button" class="outline secondary">generated API</summary>
-          <pre><code> {{ answer }}</code></pre>
-        </details>
-        <details name="api" v-if="contexte">
-          <summary role="button" class="outline secondary">markdown LLM friendly</summary>
-          <pre><code> {{ contexte }}</code></pre>
-        </details>
       </section>
     </main>
     <footer>

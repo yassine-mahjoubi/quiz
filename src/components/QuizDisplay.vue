@@ -8,12 +8,15 @@ import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
 import type { quizResponse } from '../type/Type'
 import { computed, ref, nextTick } from 'vue'
+import QuizCode from './QuizCode.vue'
 
 const props = defineProps<{
   answer: quizResponse
   userAnswers: (number | null)[]
   duration: number
   infosQuiz: string
+  contexte?: string | null
+  url?: string
 }>()
 const emit = defineEmits<{
   'answer-selected': [indexQuestion: number, indexUserNewChoice: number]
@@ -69,15 +72,14 @@ const handelSubmit = () => {
 const handelAnswer = (questionIndex: number, answerIndex: number) => {
   emit('answer-selected', questionIndex, answerIndex)
 }
-
-//to do fix focus when click next or previous button
 </script>
 
 <template>
   <h2>
     <Icon aria-hidden="true" icon="emojione-monotone:victory-hand" width="32" height="32" />
-
-    {{ t(infosQuiz) }} <small>{{ t('quiz.duration', { time: quizDuration }) }}</small>
+    {{ t(infosQuiz) }}
+    <small>{{ t('quiz.duration', { time: quizDuration }) }}</small
+    >.
   </h2>
   <label for="progressBar">{{ t('quiz.progress') }}</label>
   <progress-bar
@@ -96,16 +98,6 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
         })
       }}
     </p>
-
-    <p>
-      {{
-        t('quiz.statusQuestion', {
-          answred: questionAnswred,
-          total: totalQuestions,
-          s: plural,
-        })
-      }}
-    </p>
   </section>
 
   <div ref="quizWrapper" tabindex="-1">
@@ -115,8 +107,19 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       :questionIndex="counter"
       :userChoice="props.userAnswers[counter]"
     />
+    <section aria-live="polite" aria-atomic="true">
+      <p>
+        {{
+          t('quiz.statusQuestion', {
+            answred: questionAnswred,
+            total: totalQuestions,
+            s: plural,
+          })
+        }}
+      </p>
+    </section>
 
-    <nav class="grid" v-if="totalQuestions > 1">
+    <nav class="grid" v-if="totalQuestions > 1" role="navigation" aria-label="pagination">
       <button class="outline" @click="previousQuestion" :disabled="counter === 0">
         {{ t('common.previous') }}
       </button>
@@ -129,4 +132,5 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       {{ t('common.submit') }}
     </button>
   </div>
+  <div><quiz-code :contexte="contexte" :answer="answer" :url="url" /></div>
 </template>
