@@ -19,38 +19,14 @@ Voir la démo sur [GitHub Pages](https://yassine-mahjoubi.github.io/quiz/) | Voi
 
 ### Features
 
-- **Architecture RAG Avancée :** Le système choisit automatiquement entre l'API de **Jina AI** et/ ou une solution de scraping interne (`jsdom`, `Readability`) pour garantir la robustesse de l'extraction de données.
-- **Architecture d'Hébergement Hybride (CI/CD) :** Le projet utilise deux pipelines de déploiement continus distincts : GitHub Actions pour le front-end sur **GitHub Pages**, et la plateforme Netlify pour les fonctions **serverless** back-end.
-- **Stack Technique Moderne :** Le projet est développé en **Vue.js 3** (Composition API) et **TypeScript**, en suivant les meilleures pratiques de qualité de code.
+*   **Génération de Quiz par IA** : Créez des quiz sur n'importe quel sujet grâce à l'API Gemini de Google.
+*   **Contexte depuis une URL** : Fournissez un lien web pour que le quiz soit basé uniquement sur son contenu (mode RAG).
+*   **Extraction de Contenu Robuste** : Utilise l'API Jina AI Reader avec un fallback automatique vers une solution de scraping custom (`jsdom`) pour une fiabilité maximale.
+*   **Choix du Modèle Gemini** : Sélectionnez l'un des trois modèles d'IA Gemini pour la génération.
+*   **Interface Moderne** : Développé avec Vue.js 3 (Composition API) et TypeScript.
+*   **Déploiement Double** : CI/CD sur GitHub Pages (frontend) et Netlify (frontend + fonctions serverless).
 
 ## Architecture et Déploiement
-
-Ce projet possède une configuration de déploiement double, ce qui signifie que le site est construit et hébergé en parallèle à deux endroits distincts.
-
-### Pipeline 1 : Déploiement sur GitHub Pages
-
-- **Ce qui est déployé :** Uniquement le site front-end (l'application Vue.js).
-- **Méthode :** Le déploiement est automatisé via un workflow **GitHub Actions**.
-- **Déclencheur :** Un `push` sur la branche `main`.
-- **Fichier de configuration :** `.github/workflows/deploy.yml`.
-
-### Pipeline 2 : Déploiement sur Netlify
-
-- **Ce qui est déployé :** Le site front-end **ET** la fonction back-end (`parser`).
-- **Méthode :** Le déploiement est géré automatiquement par la **plateforme Netlify**, qui est connectée à ce dépôt.
-- **Déclencheur :** Un `push` sur la branche surveillée par Netlify (probablement `main`).
-- **Fichier de configuration :** `netlify.toml`.
-
-## Fonctionnalités Clés
-
-- **Génération de Quiz IA :** Quiz personnalisés générés par Google Gemini sur n'importe quel sujet
-- **RAG Intelligent :** Analyse automatique du contenu web via URL pour limiter le contexte
-- **Scraping Adaptatif :**
-  - Solution primaire avec **Jina AI Reader API** pour extraction optimisée
-  - Fallback automatique vers solution **homemade (jsdom)** si Jina n'est pas disponible ou out of tokens
-- **Feedback Transparent :** Indication à l'utilisateur de la méthode utilisée (Jina ou solution homemade)
-- **Interface Accessible :** Interface responsive et accessible (en cours d'amélioration RGAA)
-- ** Important :** L'IA peut commettre des erreurs
 
 ## État d'Avancement
 
