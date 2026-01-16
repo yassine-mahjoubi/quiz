@@ -89,7 +89,7 @@ const allowDebug = inject('allowDebug')
 
   <section v-if="allowDebug">
     <code>
-      <pre><code>{{ quizResult }}</code></pre>
+      <pre>{{ quizResult }}</pre>
       <small
         >Score: {{ quizResult.filter((r) => r.isCorrect).length }} /
         {{ answer.quiz_questions.length }}</small
@@ -116,5 +116,9 @@ ul {
   &.questions li {
     list-style: none;
   }
+}
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 </style>

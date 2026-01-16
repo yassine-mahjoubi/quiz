@@ -26,12 +26,12 @@
     "language_changed_announcement": "The page is now in English"
   },
   "concept": {
-    "title": "Personalized Quiz Generator based on AI (Gemini)",
-    "intro": "This project mimics RAG (Retrieval-Augmented Generation) technology in a simple way.\nProvide your chosen topic (the generation prompt is ready) and a URL to define the context. The AI will automatically create a personalized quiz based on the content from that source.\nWarning: AI can generate incorrect information (hallucinations). Use this quiz as a learning aid, not as an absolute reference!",
+    "title": "Quiz Generator based on AI",
+    "intro": "Provide your chosen topic (the generation prompt is ready) and a URL to define the context. The AI will automatically create a personalized quiz based on the content from that source.\nWarning: AI can generate incorrect information (hallucinations). Use this quiz as a learning aid, not as an absolute reference!",
     "modal": {
       "title": "How quiz generation works",
       "link": "Learn about the tech",
-      "description": "This app makes 'Retrieval-Augmented Generation' (RAG) accessible to everyone - no expertise required. Here's how it works: [Jina AI Reader](https://jina.ai/reader/) scrapes your URL and converts it into structured, AI-friendly content. [Google Gemini](https://ai.google.dev) then uses this content as its sole source of truth to craft relevant quiz questions. No URL? Gemini falls back on its general knowledge to generate questions."
+      "description": "This project mimics RAG technology 'Retrieval-Augmented Generation' in a simple way to make it accessible to everyone, no expertise required. Here's how it works:it scrapes your URL and converts it into structured, AI-friendly content.Then uses this content as its sole source of truth to craft relevant quiz questions. No URL? Gemini AI falls back on its general knowledge to generate questions."
     },
     "linkLabel": {
       "viewSourceOn": "view source on",
@@ -74,7 +74,7 @@
     },
     "duration": "on: {time}",
     "generated": {
-      "withUrl": "The quiz was successfully generated from the URL",
+      "withUrl": "The quiz was successfully generated based on url",
       "withoutUrl": "The quiz was successfully generated",
       "withFallback": "The provided URL could not be used, so it's based on the Gemini 's general knowledge",
       "contextMismatch": "the content from the url provided mismatch with the subject of the question"

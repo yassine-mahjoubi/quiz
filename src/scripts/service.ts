@@ -117,7 +117,6 @@ const prompt = (
  * @returns
  */
 const fetchText = async (promptUser: string, modelIA: string): Promise<string> => {
-  console.log('fetchText() modelIA', modelIA)
   let textContent: string = ''
   try {
     const response = <ApiResponse>await genAIClient.models.generateContent({
@@ -222,7 +221,6 @@ export async function generateQuiz(
   if (contextEnabled) {
     context = await extractContentFromUrl(url)
   }
-  console.log('generateQuiz()modelIA:', modelIA)
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
 

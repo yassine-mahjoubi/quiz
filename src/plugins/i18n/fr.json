@@ -26,12 +26,12 @@
     "language_changed_announcement": "The page est désormais en Français"
   },
   "concept": {
-    "title": "Générateur de Quiz personnalisé basé sur l'IA (Gemini)",
-    "intro": "Ce projet mimique la technologie RAG (Retrieval-Augmented Generation) d'une manière simple.\nFournissez le sujet de votre choix (le prompt de génération est prêt) et une URL pour délimiter le contexte. L'IA créera automatiquement un quiz personnalisé basé sur le contenu de cette source.\nAttention : l'IA peut générer des informations erronées (hallucinations). Utilisez ce quiz comme support d'apprentissage, non comme une référence.",
+    "title": "Générateur de Quiz basé sur l'IA",
+    "intro": "Fournissez le sujet de votre choix (le prompt de génération est prêt) et une URL pour délimiter le contexte. L'IA créera automatiquement un quiz personnalisé basé sur le contenu de cette source.\nAttention : l'IA peut générer des informations erronées (hallucinations). Utilisez ce quiz comme support d'apprentissage, non comme une référence.",
     "modal": {
       "title": "Comment fonctionne la génération de quiz",
-      "link": "Découvrir la techno",
-      "description": "Cette application simplifie la 'Génération Augmentée par Récupération' (RAG) - pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
+      "link": "Lire plus",
+      "description": "Ce projet mimique la technologie RAG 'Génération Augmentée par Récupération', pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
     },
     "linkLabel": {
       "viewSourceOn": "voir la source sur",
@@ -74,7 +74,7 @@
     },
     "duration": "en: {time}",
     "generated": {
-      "withUrl": "Le quiz a été généré avec succès à partir de l'URL",
+      "withUrl": "Le quiz a été généré avec succès en se basant sur l'url fourni",
       "withoutUrl": "Le quiz a été généré avec succès",
       "withFallback": "L'URL n'a pas pu être utilisée, il est donc basé sur les connaissances générales de l'IA Gemini",
       "contextMismatch": "Le contenu de l'url fourni ne correspond pas au sujet du quiz demandé."

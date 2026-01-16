@@ -56,7 +56,7 @@ const emit = defineEmits<{
     {
       question: string
       difficulty: difficulty
-      modelIA: ModelIA
+      modelIA: string
       numberQuestions: numberQuestions
       contextEnabled: boolean
       url: string
@@ -175,9 +175,8 @@ const handleTextButton = computed(() => {
   </section>
   <section>
     <details>
-      <summary role="button" class="outline secondary">show the pseudo prompt</summary>
+      <summary role="button" class="outline secondary">Prompt</summary>
       <pre><code class="small">
-      // pseudo Prompt: <br />
       {{ enableContext ?  promptEnabledContext  : promptWithoutContext }}
     </code></pre>
     </details>
