@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 import { Icon } from '@iconify/vue'
+import { useHead } from '@unhead/vue'
+import { ref, shallowRef, watch, provide, nextTick, computed } from 'vue'
 
-import { ref, shallowRef, watch, provide, nextTick } from 'vue'
+useHead({
+  title: computed(() => t('seo.title')),
+  meta: [
+    {
+      name: 'description',
+      content: computed(() => t('seo.description')),
+    },
+  ],
+})
 
 import { generateQuiz } from './scripts/service'
 import { getDuration } from './utils/timeduration'
@@ -17,7 +28,6 @@ import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
 
-const { t, locale } = useI18n()
 const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
@@ -94,10 +104,6 @@ const handleGenerateQuiz = async (payload: {
     quizTimeDuration.value = getDuration(quizDurationGeneration)
   }
 }
-
-watch(locale, () => {
-  document.title = t('seo.title')
-})
 
 watch(
   showErrorMessage,

@@ -9,13 +9,15 @@
 ![Serverless](https://img.shields.io/badge/Serverless-Netlify%20Functions-008256)
 ![Fallback Scraping](https://img.shields.io/badge/Fallback%20Scraping-jsdom-1AD599)
 
+**AI Quiz Generator** est une application web qui vous permet de créer des quiz personnalisés à partir de n'importe quelle page web. Fournissez une URL, et notre IA analyse le contenu pour générer un questionnaire pertinent en quelques secondes.
+
+Ce projet est une démonstration technique explorant l'architecture **RAG (Retrieval-Augmented Generation)** avec une stack moderne (Vue.js 3, TypeScript, Gemini AI).
+
 ![Démonstration de l'application](demo.gif)
 
-➡️ Voir la démo sur [GitHub Pages](https://yassine-mahjoubi.github.io/quiz/) | ➡️ Voir la démo sur [Netlify](https://yassine-mahjoubi-quiz-ia-generator.netlify.app/)
+Voir la démo sur [GitHub Pages](https://yassine-mahjoubi.github.io/quiz/) | Voir la démo sur [Netlify](https://yassine-mahjoubi-quiz-ia-generator.netlify.app/)
 
-**`AI Quiz Generator` est une application web qui simule la mise en œuvre d'un pipeline RAG (Retrieval-Augmented Generation). À partir d'une simple URL, l'application génère un quiz pertinent en utilisant Google Gemini, après avoir analysé et extrait le contenu sémantique de la page. (LLM friendly)**
-
-### Points Forts du Projet
+### Features
 
 - **Architecture RAG Avancée :** Le système choisit automatiquement entre l'API de **Jina AI** et/ ou une solution de scraping interne (`jsdom`, `Readability`) pour garantir la robustesse de l'extraction de données.
 - **Architecture d'Hébergement Hybride (CI/CD) :** Le projet utilise deux pipelines de déploiement continus distincts : GitHub Actions pour le front-end sur **GitHub Pages**, et la plateforme Netlify pour les fonctions **serverless** back-end.
@@ -52,7 +54,7 @@ Ce projet possède une configuration de déploiement double, ce qui signifie que
 
 ## État d'Avancement
 
-⚠️ PROJET EN DÉVELOPPEMENT ACTIF - Certaines fonctionnalités sont encore en implémentation.
+PROJET EN DÉVELOPPEMENT ACTIF - Certaines fonctionnalités sont encore en implémentation.
 
 ### Fonctionnalités implémentées :
 
@@ -64,8 +66,8 @@ Ce projet possède une configuration de déploiement double, ce qui signifie que
 
 ### En cours de développement :
 
-- 🔄 Conformité RGAA complète pour l'accessibilité
-- ❌ Tests unitaires (pas encore implémentés)
+- Conformité RGAA complète pour l'accessibilité
+- Tests unitaires (pas encore implémentés)
 
 ## 🛠️ Stack Technique
 
@@ -162,7 +164,7 @@ Ce projet met en œuvre et valide la maîtrise des compétences suivantes :
 
 - `netlify dev`: Lance l'environnement de développement complet (front-end et fonctions Netlify).
 - `npm run build`: Compile l'application pour la production
-- `npm run test:unit`: ⚠️ Tests unitaires (pas encore implémentés)
+- `npm run test:unit`: Tests unitaires (pas encore implémentés)
 - `npm run lint`: Analyse le code pour trouver les problèmes de style
 
 ---

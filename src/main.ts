@@ -3,7 +3,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import i18n from '@/plugins/i18n'
+import { createHead } from '@unhead/vue'
+
+const head = createHead()
 
 const app = createApp(App)
 
-app.use(createPinia()).use(i18n).mount('#app')
+app.use(createPinia()).use(head).use(i18n).mount('#app')

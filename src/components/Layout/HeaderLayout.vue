@@ -31,7 +31,6 @@ const handelUpdateScreen = (lang: string) => {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  padding-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 1rem auto;
 }
 </style>

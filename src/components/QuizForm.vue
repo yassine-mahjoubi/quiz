@@ -13,8 +13,8 @@ const enableContext = ref<boolean>(false)
 
 const GEMINI_MODELS = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest']
 const promptWithoutContext = computed(() => {
-  return `Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
-  niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---`
+  return `Tu es un assistant expert en création de quiz. Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
+  niveau ${difficulty.value.toUpperCase()} sur ---${yourQuestion.value.toUpperCase()}---`
 })
 
 const promptEnabledContext = computed(() => {
@@ -29,9 +29,9 @@ const promptEnabledContext = computed(() => {
    1. Évalue si le contexte est directement pertinent pour répondre à la question de l'utilisateur.
    2. Si le contexte n'est PAS pertinent, appelle la fonction 'generateur_de_quiz' en remplissant SEULEMENT le champ 'error' avec le message "Le contenu fourni ne
    semble pas correspondre au sujet du quiz demandé.".
-   3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'}
+   3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${t('common.language') == 'Français' ? 'Français' : 'Anglais'}
    avec ${numberQuestions.value} questions de niveau
-   ${difficulty.value}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
+   ${difficulty.value.toUpperCase()}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
    `
 })
 
