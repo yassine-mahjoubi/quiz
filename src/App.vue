@@ -55,7 +55,7 @@ const handleGenerateQuiz = async (payload: {
   numberQuestions: numberQuestions
   modelIA: string
   url: string
-  contextEnabled: boolean
+  isContextEnabled: boolean
 }) => {
   url.value = payload.url
   console.log(url)
@@ -74,7 +74,7 @@ const handleGenerateQuiz = async (payload: {
       payload.modelIA,
       locale.value,
       payload.url,
-      payload.contextEnabled,
+      payload.isContextEnabled,
     )
     messageKey = serviceMessageKey
     contexte.value = context
@@ -126,11 +126,10 @@ const handleAnswerSelected = (indexQuestion: number, indexUserNewChoice: number)
   userAnswers.value[indexQuestion] = indexUserNewChoice
 }
 
-const handleNewQuiz = ($data) => {
+const handleNewQuiz = () => {
   showQuizForm.value = true
   showResultQuiz.value = false
   infosQuiz.value = ''
-  console.log($data)
 }
 </script>
 <template>

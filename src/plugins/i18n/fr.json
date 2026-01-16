@@ -53,7 +53,7 @@
       "hard": "Difficile"
     },
     "modelLabel": "Choisir un model",
-    "enableContext": {
+    "isContextEnabled": {
       "label": "Basé sur une URL",
       "helper": "Le quiz sera créé uniquement avec le contenu de l'adresse web fournie."
     },

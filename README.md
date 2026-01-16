@@ -111,7 +111,7 @@ Ce projet met en œuvre et valide la maîtrise des compétences suivantes :
     - L'IA vérifie si le sujet est présent dans le contenu extrait.
     - Si le sujet n'est pas trouvé, un message informe l'utilisateur que le contenu ne correspond pas au sujet demandé.
     - Le processus continue uniquement si le sujet est trouvé (ou si aucune url n'a été fourni).
-5.  **Génération IA :** Google Gemini crée le quiz en se basant sur le contenu donné.
+5.  **Génération IA :** Gemini AI crée le quiz en se basant sur le contenu donné.
 6.  **Feedback Transparent :** L'interface indique à l'utilisateur la méthode d'extraction qui a été utilisée.
 
 ## Installation et Lancement
