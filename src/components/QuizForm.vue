@@ -1,39 +1,19 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 import { ref, computed, watch } from 'vue'
 import type { numberQuestions, difficulty } from '@/type/Type'
 import { useRequiredField } from '@/composables/useRequiredField'
 import { useUrlField } from '@/composables/useUrlField'
+import PseudoPrompt from './PseudoPrompt.vue'
 
-const { t } = useI18n()
 const difficulty = ref<difficulty>('Facile')
 const numberQuestions = ref<numberQuestions>(5)
 const modelIA = ref<string>('gemini-flash-latest')
-const enableContext = ref<boolean>(false)
+const isContextEnabled = ref<boolean>(false)
 
 const GEMINI_MODELS = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest']
-const promptWithoutContext = computed(() => {
-  return `Crée un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'} avec ${numberQuestions.value} questions,
-  niveau ${difficulty.value} sur ---${yourQuestion.value.toUpperCase()}---`
-})
-
-const promptEnabledContext = computed(() => {
-  return ` Tu es un assistant expert en création de quiz.
-   Analyse le contexte et la question ci-dessous.
-   Contexte :
-   ---
-   ${url.value}
-   ---
-   Question de l'utilisateur : ---${yourQuestion.value.toUpperCase()}---
-   Instructions :
-   1. Évalue si le contexte est directement pertinent pour répondre à la question de l'utilisateur.
-   2. Si le contexte n'est PAS pertinent, appelle la fonction 'generateur_de_quiz' en remplissant SEULEMENT le champ 'error' avec le message "Le contenu fourni ne
-   semble pas correspondre au sujet du quiz demandé.".
-   3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${t('common.language') == 'Français' ? 'Français' : 'anglais'}
-   avec ${numberQuestions.value} questions de niveau
-   ${difficulty.value}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
-   `
-})
 
 const {
   value: yourQuestion,
@@ -48,7 +28,7 @@ const {
   markAsTouched: markAsTouchedUrl,
   isInvalid: isInvalidUrl,
   validate: handleInputUrl,
-} = useUrlField('url_input', enableContext)
+} = useUrlField('url_input', isContextEnabled)
 
 const props = defineProps<{ loading: boolean }>()
 const emit = defineEmits<{
@@ -58,14 +38,14 @@ const emit = defineEmits<{
       difficulty: difficulty
       modelIA: string
       numberQuestions: numberQuestions
-      contextEnabled: boolean
+      isContextEnabled: boolean
       url: string
     },
   ]
 }>()
 
-//reset field url when enableContexte change
-watch(enableContext, () => {
+//reset field url when isContextEnablede change
+watch(isContextEnabled, () => {
   url.value = ''
 })
 
@@ -79,7 +59,7 @@ const submitForm = (): void => {
     difficulty: difficulty.value,
     numberQuestions: numberQuestions.value,
     modelIA: modelIA.value,
-    contextEnabled: enableContext.value,
+    isContextEnabled: isContextEnabled.value,
     url: url.value,
   })
 }
@@ -92,18 +72,18 @@ const handleTextButton = computed(() => {
 <template>
   <section class="right">
     <fieldset>
-      <label for="enableContext">
+      <label for="isContextEnabled">
         <input
-          name="enableContext"
+          name="isContextEnabled"
           type="checkbox"
           role="switch"
-          id="enableContext"
-          v-model="enableContext"
+          id="isContextEnabled"
+          v-model="isContextEnabled"
           aria-describedby="enable-selector-helper"
         />
-        {{ t('quizForm.enableContext.label') }}
+        {{ t('quizForm.isContextEnabled.label') }}
         <p id="enable-selector-helper" class="sr-only">
-          {{ t('quizForm.enableContext.helper') }}
+          {{ t('quizForm.isContextEnabled.helper') }}
         </p>
       </label>
     </fieldset>
@@ -121,7 +101,7 @@ const handleTextButton = computed(() => {
         id="urlInput"
         ref="url_input"
         @blur="markAsTouchedUrl"
-        :disabled="!enableContext"
+        :disabled="!isContextEnabled"
         :aria-invalid="isInvalidUrl"
         aria-labelledby="url-info"
       />
@@ -174,12 +154,13 @@ const handleTextButton = computed(() => {
     </div>
   </section>
   <section>
-    <details>
-      <summary role="button" class="outline secondary">Prompt</summary>
-      <pre><code class="small">
-      {{ enableContext ?  promptEnabledContext  : promptWithoutContext }}
-    </code></pre>
-    </details>
+    <Pseudo-prompt
+      :difficulty="difficulty"
+      :your-question="yourQuestion"
+      :number-questions="numberQuestions"
+      :url="url"
+      :is-context-enabled="isContextEnabled"
+    />
   </section>
   <section class="section-btn">
     <div class="disabled-wrapper">

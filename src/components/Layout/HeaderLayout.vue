@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-
 import SwitchLanguage from '../SwitchLanguage.vue'
 import BaseLogo from '../ui/BaseLogo.vue'
 
-const { t } = useI18n()
 const emit = defineEmits<{
   'language-changed': [lang: string]
 }>()
@@ -31,7 +28,6 @@ const handelUpdateScreen = (lang: string) => {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  padding-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 1rem auto;
 }
 </style>

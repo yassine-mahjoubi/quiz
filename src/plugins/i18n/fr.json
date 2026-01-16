@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Quiz Interactif sur le RGAA avec Gemini et Jina",
-    "description": "Testez vos connaissances sur le Référentiel Général d'Amélioration de l'Accessibilité (RGAA) avec ce quiz dynamique. Le projet utilise  Vue.js 3, l'API Gemini de Google pour générer les questions, et Jina Reader pour l'analyse de contenu."
+    "title": "Générateur de Quiz IA - Créez des quiz depuis n'importe quelle URL",
+    "description": "Générez des quiz personnalisés à partir de n'importe quelle URL avec ce générateur basé sur l'IA. Une démo technique utilisant Vue.js 3 et l'API Gemini pour explorer la génération de contenu contextuel."
   },
   "common": {
     "mode": {
@@ -26,13 +26,14 @@
     "language_changed_announcement": "The page est désormais en Français"
   },
   "concept": {
-    "title": "Générateur de Quiz basé sur l'IA",
-    "intro": "Fournissez le sujet de votre choix (le prompt de génération est prêt) et une URL pour délimiter le contexte. L'IA créera automatiquement un quiz personnalisé basé sur le contenu de cette source.\nAttention : l'IA peut générer des informations erronées (hallucinations). Utilisez ce quiz comme support d'apprentissage, non comme une référence.",
+    "title": "Créez un Quiz depuis n'importe quelle page web",
+    "intro": "Prêt à tester vos connaissances ? Choisissez un sujet. Fournir une URL n'est pas obligatoire, mais fortement recommandé pour un quiz basé sur votre contenu. Sans URL, l'IA générera le quiz à partir de ses connaissances générales, selon le modèle LLM choisi.",
     "modal": {
       "title": "Comment fonctionne la génération de quiz",
       "link": "Lire plus",
-      "description": "Ce projet mimique la technologie RAG 'Génération Augmentée par Récupération', pas besoin d'être expert pour en profiter. Le processus : [Jina AI Reader](https://jina.ai/reader/) analyse votre URL et la convertit en contenu structuré, optimisé pour l'IA. [Google Gemini](https://ai.google.dev) utilise ensuite ce contenu comme source unique pour créer un quiz pertinent. Sans URL, Gemini s'appuie sur ses connaissances générales pour générer les questions."
+      "description": "Ce projet est une démonstration technique qui simule une architecture **RAG (Retrieval-Augmented Generation)**. L'application, bâtie sur **Vue 3**, scrape le contenu d'une URL via une abstraction qui s'appuie sur la technologie de **Jina Reader** (avec un fallback sur une solution custom via **jsdom**). Ce contenu est ensuite converti en Markdown optimisé pour un LLM et sert de contexte à l'**API Gemini**. Vous pouvez choisir parmi **trois modèles Gemini** pour générer le quiz."
     },
+    "alert": "*Avertissement : L'IA est performante, mais pas infaillible. Pensez à vérifier les informations importantes.*",
     "linkLabel": {
       "viewSourceOn": "voir la source sur",
       "newWindow": " - nouvelle fenêtre"
@@ -52,7 +53,7 @@
       "hard": "Difficile"
     },
     "modelLabel": "Choisir un model",
-    "enableContext": {
+    "isContextEnabled": {
       "label": "Basé sur une URL",
       "helper": "Le quiz sera créé uniquement avec le contenu de l'adresse web fournie."
     },

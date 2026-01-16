@@ -177,14 +177,14 @@ const MESSAGE_KEY = {
 const handleMessageKey = (
   text: string,
   context: string | null,
-  contextEnabled: boolean,
+  isContextEnabled: boolean,
   contextNotMatch: boolean,
 ): string => {
   // 1: case: echec global (gemini)
   if (!text) return MESSAGE_KEY.ERROR
 
   // 2: case: success (gemini) without context choice
-  if (!contextEnabled) return MESSAGE_KEY.WITHOUT_URL
+  if (!isContextEnabled) return MESSAGE_KEY.WITHOUT_URL
 
   // 3: case: le context ne match pas avec la question
   if (contextNotMatch) return MESSAGE_KEY.CONTEXT_MISMATCH
@@ -204,7 +204,7 @@ const handleMessageKey = (
  * @param {string} modelIA - model IA
  * @param {string} lang - la langue de l'user fr|eng
  * @param {string} url - optionel par default disabled,
- * @param {string} contextEnabled - optionnel par default false si activé alors url obligatoire,
+ * @param {boolean} isContextEnabled - optionnel par default false si activé alors url obligatoire,
  * @returns {Promise<{text: string, context: string|null, message:string }>} object contenant le contexte génére soit par JINA si non disponible il switch vers mimicJna et text généré par gemini
  */
 export async function generateQuiz(
@@ -214,12 +214,13 @@ export async function generateQuiz(
   modelIA: string,
   lang: string,
   url: string,
-  contextEnabled: boolean,
+  isContextEnabled: boolean,
 ): Promise<{ text: string; context: string | null; messageKey: string }> {
   let context = null
   let isContextMismatch = false
-  if (contextEnabled) {
+  if (isContextEnabled) {
     context = await extractContentFromUrl(url)
+    console.log('context:', context)
   }
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
@@ -228,7 +229,7 @@ export async function generateQuiz(
 
   isContextMismatch = handleContextMatch(text)
 
-  const messageKey = handleMessageKey(text, context, contextEnabled, isContextMismatch)
+  const messageKey = handleMessageKey(text, context, isContextEnabled, isContextMismatch)
 
   return { text, context, messageKey }
 }
