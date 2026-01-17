@@ -13,6 +13,9 @@ import { getMarkdownFromUrl } from './mimicJIna.ts'
 // Import googleGen client
 import genAIClient from './gemini.ts'
 
+//Import supabase
+import { supabase } from './db/index'
+
 /**
  * extract content from url using servie JIna sinon switch to mimicJina in case of echec
  * @param {string} url source to extract the content from
@@ -195,6 +198,33 @@ const handleMessageKey = (
   // 5: Case l'user voulait un contexte, mais ça a échoué (fallback)
   return MESSAGE_KEY.WITH_FALLBACK
 }
+/**
+ *
+ * @param data
+ * @returns
+ */
+const addQuiz = async (data) => {
+  try {
+    const { data: result } = await supabase
+      .from('ai_quiz_generations')
+      .insert({
+        subject: data.question,
+        quiz_json: data.text,
+        difficulty: data.level,
+        model: data.modelIA,
+        number_question: data.numberQuestion,
+        language: data.lang,
+        url: data.url || null,
+        context_md: data.context || null,
+      })
+      .select()
+      .single()
+    console.table('result: ', result)
+    return result
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 /**
  * generateQuiz: crée un quiz en se basant sur url fourni ( le contexte) et la question avec des options
@@ -220,7 +250,6 @@ export async function generateQuiz(
   let isContextMismatch = false
   if (isContextEnabled) {
     context = await extractContentFromUrl(url)
-    console.log('context:', context)
   }
 
   const promptUser = prompt(context, lang, numberQuestion, level, question)
@@ -228,6 +257,20 @@ export async function generateQuiz(
   const text = await fetchText(promptUser, modelIA)
 
   isContextMismatch = handleContextMatch(text)
+
+  const quiz = {
+    question,
+    level,
+    text,
+    numberQuestion,
+    modelIA,
+    lang,
+    url,
+    context,
+  }
+  if (!isContextMismatch && text) {
+    addQuiz(quiz)
+  }
 
   const messageKey = handleMessageKey(text, context, isContextEnabled, isContextMismatch)
 
