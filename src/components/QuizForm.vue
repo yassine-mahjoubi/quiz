@@ -8,7 +8,7 @@ import { useRequiredField } from '@/composables/useRequiredField'
 import { useUrlField } from '@/composables/useUrlField'
 import PseudoPrompt from './PseudoPrompt.vue'
 
-const difficulty = ref<difficulty>('Facile')
+const difficulty = ref<difficulty>('facile')
 const numberQuestions = ref<numberQuestions>(5)
 const modelIA = ref<string>('gemini-flash-latest')
 const isContextEnabled = ref<boolean>(false)
@@ -44,7 +44,7 @@ const emit = defineEmits<{
   ]
 }>()
 
-//reset field url when isContextEnablede change
+//reset field url when isContextEnabled change
 watch(isContextEnabled, () => {
   url.value = ''
 })
@@ -138,9 +138,9 @@ const handleTextButton = computed(() => {
       <fieldset :disabled="props.loading">
         <label for="difficuty">{{ t('quizForm.difficultyLabel') }}</label>
         <select id="difficuty" name="difficuty" v-model="difficulty">
-          <option value="Facile" default>{{ t('quizForm.difficulty.easy') }}</option>
-          <option value="Moyen">{{ t('quizForm.difficulty.medium') }}</option>
-          <option value="Difficile">{{ t('quizForm.difficulty.hard') }}</option>
+          <option value="facile" default>{{ t('quizForm.difficulty.easy') }}</option>
+          <option value="moyen">{{ t('quizForm.difficulty.medium') }}</option>
+          <option value="difficile">{{ t('quizForm.difficulty.hard') }}</option>
         </select>
       </fieldset>
       <fieldset :disabled="props.loading">

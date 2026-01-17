@@ -10,7 +10,6 @@ const BASE_URL =
  */
 export const getMarkdownFromUrl = async (urlToFetch: string): Promise<string | null> => {
   const url = `${BASE_URL}${encodeURIComponent(urlToFetch)}`
-  console.log('url to fetch: ', url)
   let result = null
   try {
     const response = await fetch(url)

@@ -14,7 +14,7 @@ type ApiResponse = {
   candidates?: ApiCandidate[]
 }
 
-type difficulty = 'Facile' | 'Moyen' | 'Difficile'
+type difficulty = 'facile' | 'moyen' | 'difficile'
 
 type numberQuestions = 5 | 10 | 15
 
