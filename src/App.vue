@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+
 const { t, locale } = useI18n()
 import { Icon } from '@iconify/vue'
 import { useHead } from '@unhead/vue'
-import { ref, shallowRef, watch, provide, nextTick, computed } from 'vue'
+import { ref, shallowRef, watch, provide, nextTick, computed, onMounted } from 'vue'
 
 useHead({
   title: computed(() => t('seo.title')),
@@ -27,6 +28,8 @@ import QuizDisplay from './components/QuizDisplay.vue'
 import QuizForm from './components/QuizForm.vue'
 import QuizResult from './components/QuizResult.vue'
 import ProgressBar from './components/ProgressBar.vue'
+
+import getallJson from './scripts/db/service'
 
 const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
@@ -58,8 +61,8 @@ const handleGenerateQuiz = async (payload: {
   isContextEnabled: boolean
 }) => {
   url.value = payload.url
-  console.log(url)
   loading.value = true
+
   const quizDurationGeneration = Date.now()
   let messageKey = ''
   try {
@@ -113,11 +116,11 @@ watch(
   { flush: 'post' },
 )
 
-const handelUpdateScreen = (): void => {
+const handelUpdateScreen = () => {
   showReaderScreen.value = true
 }
 
-const handleAnswerSubmit = (): void => {
+const handleAnswerSubmit = () => {
   showResultQuiz.value = true
   showQuizDisplay.value = false
 }
@@ -131,6 +134,7 @@ const handleNewQuiz = () => {
   showResultQuiz.value = false
   infosQuiz.value = ''
 }
+onMounted(async () => console.log(await getallJson()))
 </script>
 <template>
   <div class="home-wrapper-layout">
@@ -183,6 +187,6 @@ const handleNewQuiz = () => {
 </template>
 <style lang="scss">
 .home-wrapper-layout {
-  padding: 0.5 1rem;
+  padding: 1rem;
 }
 </style>
