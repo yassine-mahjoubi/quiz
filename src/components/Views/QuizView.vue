@@ -27,8 +27,6 @@ import QuizForm from '../QuizForm.vue'
 import QuizResult from '../QuizResult.vue'
 import ProgressBar from '../ProgressBar.vue'
 
-import getallJson from '../../scripts/db/service'
-
 const answer = shallowRef<quizResponse | null>(null)
 const loading = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
@@ -127,7 +125,6 @@ const handleNewQuiz = () => {
   showResultQuiz.value = false
   infosQuiz.value = ''
 }
-onMounted(async () => console.log(await getallJson()))
 </script>
 <template>
   <div class="home-wrapper-layout">
