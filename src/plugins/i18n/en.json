@@ -96,6 +96,7 @@
   },
   "messages": {
     "fetchError": "Could not load questions. Please check your connection or try again later.",
-    "noAnswer": "Please select an answer before continuing."
+    "noAnswer": "Please select an answer before continuing.",
+    "dbError": "Probleme when fetching api supabase.Please check your connection or try again later."
   }
 }
