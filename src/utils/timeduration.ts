@@ -16,3 +16,7 @@ export const getDuration = (startDate: number): number => {
 export const formatDurationToSeconds = (duration: number): string => {
   return (duration / 1000).toFixed(2) + 's'
 }
+
+export const formatDate = (stamp: string, locale: string) => {
+  return new Date(stamp).toLocaleDateString(locale)
+}

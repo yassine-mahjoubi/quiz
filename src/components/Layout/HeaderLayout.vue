@@ -31,16 +31,16 @@ const updateIcon = computed(() =>
 </script>
 <template>
   <header class="container custom-header" role="header">
-    <nav>
+    <nav role="navigation">
       <ul>
         <li>
           <div class="logo">
-            <RouterLink to="/"> <base-logo /> </RouterLink>
+            <RouterLink to="/" title="home"> <base-logo /> </RouterLink>
           </div>
         </li>
       </ul>
       <ul>
-        <li><RouterLink to="/api">Api </RouterLink></li>
+        <li><RouterLink to="/api">gallerie quizes</RouterLink></li>
         <li><RouterLink to="/about">About</RouterLink></li>
       </ul>
       <ul>
