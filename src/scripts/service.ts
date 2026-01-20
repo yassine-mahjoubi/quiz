@@ -119,6 +119,10 @@ const prompt = (
  * @param promptUser
  * @returns
  */
+
+//to do gerer l'erreur overload if (error instanceof Error && error.message.includes('overloaded')) {
+// return 'OVERLOADED_ERROR'  // Code spécial reconnaissable
+// }
 const fetchText = async (promptUser: string, modelIA: string): Promise<string> => {
   let textContent: string = ''
   try {

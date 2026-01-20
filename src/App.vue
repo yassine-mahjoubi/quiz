@@ -13,14 +13,17 @@ const handelUpdateScreen = () => {
 <template>
   <header-layout @language-changed="handelUpdateScreen" />
   <main class="container" role="main">
-    <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
-      {{ t('common.language_changed_announcement') }}
-    </p>
+    <section class="a11y-reader">
+      <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
+        {{ t('common.language_changed_announcement') }}
+      </p>
+    </section>
+    <RouterView />
   </main>
-  <RouterView />
 </template>
-<style lang="scss">
-.home-wrapper-layout {
-  padding: 1rem;
+<style scoped>
+.router-link-exact-active,
+.router-link-active {
+  text-decoration: underline;
 }
 </style>
