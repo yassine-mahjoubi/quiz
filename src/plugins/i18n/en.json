@@ -98,5 +98,30 @@
     "fetchError": "Could not load questions. Please check your connection or try again later.",
     "noAnswer": "Please select an answer before continuing.",
     "dbError": "Probleme when fetching api supabase.Please check your connection or try again later."
+  },
+
+  "quizLibrary": {
+    "cardQuiz": {
+      "subject": "Subject",
+      "numQuestions": "Number of questions",
+      "difficulty": "Difficulty",
+      "model": "Model",
+      "sourceUrl": "Source URL"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "gallery": "Quiz Library",
+    "about": "About"
+  },
+  "pages": {
+    "gallery": {
+      "title": "Quiz Library",
+      "content": "Explore a selection of quality quizzes created by other users, based on sources (provided URLs) in order to limit the context and minimize question hallucinations by LLMs.",
+      "about": {
+        "title": "",
+        "content": ""
+      }
+    }
   }
 }

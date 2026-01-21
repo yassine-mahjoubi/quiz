@@ -132,5 +132,5 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       {{ t('common.submit') }}
     </button>
   </div>
-  <div><quiz-code :contexte="contexte" :answer="answer" :url="url" /></div>
+  <quiz-code :contexte="contexte" :answer="answer" :url="url" />
 </template>

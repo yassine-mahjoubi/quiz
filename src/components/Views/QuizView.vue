@@ -124,6 +124,7 @@ const handleNewQuiz = () => {
   showQuizForm.value = true
   showResultQuiz.value = false
   infosQuiz.value = ''
+  showErrorMessage.value = false
 }
 </script>
 <template>
@@ -164,8 +165,5 @@ const handleNewQuiz = () => {
     <section v-if="showQuizForm">
       <quiz-form @user-question="handleGenerateQuiz" :loading="loading" />
     </section>
-    <footer>
-      <FooterLayout />
-    </footer>
   </div>
 </template>
