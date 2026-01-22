@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Icon } from '@iconify/vue'
 import SwitchLanguage from '../SwitchLanguage.vue'
 import BaseLogo from '../ui/BaseLogo.vue'
-import { Icon } from '@iconify/vue'
+import { useThemeSwitcher } from '@/composables/useThemeSwitch'
 
 const emit = defineEmits<{
   'language-changed': [lang: string]
@@ -10,9 +13,6 @@ const emit = defineEmits<{
 const handelUpdateScreen = (lang: string) => {
   emit('language-changed', lang)
 }
-import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
-import { useThemeSwitcher } from '@/composables/useThemeSwitch'
 
 const { t } = useI18n()
 
@@ -30,7 +30,7 @@ const updateIcon = computed(() =>
 )
 </script>
 <template>
-  <header class="container custom-header" role="header">
+  <header role="banner">
     <nav role="navigation">
       <ul>
         <li>
@@ -40,8 +40,12 @@ const updateIcon = computed(() =>
         </li>
       </ul>
       <ul>
-        <li><RouterLink to="/api">gallerie quizes</RouterLink></li>
-        <li><RouterLink to="/about">About</RouterLink></li>
+        <li>
+          <RouterLink to="/api">{{ t('nav.gallery') }}</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
+        </li>
       </ul>
       <ul>
         <li><switch-language @language-changed="handelUpdateScreen" /></li>
@@ -64,3 +68,9 @@ const updateIcon = computed(() =>
     </nav>
   </header>
 </template>
+<style scoped>
+.router-link-exact-active,
+.router-link-active {
+  text-decoration: underline;
+}
+</style>

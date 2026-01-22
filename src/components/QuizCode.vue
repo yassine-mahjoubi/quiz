@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <section>
+  <section class="container">
     <details name="url" v-if="url">
       <summary role="button" class="outline secondary">URL</summary>
       <pre><code> {{ url }}</code></pre>

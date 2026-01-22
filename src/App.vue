@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 import { ref } from 'vue'
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
+import FooterLayout from './components/Layout/FooterLayout.vue'
 const showReaderScreen = ref<boolean>(false)
 
 const handelUpdateScreen = () => {
@@ -11,19 +12,31 @@ const handelUpdateScreen = () => {
 }
 </script>
 <template>
-  <header-layout @language-changed="handelUpdateScreen" />
-  <main class="container" role="main">
-    <section class="a11y-reader">
-      <p v-if="showReaderScreen" aria-live="polite" aria-atomic="true" class="visually-hidden">
-        {{ t('common.language_changed_announcement') }}
-      </p>
-    </section>
-    <RouterView />
-  </main>
+  <div class="layout container">
+    <header-layout @language-changed="handelUpdateScreen" />
+    <main class="main" role="main">
+      <section
+        v-if="showReaderScreen"
+        aria-live="polite"
+        aria-atomic="true"
+        class="visually-hidden"
+      >
+        <p>
+          {{ t('common.language_changed_announcement') }}
+        </p>
+      </section>
+      <RouterView />
+    </main>
+    <Footer-layout />
+  </div>
 </template>
 <style scoped>
-.router-link-exact-active,
-.router-link-active {
-  text-decoration: underline;
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1;
 }
 </style>

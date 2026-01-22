@@ -8,7 +8,7 @@ const routes = [
   { path: '/', component: QuizHome },
   { path: '/api', component: ApiView },
   { path: '/about', component: AboutView },
-  //  { path: '/:slug', name: 'bias-detail', component: BiasDetail, props: true },
+  //  { path: '/:slug', name: 'quiz-detail', component: QuizDetail, props: true },
 ]
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
