@@ -105,7 +105,8 @@
       "numQuestions": "Nombre de questions",
       "difficulty": "Niveau",
       "model": "Modèle LLM",
-      "sourceUrl": "Source URL"
+      "sourceUrl": "Source URL",
+      "show": "Voir le"
     }
   },
   "nav": {
