@@ -11,11 +11,12 @@ const quizes = ref<Quiz[] | null>([])
 const isdbError = ref<boolean>(false)
 const errorMessageRef = ref<HTMLDivElement | undefined>(undefined)
 const loading = ref<boolean>(false)
-const elementByPage = 3
-const from = ref<number>(0)
-const to = ref<number>(elementByPage)
-const totalPges = ref<number | null>(null)
-//const currentPage = ref<number>(1)
+
+const elementByPage = 2
+const currentPage = ref<number>(1)
+const from = computed(() => (currentPage.value - 1) * elementByPage)
+const to = computed(() => from.value + elementByPage - 1)
+const totalPges = ref<number>(0)
 
 const getListQuiz = async (from: number, to: number) => {
   try {
@@ -32,13 +33,11 @@ const getListQuiz = async (from: number, to: number) => {
 }
 
 const nextPage = () => {
-  from.value = from.value + elementByPage
-  to.value = from.value + elementByPage - 1
+  currentPage.value++
   getListQuiz(from.value, to.value)
 }
 const previousPage = () => {
-  from.value = from.value - elementByPage
-  to.value = from.value + elementByPage - 1
+  currentPage.value--
   getListQuiz(from.value, to.value)
 }
 
@@ -56,7 +55,7 @@ onMounted(() => {
 
 <template>
   <section>
-    <h1>{{ t('pages.gallery.title') }} : {{ from }} - {{ to }} / {{ totalPges }}</h1>
+    <h1>{{ t('pages.gallery.title') }}</h1>
     <p>{{ t('pages.gallery.content') }}</p>
     <section v-if="isdbError" ref="errorMessageRef" role="alert" tabindex="-1">
       <p class="error">
@@ -90,8 +89,21 @@ onMounted(() => {
     </div>
   </section>
   <section>
-    <button @click="previousPage">précident</button>
-    <button @click="nextPage">suivant</button>
+    <nav role="navigation" aria-label="pagination">
+      <button @click="previousPage" v-if="currentPage > 1">{{ t('common.previous') }}</button>
+      <div class="pagination">
+        <button
+          v-for="page in totalPges"
+          :key="page"
+          @click="currentPage = page"
+          :disabled="currentPage == page"
+          :title="`page ${page} sur ${totalPges}`"
+        >
+          {{ page }}
+        </button>
+      </div>
+      <button @click="nextPage" v-if="currentPage < totalPges">{{ t('common.next') }}</button>
+    </nav>
   </section>
 </template>
 <style scoped>
@@ -105,5 +117,9 @@ onMounted(() => {
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
   }
+}
+.pagination {
+  display: flex;
+  gap: 1rem;
 }
 </style>

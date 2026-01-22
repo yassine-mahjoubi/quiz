@@ -23,7 +23,7 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       <ul>
         <li>
           <span class="infos">{{ t('quizLibrary.cardQuiz.subject') }}: </span
-          ><strong>{{ quiz.subject }}</strong>
+          ><strong>{{ quiz.subject }} </strong>
         </li>
         <li>
           <span class="infos">{{ t('quizLibrary.cardQuiz.numQuestions') }}: </span
