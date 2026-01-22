@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import AboutView from '@/components/Views/AboutView.vue'
-import ApiView from '@/components/Views/ApiView.vue'
+import GalleryQuizesView from '@/components/Views/GalleryQuizesView.vue'
 import QuizHome from '@/components/Views/QuizView.vue'
 
 const routes = [
   { path: '/', component: QuizHome },
-  { path: '/api', component: ApiView },
+  { path: '/gallery-quiz', component: GalleryQuizesView },
   { path: '/about', component: AboutView },
   //  { path: '/:slug', name: 'quiz-detail', component: QuizDetail, props: true },
 ]

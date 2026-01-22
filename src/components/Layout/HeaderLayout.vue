@@ -41,7 +41,7 @@ const updateIcon = computed(() =>
       </ul>
       <ul>
         <li>
-          <RouterLink to="/api">{{ t('nav.gallery') }}</RouterLink>
+          <RouterLink to="/gallery-quiz">{{ t('nav.gallery') }}</RouterLink>
         </li>
         <li>
           <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
