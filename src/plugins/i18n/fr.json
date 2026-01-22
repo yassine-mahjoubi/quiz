@@ -98,5 +98,29 @@
     "fetchError": "Impossible de charger les questions. Veuillez vérifier votre connexion ou réessayer plus tard.",
     "noAnswer": "Veuillez sélectionner une réponse avant de continuer.",
     "dbError": "Probleme de connexion avec l'api supabase .Veuillez vérifier votre connexion ou réessayer plus tard."
+  },
+  "quizLibrary": {
+    "cardQuiz": {
+      "subject": "Sujet",
+      "numQuestions": "Nombre de questions",
+      "difficulty": "Niveau",
+      "model": "Modèle LLM",
+      "sourceUrl": "Source URL"
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "gallery": "Bibliothèque de Quiz",
+    "about": "A propos"
+  },
+  "pages": {
+    "gallery": {
+      "title": "Bibliothèque de Quiz",
+      "content": "Explorez une sélection de quiz de qualité créés par d'autres utilisateurs en se basant sur des sources ( url fournies)  afin de limiter le contexte et éviter au max les hallucinations des questions par les LLM"
+    },
+    "about": {
+      "title": "",
+      "content": ""
+    }
   }
 }
