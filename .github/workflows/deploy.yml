@@ -43,7 +43,7 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_APP_NAME: 'Quiz Generator'
         run: |
-          npm run build-only
+          npm run build-only && cp dist/index.html dist/404.html
           echo "=== DEBUG: Built index.html ==="
           cat dist/index.html
           echo "=== END DEBUG ==="
