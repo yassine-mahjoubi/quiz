@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { ref, onMounted, watch, nextTick, computed } from 'vue'
+import { ref, watch, nextTick, computed, useTemplateRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import { listQuizJson } from '../../scripts/db/service'
 import QuizCard from '../ui/QuizCard.vue'
+import NavPagination from '../ui/NavPagination.vue'
 import type { Quiz } from '@/type/Type'
 
 const { t, locale } = useI18n()
 const quizes = ref<Quiz[]>([])
 const isdbError = ref<boolean>(false)
-const errorMessageRef = ref<HTMLDivElement | undefined>(undefined)
+
+const errorMessage = useTemplateRef<HTMLElement>('errorMessageRef')
 const loading = ref<boolean>(false)
 
 const elementByPage = 2
@@ -32,25 +34,14 @@ const getListQuiz = async (from: number, to: number) => {
   }
 }
 
-const nextPage = () => {
-  currentPage.value++
-}
-const previousPage = () => {
-  currentPage.value--
-}
-
-watch(currentPage, () => getListQuiz(from.value, to.value))
-
 watch(
   isdbError,
   () => {
-    nextTick(() => errorMessageRef.value?.focus())
+    nextTick(() => errorMessage.value?.focus())
   },
   { flush: 'post' },
 )
-onMounted(() => {
-  getListQuiz(from.value, to.value)
-})
+watch(currentPage, () => getListQuiz(from.value, to.value), { immediate: true })
 </script>
 
 <template>
@@ -90,33 +81,11 @@ onMounted(() => {
       </template>
     </div>
   </section>
-  <section v-if="currentPage > 0">
-    <nav role="navigation" aria-label="pagination">
-      <button @click="previousPage" :disabled="!(currentPage > 1)">
-        {{ t('common.previous') }}
-      </button>
-      <div class="pagination">
-        <button
-          v-for="page in totalPges"
-          :key="page"
-          @click="currentPage = page"
-          :disabled="currentPage == page"
-          :title="`page ${page} / ${totalPges}`"
-          class="outline"
-        >
-          {{ page }}
-        </button>
-      </div>
-      <button @click="nextPage" :disabled="!(currentPage < totalPges)">
-        {{ t('common.next') }}
-      </button>
-    </nav>
+  <section v-if="totalPges > 1">
+    <nav-pagination :total-pages="totalPges" v-model:current-page="currentPage" />
   </section>
 </template>
 <style scoped>
-.icon-copy {
-  background: transparent;
-}
 .placeholder_card {
   min-height: 490px;
 }
@@ -124,9 +93,5 @@ onMounted(() => {
   .grid {
     grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
   }
-}
-.pagination {
-  display: flex;
-  gap: 1rem;
 }
 </style>
