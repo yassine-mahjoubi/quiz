@@ -7,7 +7,7 @@ import QuizCard from '../ui/QuizCard.vue'
 import type { Quiz } from '@/type/Type'
 
 const { t, locale } = useI18n()
-const quizes = ref<Quiz[] | null>([])
+const quizes = ref<Quiz[]>([])
 const isdbError = ref<boolean>(false)
 const errorMessageRef = ref<HTMLDivElement | undefined>(undefined)
 const loading = ref<boolean>(false)
@@ -34,12 +34,12 @@ const getListQuiz = async (from: number, to: number) => {
 
 const nextPage = () => {
   currentPage.value++
-  getListQuiz(from.value, to.value)
 }
 const previousPage = () => {
   currentPage.value--
-  getListQuiz(from.value, to.value)
 }
+
+watch(currentPage, () => getListQuiz(from.value, to.value))
 
 watch(
   isdbError,
@@ -73,36 +73,43 @@ onMounted(() => {
       <template v-if="loading">
         <article
           class="placeholder_card"
-          v-for="element in 2"
+          v-for="element in elementByPage"
           :key="`${element}-id`"
           aria-busy="true"
           aria-label="loading"
         ></article>
       </template>
-      <quiz-card
-        v-for="quiz in quizes"
-        :quiz="quiz"
-        :key="quiz.id"
-        :locale="locale"
-        :loading="loading"
-      />
+      <template v-else>
+        <quiz-card
+          v-for="quiz in quizes"
+          :quiz="quiz"
+          :key="quiz.id"
+          :locale="locale"
+          :loading="loading"
+        />
+      </template>
     </div>
   </section>
-  <section>
+  <section v-if="currentPage > 0">
     <nav role="navigation" aria-label="pagination">
-      <button @click="previousPage" v-if="currentPage > 1">{{ t('common.previous') }}</button>
+      <button @click="previousPage" :disabled="!(currentPage > 1)">
+        {{ t('common.previous') }}
+      </button>
       <div class="pagination">
         <button
           v-for="page in totalPges"
           :key="page"
           @click="currentPage = page"
           :disabled="currentPage == page"
-          :title="`page ${page} sur ${totalPges}`"
+          :title="`page ${page} / ${totalPges}`"
+          class="outline"
         >
           {{ page }}
         </button>
       </div>
-      <button @click="nextPage" v-if="currentPage < totalPges">{{ t('common.next') }}</button>
+      <button @click="nextPage" :disabled="!(currentPage < totalPges)">
+        {{ t('common.next') }}
+      </button>
     </nav>
   </section>
 </template>

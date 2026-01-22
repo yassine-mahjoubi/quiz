@@ -42,8 +42,10 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       </ul>
     </header>
     <details :name="quiz.subject">
-      <summary role="button" class="outline secondary">voir le json</summary>
-      <button @click="copyData(quiz.quiz_json)" class="icon-copy">
+      <summary role="button" class="outline secondary">
+        {{ t('quizLibrary.cardQuiz.show') }} JSON
+      </summary>
+      <button @click="copyData(quiz.quiz_json)" class="icon-copy" title="copy">
         <Icon icon="cil:copy" width="16" height="16" style="color: currentColor" />
       </button>
       <vue-json-pretty
@@ -55,7 +57,9 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       />
     </details>
     <details :name="quiz.subject" v-if="quiz.context_md">
-      <summary role="button" class="outline secondary">voir le markdown</summary>
+      <summary role="button" class="outline secondary">
+        {{ t('quizLibrary.cardQuiz.show') }} markdown
+      </summary>
       <div>{{ quiz.context_md }}</div>
     </details>
     <footer>
