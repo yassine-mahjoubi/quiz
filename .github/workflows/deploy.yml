@@ -39,7 +39,9 @@ jobs:
         env:
           VITE_JINA_API_KEY: ${{ secrets.VITE_JINA_API_KEY }}
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
-          VITE_APP_NAME: 'Quiz RGAA'
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_APP_NAME: 'Quiz Generator'
         run: |
           npm run build-only
           echo "=== DEBUG: Built index.html ==="
