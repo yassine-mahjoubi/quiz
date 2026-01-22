@@ -35,9 +35,3 @@ const handleLanguageChange = (event: Event): void => {
     {{ t('common.change_immidiate') }}
   </p>
 </template>
-
-<style scoped>
-select {
-  font-size: small;
-}
-</style>

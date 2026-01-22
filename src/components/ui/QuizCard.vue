@@ -79,7 +79,9 @@ details {
 .icon-copy {
   position: absolute;
   right: 0;
+  border: transparent;
 }
+
 .vjs-value-string {
   color: var(--pico-primary);
 }
