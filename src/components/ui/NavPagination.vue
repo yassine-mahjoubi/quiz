@@ -24,29 +24,42 @@ watch(current, () => emit('update:currentPage', current.value))
 
 <template>
   <nav role="navigation" aria-label="pagination">
-    <button @click="previousPage" :disabled="!(current > 1)">
+    <button @click="previousPage" :disabled="!(current > 1)" :aria-disabled="!(current > 1)">
       {{ t('common.previous') }}
     </button>
-    <div class="pagination">
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        @click="current = page"
-        :disabled="current == page"
-        :title="`page ${page} / ${totalPages}`"
-        class="outline"
-      >
-        {{ page }}
-      </button>
-    </div>
-    <button @click="nextPage" :disabled="!(current < totalPages)">
+    <ul class="pagination">
+      <li v-for="page in totalPages" :key="page">
+        <a
+          :href="`#${page}`"
+          @click.prevent="current = page"
+          :aria-current="current === page ? 'page' : undefined"
+          :aria-disabled="current === page"
+          :title="`page ${page}`"
+          class="outline"
+        >
+          {{ page }}
+        </a>
+      </li>
+    </ul>
+    <button
+      @click="nextPage"
+      :disabled="!(current < totalPages)"
+      :aria-disabled="!(current < totalPages)"
+    >
       {{ t('common.next') }}
     </button>
   </nav>
 </template>
-<style>
+<style lang="scss">
 .pagination {
   display: flex;
   gap: 1rem;
+}
+.outline {
+  border: 1px solid currentColor;
+}
+a.outline[aria-disabled='true'] {
+  text-decoration: none;
+  border: none;
 }
 </style>
