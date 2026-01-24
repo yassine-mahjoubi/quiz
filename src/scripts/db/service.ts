@@ -8,6 +8,7 @@ export const listQuizJson = async (from: number, to: number) => {
     .from('ai_quiz_generations')
     .select('*', { count: 'exact' })
     .neq('context_md', null)
+    //.overlaps('tags', ['psychologie', 'biais Cognitif'])
     .range(from, to)
   if (error) {
     console.error('supabase service: ', error)
