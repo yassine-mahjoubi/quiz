@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { quizResponse } from '../type/Type'
+import type { Quiz } from '../type/Type'
 
 defineProps<{
-  answer: quizResponse | null
+  answer: Quiz | null
   contexte?: string | null
   url?: string
 }>()

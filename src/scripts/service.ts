@@ -110,7 +110,10 @@ const prompt = (
    2. Si le contexte n'est PAS pertinent, appelle la fonction 'generateur_de_quiz' en remplissant SEULEMENT le champ 'error' avec le message "Le contenu fourni ne
    semble pas correspondre au sujet du quiz demandé.".
    3. Si le contexte EST pertinent, utilise-le pour créer un quiz en ${lang === 'fr' ? 'français' : 'anglais'} avec ${numberQuestion} questions de niveau
-   ${level}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz_questions' avec le résultat.
+   ${level}. Ensuite, appelle la fonction 'generateur_de_quiz' en remplissant le champ 'quiz' avec le résultat et le champ 'tags' avec 3 tags suivant une hiérarchie claire :
+    - Le premier tag doit être le **sujet très précis** du quiz.
+    - Le deuxième tag doit être la **catégorie plus large** à laquelle le sujet appartient.
+    - Le troisième tag doit être le **grand domaine d'étude** général (ex: Histoire, Science, Art, etc.).
    `
 }
 
@@ -120,7 +123,8 @@ const prompt = (
  * @returns
  */
 
-//to do gerer l'erreur overload if (error instanceof Error && error.message.includes('overloaded')) {
+//  to do
+//  gerer l'erreur overload if (error instanceof Error && error.message.includes('overloaded')) {
 // return 'OVERLOADED_ERROR'  // Code spécial reconnaissable
 // }
 const fetchText = async (promptUser: string, modelIA: string): Promise<string> => {
@@ -137,7 +141,7 @@ const fetchText = async (promptUser: string, modelIA: string): Promise<string> =
     const parts = response?.candidates?.[0].content?.parts?.[0]
     textContent = parts?.text ?? ''
   } catch (error) {
-    console.log('erreur depuis Gemini', error)
+    console.error('erreur depuis Gemini', error)
     textContent = ''
   }
   return textContent
@@ -207,7 +211,7 @@ const handleMessageKey = (
  * @param data
  * @returns
  */
-const addQuiz = async (data) => {
+const addQuiz = async (data, tags: string[]) => {
   try {
     const { data: result } = await supabase
       .from('ai_quiz_generations')
@@ -220,6 +224,7 @@ const addQuiz = async (data) => {
         language: data.lang,
         url: data.url || null,
         context_md: data.context || null,
+        tags: tags,
       })
       .select()
       .single()
@@ -259,7 +264,8 @@ export async function generateQuiz(
   const promptUser = prompt(context, lang, numberQuestion, level, question)
 
   const text = await fetchText(promptUser, modelIA)
-
+  // to do guard here. & r
+  const tags = JSON.parse(text).quiz.tags.map((tag) => tag.toLowercase())
   isContextMismatch = handleContextMatch(text)
 
   const quiz = {
@@ -271,9 +277,10 @@ export async function generateQuiz(
     lang,
     url,
     context,
+    tags,
   }
   if (!isContextMismatch && text) {
-    addQuiz(quiz)
+    addQuiz(quiz, tags)
   }
 
   const messageKey = handleMessageKey(text, context, isContextEnabled, isContextMismatch)
