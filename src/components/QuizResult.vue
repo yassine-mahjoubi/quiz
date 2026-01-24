@@ -2,8 +2,8 @@
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 import { computed, inject } from 'vue'
-import type { quizResponse } from '../type/Type'
-const props = defineProps<{ answer: quizResponse; userAnswers: (number | null)[] }>()
+import type { Quiz } from '../type/Type'
+const props = defineProps<{ answer: Quiz; userAnswers: (number | null)[] }>()
 const emit = defineEmits<{
   'new-quiz': [boolean]
 }>()

@@ -1,45 +1,55 @@
 export const schema = {
   type: 'OBJECT',
-  // propriétés de l'objet principal
   properties: {
-    // La propriété principale est un tableau de questions
-    quiz_questions: {
-      type: 'ARRAY',
-      description: 'Une liste de questions pour le quiz.',
-      // Définition de la structure de chaque objet DANS le tableau
-      items: {
-        type: 'OBJECT',
-        properties: {
-          question_text: {
+    quiz: {
+      type: 'OBJECT',
+      description: "L'objet contenant le quiz généré.",
+      properties: {
+        tags: {
+          type: 'ARRAY',
+          description: 'trois tags pour identifier le sujet du quiz.',
+          items: {
             type: 'STRING',
-            description: 'Le texte de la question.',
-          },
-          category: {
-            type: 'STRING',
-            description: "La catégorie de la question (ex: 'Histoire', 'Science').",
-          },
-          difficulty: {
-            type: 'STRING',
-            description: 'Le niveau de difficulté de la question.',
-            // On peut même contraindre les valeurs possibles
-            enum: ['Facile', 'Moyen', 'Difficile'],
-          },
-          choices: {
-            type: 'ARRAY',
-            description:
-              'Le tableau contenant toutes les réponses possibles (la bonne et les mauvaises).',
-            items: {
-              type: 'STRING',
-            },
-          },
-          correct_answer_index: {
-            type: 'INTEGER',
-            description: "L'index (commençant à 0) de la bonne réponse dans le tableau 'choices'.",
           },
         },
-        // On spécifie que tous ces champs sont obligatoires pour chaque question
-        required: ['question_text', 'difficulty', 'choices', 'correct_answer_index'],
+        quiz_questions: {
+          type: 'ARRAY',
+          description: 'Une liste de questions pour le quiz.',
+          items: {
+            type: 'OBJECT',
+            properties: {
+              question_text: {
+                type: 'STRING',
+                description: 'Le texte de la question.',
+              },
+              category: {
+                type: 'STRING',
+                description: "La catégorie de la question (ex: 'Histoire', 'Science').",
+              },
+              difficulty: {
+                type: 'STRING',
+                description: 'Le niveau de difficulté de la question.',
+                enum: ['Facile', 'Moyen', 'Difficile'],
+              },
+              choices: {
+                type: 'ARRAY',
+                description:
+                  'Le tableau contenant toutes les réponses possibles (la bonne et les mauvaises).',
+                items: {
+                  type: 'STRING',
+                },
+              },
+              correct_answer_index: {
+                type: 'INTEGER',
+                description:
+                  "L'index (commençant à 0) de la bonne réponse dans le tableau 'choices'.",
+              },
+            },
+            required: ['question_text', 'difficulty', 'choices', 'correct_answer_index'],
+          },
+        },
       },
+      required: ['tags', 'quiz_questions'],
     },
     error: {
       type: 'STRING',
@@ -47,8 +57,7 @@ export const schema = {
         "Un message d'erreur décrivant pourquoi le quiz n'a pas pu être généré. Ce champ ne doit être présent QUE si la génération a échoué.",
     },
   },
-  // l'un ou l'autre.
-  oneOf: [{ required: ['quiz_questions'] }, { required: ['error'] }],
+  oneOf: [{ required: ['quiz'] }, { required: ['error'] }],
 }
 
 export const quizGeneratorTool = {

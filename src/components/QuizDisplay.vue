@@ -6,12 +6,12 @@ import { Icon } from '@iconify/vue'
 import { formatDurationToSeconds } from '../utils/timeduration'
 import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
-import type { quizResponse } from '../type/Type'
+import type { Quiz } from '../type/Type'
 import { computed, ref, nextTick } from 'vue'
 import QuizCode from './QuizCode.vue'
 
 const props = defineProps<{
-  answer: quizResponse
+  answer: Quiz
   userAnswers: (number | null)[]
   duration: number
   infosQuiz: string

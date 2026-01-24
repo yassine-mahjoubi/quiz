@@ -7,11 +7,11 @@ import VueJsonPretty from 'vue-json-pretty'
 import { formatDate } from '@/utils/timeduration'
 import { copyData } from '@/utils/copyData'
 import 'vue-json-pretty/lib/styles.css'
-import type { Quiz } from '@/type/Type'
+import type { QuizCard } from '@/type/Type'
 
 const { t } = useI18n()
 const { quiz, locale } = defineProps<{
-  quiz: Quiz
+  quiz: QuizCard
   locale: string
 }>()
 const date = computed(() => formatDate(quiz.created_at, locale))
@@ -39,6 +39,11 @@ const date = computed(() => formatDate(quiz.created_at, locale))
         <li v-if="quiz.url">
           <span class="infos">{{ t('quizLibrary.cardQuiz.sourceUrl') }}: </span>{{ quiz.url }}
         </li>
+
+        <li>
+          <time data-time="date">{{ date }}</time>
+        </li>
+        <li>{{ quiz.language === 'fr' ? 'Français' : 'Anglais' }}</li>
       </ul>
     </header>
     <details :name="quiz.subject">
@@ -63,11 +68,8 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       <div>{{ quiz.context_md }}</div>
     </details>
     <footer>
-      <ul>
-        <li>
-          <time data-time="date">{{ date }}</time>
-        </li>
-        <li>{{ quiz.language === 'fr' ? 'Français' : 'Anglais' }}</li>
+      <ul class="tags">
+        <li v-for="tag in quiz.tags" :key="tag">{{ tag }}</li>
       </ul>
     </footer>
   </article>
@@ -91,5 +93,19 @@ details {
 }
 .vjs-tree-node {
   position: initial;
+}
+.tags {
+  display: inline-flex;
+  margin: 0;
+  width: auto;
+  padding: 0;
+  gap: 10px;
+  li {
+    list-style: none;
+    padding: 0.5rem;
+    border-radius: var(--pico-border-radius);
+    background-color: var(--pico-background-color);
+    box-shadow: var(--pico-box-shadow);
+  }
 }
 </style>

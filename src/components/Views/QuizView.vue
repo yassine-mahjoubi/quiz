@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 import { Icon } from '@iconify/vue'
 import { useHead } from '@unhead/vue'
-import { ref, shallowRef, watch, provide, nextTick, computed, onMounted } from 'vue'
+import { ref, shallowRef, watch, provide, nextTick, computed } from 'vue'
 
 useHead({
   title: computed(() => t('seo.title')),
@@ -18,16 +18,15 @@ useHead({
 import { generateQuiz } from '../../scripts/service'
 import { getDuration } from '../../utils/timeduration'
 
-import type { quizResponse, difficulty, numberQuestions } from '../../type/Type'
+import type { difficulty, numberQuestions, Quiz } from '../../type/Type'
 
 import HeroLayout from '../Layout/HeroLayout.vue'
-import FooterLayout from '../Layout/FooterLayout.vue'
 import QuizDisplay from '../QuizDisplay.vue'
 import QuizForm from '../QuizForm.vue'
 import QuizResult from '../QuizResult.vue'
 import ProgressBar from '../ProgressBar.vue'
 
-const answer = shallowRef<quizResponse | null>(null)
+const answer = shallowRef<Quiz | null>(null)
 const loading = ref<boolean>(false)
 const userAnswers = ref<(number | null)[]>([])
 const showUserAnswers = ref<boolean[]>([])
@@ -80,8 +79,10 @@ const handleGenerateQuiz = async (payload: {
       throw new Error('contenu retourné invalide')
     }
 
-    answer.value = <quizResponse>JSON.parse(text)
+    const result = JSON.parse(text)
+    answer.value = result.quiz as Quiz
     console.warn('Quiz generated successfully sur: ', payload.question)
+
     showUserAnswers.value = answer.value.quiz_questions.map(() => false)
     isInvalidAnswer.value = answer.value.quiz_questions.map(() => undefined)
     userAnswers.value = answer.value.quiz_questions.map(() => null)

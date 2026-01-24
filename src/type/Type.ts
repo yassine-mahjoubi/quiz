@@ -27,7 +27,8 @@ interface Question {
   lang: string
 }
 
-interface quizResponse {
+interface Quiz {
+  tags: string[]
   quiz_questions: Question[]
   error: string
 }
@@ -35,7 +36,7 @@ interface quizResponse {
 type invalid = boolean | undefined
 type Model = 'gemini-3-flash-preview' | 'gemini-2.5-flash' | 'gemini-flash-latest'
 
-interface Quiz {
+interface QuizCard {
   id: string
   subject: string
   difficulty: string
@@ -46,11 +47,11 @@ interface Quiz {
   context_md: string
   created_at: string
   quiz_json: string
+  tags: string[]
 }
 
 export type {
   invalid,
-  quizResponse,
   Question,
   ApiText,
   ApiContent,
@@ -59,5 +60,5 @@ export type {
   difficulty,
   numberQuestions,
   Quiz,
-  Quiz2,
+  QuizCard,
 }
