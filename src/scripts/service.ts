@@ -24,20 +24,21 @@ import { supabase } from './db/index'
 
 const extractContentFromUrl = async (url: string): Promise<string | null> => {
   let sourceContent = null
+  // try {
+  //   sourceContent = await fetchContext(url)
+  //   if (!sourceContent) {
+  //     throw new Error('erreur lors du fetchContext')
+  //   }
+  // } catch (error) {
+  //   console.log('erreur when fetching url with JIna :', error)
+  //   console.warn('switch to mimicJIna')
   try {
-    sourceContent = await fetchContext(url)
-    if (!sourceContent) {
-      throw new Error('erreur lors du fetchContext')
-    }
+    sourceContent = await getMarkdownFromUrl(url)
   } catch (error) {
-    console.log('erreur when fetching url with JIna :', error)
-    console.warn('switch to mimicJIna')
-    try {
-      sourceContent = await getMarkdownFromUrl(url)
-    } catch (error) {
-      console.log('erreur when fetching url with MimicJIna :', error)
-    }
+    console.error('erreur when fetching url with MimicJIna :', error)
+    sourceContent = null
   }
+
   return sourceContent
 }
 
@@ -140,8 +141,14 @@ const fetchText = async (promptUser: string, modelIA: string): Promise<string> =
     })
     const parts = response?.candidates?.[0].content?.parts?.[0]
     textContent = parts?.text ?? ''
-  } catch (error) {
-    console.error('erreur depuis Gemini', error)
+  } catch (error: any) {
+    console.log('ERROR COMPLET:', error)
+    console.log('error.code:', error?.code)
+    console.log('error.message:', error?.message)
+    console.log('erreur depuis Gemini', error.code)
+    if (error?.code === 429) {
+      console.log('plus de quota disponible pour le model ', error.status)
+    }
     textContent = ''
   }
   return textContent
@@ -264,23 +271,27 @@ export async function generateQuiz(
   const promptUser = prompt(context, lang, numberQuestion, level, question)
 
   const text = await fetchText(promptUser, modelIA)
-  // to do guard here. & r
-  const tags = JSON.parse(text).quiz.tags.map((tag) => tag.toLowercase())
   isContextMismatch = handleContextMatch(text)
 
-  const quiz = {
-    question,
-    level,
-    text,
-    numberQuestion,
-    modelIA,
-    lang,
-    url,
-    context,
-    tags,
-  }
-  if (!isContextMismatch && text) {
-    addQuiz(quiz, tags)
+  try {
+    if (text && !isContextMismatch) {
+      const tags = JSON.parse(text).quiz.tags.map((tag: string) => tag.toLowerCase())
+
+      const quiz = {
+        question,
+        level,
+        text,
+        numberQuestion,
+        modelIA,
+        lang,
+        url,
+        context,
+        tags,
+      }
+      addQuiz(quiz, tags)
+    }
+  } catch (error) {
+    console.error('addquiz() error', error)
   }
 
   const messageKey = handleMessageKey(text, context, isContextEnabled, isContextMismatch)

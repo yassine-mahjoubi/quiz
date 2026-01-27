@@ -6,10 +6,7 @@ import { ref } from 'vue'
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import FooterLayout from './components/Layout/FooterLayout.vue'
 const showReaderScreen = ref<boolean>(false)
-
-const handelUpdateScreen = () => {
-  showReaderScreen.value = true
-}
+const handelUpdateScreen = () => (showReaderScreen.value = true)
 </script>
 <template>
   <div class="layout container">

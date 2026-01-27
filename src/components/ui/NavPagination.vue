@@ -58,8 +58,10 @@ watch(current, () => emit('update:currentPage', current.value))
 .outline {
   border: 1px solid currentColor;
 }
-a.outline[aria-disabled='true'] {
-  text-decoration: none;
+:where(button)[disabled][aria-disabled='true'],
+:where(a)[aria-disabled='true'] {
+  cursor: not-allowed;
+  pointer-events: none;
   border: none;
 }
 </style>
