@@ -5,16 +5,16 @@ import { Icon } from '@iconify/vue'
 import { listQuizJson } from '../../scripts/db/service'
 import QuizCard from '../ui/QuizCard.vue'
 import NavPagination from '../ui/NavPagination.vue'
-import type { Quiz } from '@/type/Type'
+import type { QuizDB } from '@/type/Type'
 
 const { t, locale } = useI18n()
-const quizes = ref<Quiz[]>([])
+const quizes = ref<QuizDB[]>([])
 const isdbError = ref<boolean>(false)
 
 const errorMessage = useTemplateRef<HTMLElement>('errorMessageRef')
 const loading = ref<boolean>(false)
 
-const elementByPage = 2
+const elementByPage = 4
 const currentPage = ref<number>(1)
 const from = computed(() => (currentPage.value - 1) * elementByPage)
 const to = computed(() => from.value + elementByPage - 1)

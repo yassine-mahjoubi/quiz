@@ -4,17 +4,8 @@ const { t, locale } = useI18n()
 import { Icon } from '@iconify/vue'
 import { useHead } from '@unhead/vue'
 import { ref, shallowRef, watch, provide, nextTick, computed } from 'vue'
-
-useHead({
-  title: computed(() => t('seo.title')),
-  meta: [
-    {
-      name: 'description',
-      content: computed(() => t('seo.description')),
-    },
-  ],
-})
-
+import { storeToRefs } from 'pinia'
+import { useQuizStore } from '@/stores/quiz'
 import { generateQuiz } from '../../scripts/service'
 import { getDuration } from '../../utils/timeduration'
 
@@ -25,6 +16,17 @@ import QuizDisplay from '../QuizDisplay.vue'
 import QuizForm from '../QuizForm.vue'
 import QuizResult from '../QuizResult.vue'
 import ProgressBar from '../ProgressBar.vue'
+useHead({
+  title: computed(() => t('seo.title')),
+  meta: [
+    {
+      name: 'description',
+      content: computed(() => t('seo.description')),
+    },
+  ],
+})
+const store = useQuizStore()
+const { newQuiz } = storeToRefs(store)
 
 const answer = shallowRef<Quiz | null>(null)
 const loading = ref<boolean>(false)
@@ -56,6 +58,7 @@ const handleGenerateQuiz = async (payload: {
 }) => {
   url.value = payload.url
   loading.value = true
+  showErrorMessage.value = false
 
   const quizDurationGeneration = Date.now()
   let messageKey = ''
@@ -89,7 +92,6 @@ const handleGenerateQuiz = async (payload: {
     totalQuestion.value = answer.value.quiz_questions.length
     showQuizForm.value = false
     showQuizDisplay.value = true
-    showErrorMessage.value = false
     infosQuiz.value = messageKey
     if (quizWrapper.value) {
       quizWrapper.value?.setFocus()
@@ -101,6 +103,7 @@ const handleGenerateQuiz = async (payload: {
   } finally {
     loading.value = false
     quizTimeDuration.value = getDuration(quizDurationGeneration)
+    newQuiz.value = false
   }
 }
 
@@ -126,7 +129,13 @@ const handleNewQuiz = () => {
   showResultQuiz.value = false
   infosQuiz.value = ''
   showErrorMessage.value = false
+  showQuizDisplay.value = false
 }
+watch(newQuiz, () => {
+  if (newQuiz.value === true) {
+    handleNewQuiz()
+  }
+})
 </script>
 <template>
   <div class="home-wrapper-layout">

@@ -34,9 +34,13 @@ interface Quiz {
 }
 
 type invalid = boolean | undefined
-type Model = 'gemini-3-flash-preview' | 'gemini-2.5-flash' | 'gemini-flash-latest'
+type Model =
+  | 'gemini-3-flash-preview'
+  | 'gemini-2.5-flash'
+  | 'gemini-flash-latest'
+  | 'gemini-3-flash'
 
-interface QuizCard {
+interface QuizDB {
   id: string
   subject: string
   difficulty: string
@@ -60,5 +64,5 @@ export type {
   difficulty,
   numberQuestions,
   Quiz,
-  QuizCard,
+  QuizDB,
 }

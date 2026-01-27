@@ -10,10 +10,22 @@ import PseudoPrompt from './PseudoPrompt.vue'
 
 const difficulty = ref<difficulty>('facile')
 const numberQuestions = ref<numberQuestions>(5)
-const modelIA = ref<string>('gemini-flash-latest')
+const modelIA = ref<string>('gemini-2.5-flash')
 const isContextEnabled = ref<boolean>(false)
 
-const GEMINI_MODELS = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest']
+const GEMINI_MODELS_2 = [
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.5-pro',
+  'gemini-3-pro-preview',
+]
+
+const GEMINI_MODELS = [
+  'gemini-3-flash-preview',
+  'gemini-2.5-flash',
+  'gemini-flash-latest',
+  'gemini-3-flash',
+]
 
 const {
   value: yourQuestion,
@@ -146,7 +158,7 @@ const handleTextButton = computed(() => {
       <fieldset :disabled="props.loading">
         <label for="model-IA">{{ t('quizForm.modelLabel') }}</label>
         <select id="model-IA" name="model-IA" v-model="modelIA">
-          <option :value="model" v-for="model in GEMINI_MODELS" :key="model">
+          <option :value="model" v-for="model in GEMINI_MODELS_2" :key="model">
             {{ model }}
           </option>
         </select>
