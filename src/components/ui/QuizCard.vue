@@ -2,42 +2,37 @@
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useI18n } from 'vue-i18n'
-
 import VueJsonPretty from 'vue-json-pretty'
 import { formatDate } from '@/utils/timeduration'
 import { copyData } from '@/utils/copyData'
 import 'vue-json-pretty/lib/styles.css'
-import type { QuizCard } from '@/type/Type'
+import type { QuizDB } from '@/type/Type'
 
 const { t } = useI18n()
 const { quiz, locale } = defineProps<{
-  quiz: QuizCard
+  quiz: QuizDB
   locale: string
 }>()
 const date = computed(() => formatDate(quiz.created_at, locale))
+const category = quiz?.tags[2]
 </script>
 
 <template>
   <article>
     <header>
-      <ul>
+      <ul class="list-infos">
+        <span class="category">{{ category }}</span>
         <li>
-          <span class="infos">{{ t('quizLibrary.cardQuiz.subject') }}: </span
-          ><strong>{{ quiz.subject }} </strong>
+          <span>{{ t('quizLibrary.cardQuiz.subject') }}: </span><strong>{{ quiz.subject }} </strong>
         </li>
         <li>
-          <span class="infos">{{ t('quizLibrary.cardQuiz.numQuestions') }}: </span
-          >{{ quiz.number_question }}
+          <span>{{ t('quizLibrary.cardQuiz.numQuestions') }}: </span>{{ quiz.number_question }}
         </li>
         <li>
-          <span class="infos">{{ t('quizLibrary.cardQuiz.difficulty') }}: </span
-          >{{ quiz.difficulty }}
+          <span>{{ t('quizLibrary.cardQuiz.difficulty') }}: </span>{{ quiz.difficulty }}
         </li>
         <li>
-          <span class="infos">{{ t('quizLibrary.cardQuiz.model') }}: </span>{{ quiz.model }}
-        </li>
-        <li v-if="quiz.url">
-          <span class="infos">{{ t('quizLibrary.cardQuiz.sourceUrl') }}: </span>{{ quiz.url }}
+          <span>{{ t('quizLibrary.cardQuiz.model') }}: </span>{{ quiz.model }}
         </li>
 
         <li>
@@ -47,9 +42,7 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       </ul>
     </header>
     <details :name="quiz.subject">
-      <summary role="button" class="outline secondary">
-        {{ t('quizLibrary.cardQuiz.show') }} JSON
-      </summary>
+      <summary role="button" class="outline secondary">JSON</summary>
       <button @click="copyData(quiz.quiz_json)" class="icon-copy" title="copy">
         <Icon icon="cil:copy" width="16" height="16" style="color: currentColor" />
       </button>
@@ -62,14 +55,25 @@ const date = computed(() => formatDate(quiz.created_at, locale))
       />
     </details>
     <details :name="quiz.subject" v-if="quiz.context_md">
-      <summary role="button" class="outline secondary">
-        {{ t('quizLibrary.cardQuiz.show') }} markdown
-      </summary>
+      <summary role="button" class="outline secondary">markdown</summary>
       <div>{{ quiz.context_md }}</div>
     </details>
+
+    <details :name="quiz.url" v-if="quiz.url">
+      <summary role="button" class="outline secondary">
+        {{ t('quizLibrary.cardQuiz.sourceUrl') }}
+      </summary>
+
+      <div>
+        <a :href="quiz.url" target="_blank" :title="t('concept.linkLabel.newWindow')">{{
+          quiz.url
+        }}</a>
+      </div>
+    </details>
+
     <footer>
       <ul class="tags">
-        <li v-for="tag in quiz.tags" :key="tag">{{ tag }}</li>
+        <li v-for="tag in quiz.tags" :key="tag" class="tag">{{ tag }}</li>
       </ul>
     </footer>
   </article>
@@ -100,12 +104,30 @@ details {
   width: auto;
   padding: 0;
   gap: 10px;
-  li {
+  .tag {
     list-style: none;
     padding: 0.5rem;
     border-radius: var(--pico-border-radius);
     background-color: var(--pico-background-color);
     box-shadow: var(--pico-box-shadow);
+    font-size: small;
   }
+}
+.list-infos {
+  position: relative;
+  padding-left: 1rem;
+  .category {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: var(--pico-primary-background);
+    box-shadow: var(--pico-box-shadow);
+    font-size: small;
+    padding: 0.5rem;
+    font-weight: bold;
+  }
+}
+.url {
+  line-break: anywhere;
 }
 </style>
