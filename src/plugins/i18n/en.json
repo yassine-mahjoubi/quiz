@@ -118,11 +118,11 @@
   "pages": {
     "gallery": {
       "title": "Quiz Library",
-      "content": "Explore a selection of quality quizzes created by other users, based on sources (provided URLs) in order to limit the context and minimize question hallucinations by LLMs.",
-      "about": {
-        "title": "",
-        "content": ""
-      }
+      "content": "Explore a selection of quality quizzes created by other users, based on sources (provided URLs) in order to limit the context and minimize question hallucinations by LLMs."
+    },
+    "about": {
+      "title": "About This Project",
+      "content": "This project is a simple and fun tool for creating your own quizzes. You can generate a test on any topic. For more relevant questions, simply provide a link to a web page: the artificial intelligence will focus on its content to create the quiz. Generation is powered by Google's Gemini AI. It's important to remember that AI, while powerful, can sometimes make mistakes or 'hallucinate' answers. Be sure to check critical information. Please also note that this project is a demonstration and uses models with potentially limited access, which might occasionally slow down quiz creation. Feel free to create your own quiz, or explore the gallery to try those already created by the community!"
     }
   }
 }

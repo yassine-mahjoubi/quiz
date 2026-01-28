@@ -5,5 +5,8 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div>about</div>
+  <section>
+    <h1>{{ t('pages.about.title') }}</h1>
+    <p>{{ t('pages.about.content') }}</p>
+  </section>
 </template>

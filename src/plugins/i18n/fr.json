@@ -120,8 +120,8 @@
       "content": "Explorez une sélection de quiz de qualité créés par d'autres utilisateurs en se basant sur des sources ( url fournies)  afin de limiter le contexte et éviter au max les hallucinations des questions par les LLM"
     },
     "about": {
-      "title": "",
-      "content": ""
+      "title": "À propos de ce projet",
+      "content": "Ce projet est un outil simple et amusant pour créer vos propres quiz. Vous pouvez générer un test sur n'importe quel sujet. Pour des questions plus pertinentes, il vous suffit de fournir un lien vers une page web : l'intelligence artificielle se concentrera sur son contenu pour créer le quiz. La génération est assurée par l'IA Gemini de Google. Il est important de rappeler que l'IA, bien que puissante, peut parfois faire des erreurs ou 'halluciner' des réponses. Pensez à vérifier les informations critiques. Notez également que ce projet est une démonstration et utilise des modèles dont l'accès peut être limité, ce qui pourrait parfois ralentir la création des quiz. N'hésitez pas à créer votre propre quiz, ou à explorer la galerie pour essayer ceux déjà créés par la communauté !"
     }
   }
 }

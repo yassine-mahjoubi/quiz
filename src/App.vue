@@ -34,6 +34,7 @@ const handelUpdateScreen = () => (showReaderScreen.value = true)
   flex-direction: column;
 }
 .main {
+  margin-top: 1rem;
   flex: 1;
 }
 </style>
