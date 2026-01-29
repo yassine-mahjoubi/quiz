@@ -1,13 +1,25 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 import { ref, watch, nextTick, computed, useTemplateRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import { listQuizJson } from '../../scripts/db/service'
 import QuizCard from '../ui/QuizCard.vue'
 import NavPagination from '../ui/NavPagination.vue'
 import type { QuizDB } from '@/type/Type'
+import { useSeoMeta } from '@unhead/vue'
 
-const { t, locale } = useI18n()
+useSeoMeta({
+  title: computed(() => t('seo.pages.gallery.meta.title')),
+  description: computed(() => t('seo.pages.gallery.meta.description')),
+  ogTitle: computed(() => t('seo.pages.gallery.meta.ogTitle')),
+  ogDescription: computed(() => t('seo.pages.gallery.meta.ogDescription')),
+  ogImage: computed(() => t('seo.pages.gallery.meta.ogImage')),
+  ogUrl: computed(() => t('seo.pages.gallery.meta.ogUrl')),
+  ogType: 'website',
+  ogSiteName: computed(() => t('seo.pages.gallery.meta.ogSiteName')),
+})
+
 const quizes = ref<QuizDB[]>([])
 const isdbError = ref<boolean>(false)
 

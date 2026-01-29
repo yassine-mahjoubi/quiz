@@ -2,28 +2,28 @@
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 import { Icon } from '@iconify/vue'
-import { useHead } from '@unhead/vue'
+import type { difficulty, numberQuestions, Quiz } from '../../type/Type'
 import { ref, shallowRef, watch, provide, nextTick, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useQuizStore } from '@/stores/quiz'
 import { generateQuiz } from '../../scripts/service'
 import { getDuration } from '../../utils/timeduration'
-
-import type { difficulty, numberQuestions, Quiz } from '../../type/Type'
-
 import HeroLayout from '../Layout/HeroLayout.vue'
 import QuizDisplay from '../QuizDisplay.vue'
 import QuizForm from '../QuizForm.vue'
 import QuizResult from '../QuizResult.vue'
 import ProgressBar from '../ProgressBar.vue'
-useHead({
-  title: computed(() => t('seo.title')),
-  meta: [
-    {
-      name: 'description',
-      content: computed(() => t('seo.description')),
-    },
-  ],
+import { useSeoMeta } from '@unhead/vue'
+
+useSeoMeta({
+  title: computed(() => t('seo.pages.home.meta.title')),
+  description: computed(() => t('seo.pages.home.meta.description')),
+  ogTitle: computed(() => t('seo.pages.home.meta.ogTitle')),
+  ogDescription: computed(() => t('seo.pages.home.meta.ogDescription')),
+  ogImage: computed(() => t('seo.pages.home.meta.ogImage')),
+  ogUrl: computed(() => t('seo.pages.home.meta.ogDescription')),
+  ogType: 'website',
+  ogSiteName: computed(() => t('seo.pages.home.meta.ogSiteName')),
 })
 const store = useQuizStore()
 const { newQuiz } = storeToRefs(store)

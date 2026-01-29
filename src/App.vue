@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 import { ref } from 'vue'
 import HeaderLayout from './components/Layout/HeaderLayout.vue'
 import FooterLayout from './components/Layout/FooterLayout.vue'
+import { useSeo } from './composables/useSeo'
+
+const { t } = useI18n()
 const showReaderScreen = ref<boolean>(false)
 const handelUpdateScreen = () => (showReaderScreen.value = true)
+useSeo()
 </script>
 <template>
   <div class="layout container">
@@ -34,6 +36,7 @@ const handelUpdateScreen = () => (showReaderScreen.value = true)
   flex-direction: column;
 }
 .main {
+  margin-top: 1rem;
   flex: 1;
 }
 </style>
