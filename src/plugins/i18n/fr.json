@@ -1,7 +1,61 @@
 {
   "seo": {
-    "title": "Générateur de Quiz IA - Créez des quiz depuis n'importe quelle URL",
-    "description": "Générez des quiz personnalisés à partir de n'importe quelle URL avec ce générateur basé sur l'IA. Une démo technique utilisant Vue.js 3 et l'API Gemini pour explorer la génération de contenu contextuel."
+    "site": {
+      "name": "Générateur de Quiz IA",
+      "description": "Générateur de Quiz IA pour Apprentissage Actif",
+      "author": {
+        "jobTitle": "Développeur Vue.js, certified acces42, RGAA"
+      }
+    },
+    "pages": {
+      "home": {
+        "meta": {
+          "title": "Générateur de Quiz IA pour Apprentissage Actif | Créez depuis une URL",
+          "description": "Améliorez votre mémorisation avec l'apprentissage proactif. Notre outil basé sur l'IA transforme articles et documents web en quiz personnalisés. Idéal pour l'étude et la révision.",
+          "ogTitle": "Générateur de Quiz IA pour Apprentissage Actif | Créez depuis une URL",
+          "ogDescription": "Améliorez votre mémorisation avec l'apprentissage proactif. Notre outil basé sur l'IA transforme articles et documents web en quiz personnalisés. Idéal pour l'étude et la révision.",
+          "ogImage": "/images/og-home.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI"
+        },
+        "schema": {
+          "type": "WebApplication"
+        }
+      },
+      "gallery": {
+        "meta": {
+          "title": "Bibliothèque de Quiz | Testez vos Connaissances sur Divers Sujets",
+          "description": "Explorez des dizaines de quiz générés par IA sur des sujets allant de la tech à l'histoire. La preuve de l'efficacité de notre outil pour un apprentissage ciblé.",
+          "ogTitle": "Bibliothèque de Quiz | Testez vos Connaissances sur Divers Sujets",
+          "ogDescription": "Explorez des dizaines de quiz générés par IA sur des sujets allant de la tech à l'histoire. La preuve de l'efficacité de notre outil pour un apprentissage ciblé.",
+          "ogImage": "/images/og-gallery.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/gallery-quiz",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI",
+          "twitterCard": "summary_large_image"
+        },
+        "schema": {
+          "type": "CollectionPage"
+        }
+      },
+      "about": {
+        "meta": {
+          "title": "À Propos | Démo RAG avec Vue 3 & Gemini par Yassine MAHJOUBI",
+          "description": "Découvrez l'architecture RAG simplifiée de ce projet portfolio. Une démo technique avec Vue 3 et l'API Gemini. Connectons-nous sur LinkedIn !",
+          "ogTitle": "À Propos | Démo RAG avec Vue 3 & Gemini AI par Yassine MAHJOUBI",
+          "ogDescription": "Découvrez l'architecture RAG simplifiée de ce projet portfolio. Une démo technique avec Vue 3 et l'API Gemini. Connectons-nous sur LinkedIn !",
+          "ogImage": "/images/og-about.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/about",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI",
+          "twitterCard": "summary_large_image"
+        },
+        "schema": {
+          "type": "AboutPage"
+        }
+      }
+    }
   },
   "common": {
     "mode": {
@@ -120,8 +174,8 @@
       "content": "Explorez une sélection de quiz de qualité créés par d'autres utilisateurs en se basant sur des sources ( url fournies)  afin de limiter le contexte et éviter au max les hallucinations des questions par les LLM"
     },
     "about": {
-      "title": "",
-      "content": ""
+      "title": "À propos de ce projet",
+      "content": "Ce projet est un outil simple et amusant pour créer vos propres quiz. Vous pouvez générer un test sur n'importe quel sujet. Pour des questions plus pertinentes, il vous suffit de fournir un lien vers une page web : l'intelligence artificielle se concentrera sur son contenu pour créer le quiz. La génération est assurée par l'IA Gemini de Google. Il est important de rappeler que l'IA, bien que puissante, peut parfois faire des erreurs ou 'halluciner' des réponses. Pensez à vérifier les informations critiques. Notez également que ce projet est une démonstration et utilise des modèles dont l'accès peut être limité, ce qui pourrait parfois ralentir la création des quiz. N'hésitez pas à créer votre propre quiz, ou à explorer la galerie pour essayer ceux déjà créés par la communauté !"
     }
   }
 }
