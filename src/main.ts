@@ -4,7 +4,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import i18n from '@/plugins/i18n'
-import { createHead } from '@unhead/vue'
+import { createHead } from '@unhead/vue/client'
 
 const head = createHead()
 

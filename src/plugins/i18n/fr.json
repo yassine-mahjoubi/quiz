@@ -1,7 +1,61 @@
 {
   "seo": {
-    "title": "Générateur de Quiz IA - Créez des quiz depuis n'importe quelle URL",
-    "description": "Générez des quiz personnalisés à partir de n'importe quelle URL avec ce générateur basé sur l'IA. Une démo technique utilisant Vue.js 3 et l'API Gemini pour explorer la génération de contenu contextuel."
+    "site": {
+      "name": "Générateur de Quiz IA",
+      "description": "Générateur de Quiz IA pour Apprentissage Actif",
+      "author": {
+        "jobTitle": "Développeur Vue.js, certified acces42, RGAA"
+      }
+    },
+    "pages": {
+      "home": {
+        "meta": {
+          "title": "Générateur de Quiz IA pour Apprentissage Actif | Créez depuis une URL",
+          "description": "Améliorez votre mémorisation avec l'apprentissage proactif. Notre outil basé sur l'IA transforme articles et documents web en quiz personnalisés. Idéal pour l'étude et la révision.",
+          "ogTitle": "Générateur de Quiz IA pour Apprentissage Actif | Créez depuis une URL",
+          "ogDescription": "Améliorez votre mémorisation avec l'apprentissage proactif. Notre outil basé sur l'IA transforme articles et documents web en quiz personnalisés. Idéal pour l'étude et la révision.",
+          "ogImage": "/images/og-home.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI"
+        },
+        "schema": {
+          "type": "WebApplication"
+        }
+      },
+      "gallery": {
+        "meta": {
+          "title": "Bibliothèque de Quiz | Testez vos Connaissances sur Divers Sujets",
+          "description": "Explorez des dizaines de quiz générés par IA sur des sujets allant de la tech à l'histoire. La preuve de l'efficacité de notre outil pour un apprentissage ciblé.",
+          "ogTitle": "Bibliothèque de Quiz | Testez vos Connaissances sur Divers Sujets",
+          "ogDescription": "Explorez des dizaines de quiz générés par IA sur des sujets allant de la tech à l'histoire. La preuve de l'efficacité de notre outil pour un apprentissage ciblé.",
+          "ogImage": "/images/og-gallery.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/gallery-quiz",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI",
+          "twitterCard": "summary_large_image"
+        },
+        "schema": {
+          "type": "CollectionPage"
+        }
+      },
+      "about": {
+        "meta": {
+          "title": "À Propos | Démo RAG avec Vue 3 & Gemini par Yassine MAHJOUBI",
+          "description": "Découvrez l'architecture RAG simplifiée de ce projet portfolio. Une démo technique avec Vue 3 et l'API Gemini. Connectons-nous sur LinkedIn !",
+          "ogTitle": "À Propos | Démo RAG avec Vue 3 & Gemini AI par Yassine MAHJOUBI",
+          "ogDescription": "Découvrez l'architecture RAG simplifiée de ce projet portfolio. Une démo technique avec Vue 3 et l'API Gemini. Connectons-nous sur LinkedIn !",
+          "ogImage": "/images/og-about.jpg",
+          "ogUrl": "https://yassine-mahjoubi-quiz-ia-generator.netlify.app/about",
+          "ogType": "website",
+          "ogSiteName": "QuizGen AI",
+          "twitterCard": "summary_large_image"
+        },
+        "schema": {
+          "type": "AboutPage"
+        }
+      }
+    }
   },
   "common": {
     "mode": {
