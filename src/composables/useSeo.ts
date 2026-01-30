@@ -28,6 +28,8 @@ const useSeo = () => {
         jobTitle: computed(() => t('seo.site.author.jobTitle')),
         url: 'https://yassine-mahjoubi-quiz-ia-generator.netlify.app/about',
         sameAs: [
+          'https://about.me/yassine-mahjoubi',
+          'https://yassine-mahjoubi.carrd.co/',
           'https://www.linkedin.com/in/yassine-mahjoubi/',
           'https://github.com/yassine-mahjoubi/',
         ],
