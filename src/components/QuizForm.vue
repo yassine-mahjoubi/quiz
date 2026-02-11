@@ -72,6 +72,9 @@ const handleTextButton = computed(() => {
 
 <template>
   <section>
+    <small>{{ t('quizForm.field.requiered') }}</small>
+  </section>
+  <section>
     <fieldset>
       <label for="isContextEnabled">
         <input
@@ -89,9 +92,7 @@ const handleTextButton = computed(() => {
       </label>
     </fieldset>
   </section>
-  <section>
-    <small>{{ t('quizForm.field.requiered') }}</small>
-  </section>
+
   <section>
     <fieldset class="disabled-wrapper">
       <label for="urlInput">{{ t('quizForm.url') }} *</label>

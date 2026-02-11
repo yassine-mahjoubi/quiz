@@ -85,7 +85,9 @@ const allowDebug = inject('allowDebug')
       </li>
     </ul>
   </section>
-  <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
+  <section class="submit-wrapper">
+    <button @click="handleNewQuiz">{{ t('common.restart') }}</button>
+  </section>
 
   <section v-if="allowDebug">
     <code>
