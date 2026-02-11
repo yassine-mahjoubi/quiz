@@ -7,7 +7,7 @@ import { formatDurationToSeconds } from '../utils/timeduration'
 import QuizQuestion from './QuizQuestion.vue'
 import ProgressBar from './ProgressBar.vue'
 import type { Quiz } from '../type/Type'
-import { computed, ref, nextTick } from 'vue'
+import { computed, ref, nextTick, inject } from 'vue'
 import QuizCode from './QuizCode.vue'
 
 const props = defineProps<{
@@ -67,18 +67,24 @@ const plural = computed(() => {
 const currentQuestion = computed(() => counter.value + 1)
 const handelSubmit = () => {
   emit('answer-submit', isCompleted.value)
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
 }
 
 const handelAnswer = (questionIndex: number, answerIndex: number) => {
   emit('answer-selected', questionIndex, answerIndex)
 }
+
+const allowDebug = inject('allowDebug')
 </script>
 
 <template>
   <h2>
     <Icon aria-hidden="true" icon="emojione-monotone:victory-hand" width="32" height="32" />
     {{ t(infosQuiz) }}
-    <small>{{ t('quiz.duration', { time: quizDuration }) }}</small
+    <small v-if="allowDebug">{{ t('quiz.duration', { time: quizDuration }) }}</small
     >.
   </h2>
   <label for="progressBar">{{ t('quiz.progress') }}</label>
@@ -128,9 +134,20 @@ const handelAnswer = (questionIndex: number, answerIndex: number) => {
       </button>
     </nav>
     <hr />
-    <button class="contraste" @click="handelSubmit" v-if="atLeastAnswred">
-      {{ t('common.submit') }}
-    </button>
+    <section class="submit-wrapper">
+      <button class="contraste" @click="handelSubmit" v-if="atLeastAnswred">
+        {{ t('common.submit') }}
+      </button>
+    </section>
   </div>
-  <quiz-code :contexte="contexte" :answer="answer" :url="url" />
+  <quiz-code :contexte="contexte" :answer="answer" :url="url" v-if="allowDebug" />
 </template>
+<style>
+.submit-wrapper {
+  width: 100%;
+  text-align: center;
+  button {
+    margin: auto;
+  }
+}
+</style>
