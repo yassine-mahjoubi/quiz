@@ -78,7 +78,7 @@ const category = quiz?.tags[2]
     </footer>
   </article>
 </template>
-<style>
+<style scoped>
 details {
   position: relative;
 }
@@ -129,5 +129,10 @@ details {
 }
 .url {
   line-break: anywhere;
+}
+.category {
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }
 </style>

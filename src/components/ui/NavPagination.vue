@@ -41,6 +41,7 @@ watch(current, () => emit('update:currentPage', current.value))
         </a>
       </li>
     </ul>
+    <p class="infos-pagination">page {{ current }} / {{ totalPages }}</p>
     <button
       @click="nextPage"
       :disabled="!(current < totalPages)"
@@ -51,9 +52,15 @@ watch(current, () => emit('update:currentPage', current.value))
   </nav>
 </template>
 <style lang="scss">
+nav {
+  align-items: baseline;
+}
 .pagination {
   display: flex;
   gap: 1rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 .outline {
   border: 1px solid currentColor;
@@ -63,5 +70,11 @@ watch(current, () => emit('update:currentPage', current.value))
   cursor: not-allowed;
   pointer-events: none;
   border: none;
+}
+.infos-pagination {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
 }
 </style>
