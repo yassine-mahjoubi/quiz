@@ -86,6 +86,7 @@ details {
   position: absolute;
   right: 0;
   border: transparent;
+  z-index: 99;
 }
 
 .vjs-value-string {

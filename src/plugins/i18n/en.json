@@ -76,7 +76,9 @@
       "fr": "choisir Français",
       "en": "choose English"
     },
-    "language_changed_announcement": "The page is now in English"
+    "language_changed_announcement": "The page is now in English",
+    "open": "open menu",
+    "close": "close menu"
   },
   "concept": {
     "title": "Create a Quiz from any Web Page",

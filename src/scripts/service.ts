@@ -235,7 +235,6 @@ const addQuiz = async (data, tags: string[]) => {
       })
       .select()
       .single()
-    console.table('result: ', result)
     return result
   } catch (error) {
     console.log(error)

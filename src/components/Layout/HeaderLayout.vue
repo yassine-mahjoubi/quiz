@@ -29,13 +29,14 @@ const updateIcon = computed(() =>
   enabledDarkMode.value ? 'line-md:moon' : 'bitcoin-icons:sun-outline',
 )
 const isMenuOpen = ref<boolean>(false)
+const closeMenu = () => (isMenuOpen.value = false)
 </script>
 <template>
   <header role="banner">
     <button
       class="btn-burguer-menu"
       @click="isMenuOpen = !isMenuOpen"
-      :aria-label="isMenuOpen ? 'Fermer menu' : 'Ouvrir menu'"
+      :aria-label="isMenuOpen ? t('common.close') : t('common.open')"
       :aria-expanded="isMenuOpen"
     >
       <Icon
@@ -47,16 +48,15 @@ const isMenuOpen = ref<boolean>(false)
     </button>
     <nav role="navigation" aria-label="navigation principale" :class="{ open: isMenuOpen }">
       <ul>
+        <li aria-hidden="true"><base-logo /></li>
         <li>
-          <div class="logo">
-            <RouterLink to="/" title="home"> <base-logo /> </RouterLink>
-          </div>
+          <RouterLink to="/" title="home" @click="closeMenu">{{ t('nav.home') }} </RouterLink>
         </li>
         <li>
-          <RouterLink to="/gallery-quiz">{{ t('nav.gallery') }}</RouterLink>
+          <RouterLink to="/gallery-quiz" @click="closeMenu">{{ t('nav.gallery') }}</RouterLink>
         </li>
         <li>
-          <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
+          <RouterLink to="/about" @click="closeMenu">{{ t('nav.about') }}</RouterLink>
         </li>
       </ul>
     </nav>

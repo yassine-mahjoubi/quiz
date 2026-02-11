@@ -53,7 +53,17 @@ watch(
   },
   { flush: 'post' },
 )
-watch(currentPage, () => getListQuiz(from.value, to.value), { immediate: true })
+watch(
+  currentPage,
+  () => {
+    getListQuiz(from.value, to.value)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
