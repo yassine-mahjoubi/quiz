@@ -2,30 +2,19 @@
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, inject } from 'vue'
 import type { numberQuestions, difficulty } from '@/type/Type'
 import { useRequiredField } from '@/composables/useRequiredField'
 import { useUrlField } from '@/composables/useUrlField'
 import PseudoPrompt from './PseudoPrompt.vue'
 
+const allowDebug = inject('allowDebug')
 const difficulty = ref<difficulty>('facile')
 const numberQuestions = ref<numberQuestions>(5)
 const modelIA = ref<string>('gemini-2.5-flash')
 const isContextEnabled = ref<boolean>(false)
 
-const GEMINI_MODELS_2 = [
-  'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
-  'gemini-2.5-pro',
-  'gemini-3-pro-preview',
-]
-
-const GEMINI_MODELS = [
-  'gemini-3-flash-preview',
-  'gemini-2.5-flash',
-  'gemini-flash-latest',
-  'gemini-3-flash',
-]
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-3-pro-preview']
 
 const {
   value: yourQuestion,
@@ -82,7 +71,7 @@ const handleTextButton = computed(() => {
 </script>
 
 <template>
-  <section class="right">
+  <section>
     <fieldset>
       <label for="isContextEnabled">
         <input
@@ -158,14 +147,14 @@ const handleTextButton = computed(() => {
       <fieldset :disabled="props.loading">
         <label for="model-IA">{{ t('quizForm.modelLabel') }}</label>
         <select id="model-IA" name="model-IA" v-model="modelIA">
-          <option :value="model" v-for="model in GEMINI_MODELS_2" :key="model">
+          <option :value="model" v-for="model in GEMINI_MODELS" :key="model">
             {{ model }}
           </option>
         </select>
       </fieldset>
     </div>
   </section>
-  <section>
+  <section v-if="allowDebug">
     <Pseudo-prompt
       :difficulty="difficulty"
       :your-question="yourQuestion"
@@ -188,9 +177,6 @@ const handleTextButton = computed(() => {
 </template>
 
 <style scoped>
-.right {
-  float: right;
-}
 .section-btn {
   display: flex;
   justify-content: center;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Icon } from '@iconify/vue'
 import SwitchLanguage from '../SwitchLanguage.vue'
@@ -28,18 +28,30 @@ const labelThemeTranslated = computed(() => {
 const updateIcon = computed(() =>
   enabledDarkMode.value ? 'line-md:moon' : 'bitcoin-icons:sun-outline',
 )
+const isMenuOpen = ref<boolean>(false)
 </script>
 <template>
   <header role="banner">
-    <nav role="navigation">
+    <button
+      class="btn-burguer-menu"
+      @click="isMenuOpen = !isMenuOpen"
+      :aria-label="isMenuOpen ? 'Fermer menu' : 'Ouvrir menu'"
+      :aria-expanded="isMenuOpen"
+    >
+      <Icon
+        aria-hidden="true"
+        :icon="isMenuOpen ? 'mdi:close' : 'mdi:menu'"
+        width="24"
+        height="24"
+      />
+    </button>
+    <nav role="navigation" aria-label="navigation principale" :class="{ open: isMenuOpen }">
       <ul>
         <li>
           <div class="logo">
             <RouterLink to="/" title="home"> <base-logo /> </RouterLink>
           </div>
         </li>
-      </ul>
-      <ul>
         <li>
           <RouterLink to="/gallery-quiz">{{ t('nav.gallery') }}</RouterLink>
         </li>
@@ -47,30 +59,67 @@ const updateIcon = computed(() =>
           <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
         </li>
       </ul>
-      <ul>
-        <li><switch-language @language-changed="handelUpdateScreen" /></li>
-        <li>
-          <button
-            :title="labelThemeTranslated"
-            :aria-label="labelThemeTranslated"
-            @click="toggleMode()"
-          >
-            <Icon
-              aria-hidden="true"
-              :icon="updateIcon"
-              width="24"
-              height="24"
-              style="color: #fff"
-            />
-          </button>
-        </li>
-      </ul>
     </nav>
+
+    <section class="nav-more">
+      <switch-language @language-changed="handelUpdateScreen" />
+      <button
+        :title="labelThemeTranslated"
+        :aria-label="labelThemeTranslated"
+        @click="toggleMode()"
+      >
+        <Icon aria-hidden="true" :icon="updateIcon" width="24" height="24" style="color: #fff" />
+      </button>
+    </section>
   </header>
 </template>
 <style scoped>
 .router-link-exact-active,
 .router-link-active {
   text-decoration: underline;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-more {
+  display: flex;
+  gap: 1rem;
+  select {
+    margin: 0;
+    height: max-content;
+  }
+  button {
+    margin: 0;
+    height: max-content;
+  }
+}
+
+.btn-burguer-menu {
+  display: none;
+}
+@media (max-width: 768px) {
+  .btn-burguer-menu {
+    display: block;
+    height: max-content;
+  }
+  nav {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 80%;
+    height: 100vh;
+    background-color: #13171f;
+    transition: right 0.3s ease-in-out;
+    z-index: 999;
+  }
+  nav.open {
+    right: 0;
+    display: flex;
+    justify-content: center;
+  }
+  nav ul {
+    flex-direction: column;
+  }
 }
 </style>
